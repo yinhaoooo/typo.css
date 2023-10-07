@@ -1,1 +1,39 @@
 PMEPRODUCTBOPREVISION，PMEPROCESS，PMEPROCESSREVISION
+CREATE TABLE public.pmeproductboprevision (
+	puid varchar(15) NOT NULL,
+	rh6probopsourceidu varchar(15) NULL,
+	rh6probopsourceidc int8 NULL,
+	ph6productnew varchar(128) NULL,
+	ph6department varchar(128) NULL
+);
+CREATE UNIQUE INDEX pipmeproductboprevision ON public.pmeproductboprevision USING btree (puid);
+
+
+
+CREATE TABLE public.pmeprocess (
+	puid varchar(15) NOT NULL,
+	pmfg0cloningscope int8 NULL
+);
+CREATE UNIQUE INDEX pipmeprocess ON public.pmeprocess USING btree (puid);
+
+
+-- Drop table
+
+-- DROP TABLE public.pmeprocessrevision;
+
+CREATE TABLE public.pmeprocessrevision (
+	puid varchar(15) NOT NULL,
+	ph6recordno varchar(64) NULL,
+	ph6productnameen varchar(128) NULL,
+	ph6productnamecn varchar(128) NULL,
+	ph6processcardrev varchar(16) NULL,
+	ph6note varchar(512) NULL,
+	ph6materialt varchar(256) NULL,
+	ph6mass_sam varchar(16) NULL,
+	ph6executionno varchar(64) NULL,
+	ph6developname varchar(128) NULL,
+	ph6customerrev varchar(16) NULL,
+	ph6customerpartno varchar(128) NULL,
+	ph6customer varchar(128) NULL
+);
+CREATE UNIQUE INDEX pipmeprocessrevision ON public.pmeprocessrevision USING btree (puid);
