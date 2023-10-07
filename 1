@@ -1,1 +1,58 @@
 
+ Plan Hash Value  : 3810427588 
+
+----------------------------------------------------------------------------------------------------------------------------
+| Id   | Operation                                           | Name                     | Rows | Bytes   | Cost | Time     |
+----------------------------------------------------------------------------------------------------------------------------
+|    0 | SELECT STATEMENT                                    |                          |   67 |   19028 |  632 | 00:00:01 |
+|    1 |   HASH UNIQUE                                       |                          |   67 |   19028 |  632 | 00:00:01 |
+|    2 |    NESTED LOOPS                                     |                          |   67 |   19028 |  631 | 00:00:01 |
+|    3 |     NESTED LOOPS                                    |                          |   67 |   19028 |  631 | 00:00:01 |
+|    4 |      NESTED LOOPS                                   |                          |   67 |   17822 |  624 | 00:00:01 |
+|    5 |       NESTED LOOPS                                  |                          | 4942 | 1240442 |  623 | 00:00:01 |
+|    6 |        NESTED LOOPS                                 |                          | 4942 | 1092182 |  129 | 00:00:01 |
+|    7 |         NESTED LOOPS                                |                          | 4942 | 1018052 |  128 | 00:00:01 |
+|    8 |          NESTED LOOPS                               |                          |   16 |    2816 |   51 | 00:00:01 |
+|    9 |           NESTED LOOPS                              |                          |  107 |   17227 |   50 | 00:00:01 |
+|   10 |            NESTED LOOPS                             |                          |  107 |   14017 |   40 | 00:00:01 |
+|   11 |             NESTED LOOPS                            |                          |  308 |   35728 |   39 | 00:00:01 |
+|   12 |              NESTED LOOPS                           |                          |  308 |   26488 |    8 | 00:00:01 |
+|   13 |               NESTED LOOPS                          |                          |  308 |   21868 |    7 | 00:00:01 |
+|   14 |                NESTED LOOPS                         |                          |    1 |      41 |    2 | 00:00:01 |
+|   15 |                 TABLE ACCESS BY INDEX ROWID BATCHED | PITEM                    |    1 |      26 |    1 | 00:00:01 |
+| * 16 |                  INDEX RANGE SCAN                   | PIPITEM_0                |    1 |         |    1 | 00:00:01 |
+| * 17 |                 INDEX UNIQUE SCAN                   | PIPMEOP                  |    1 |      15 |    1 | 00:00:01 |
+|   18 |                TABLE ACCESS BY INDEX ROWID BATCHED  | PPSOCCURRENCE            |  308 |    9240 |    5 | 00:00:01 |
+| * 19 |                 INDEX RANGE SCAN                    | PIPPSOCCURRENCE_1        |  308 |         |    1 | 00:00:01 |
+| * 20 |               INDEX UNIQUE SCAN                     | PIPPSBOMVIEWREVISION     |    1 |      15 |    1 | 00:00:01 |
+|   21 |              TABLE ACCESS BY INDEX ROWID BATCHED    | PSTRUCTURE_REVISIONS     |    1 |      30 |    1 | 00:00:01 |
+| * 22 |               INDEX RANGE SCAN                      | PIPSTRUCTURE_REVISIONS_0 |    1 |         |    1 | 00:00:01 |
+| * 23 |             INDEX UNIQUE SCAN                       | PIPMEPROCESSREVISION     |    1 |      15 |    1 | 00:00:01 |
+| * 24 |            INDEX RANGE SCAN                         | PIPITEMREVISION_3        |    1 |      30 |    1 | 00:00:01 |
+| * 25 |           INDEX UNIQUE SCAN                         | PIPMEPROCESS             |    1 |      15 |    1 | 00:00:01 |
+|   26 |          TABLE ACCESS BY INDEX ROWID BATCHED        | PPSOCCURRENCE            |  308 |    9240 |    5 | 00:00:01 |
+| * 27 |           INDEX RANGE SCAN                          | PIPPSOCCURRENCE_1        |  308 |         |    1 | 00:00:01 |
+| * 28 |         INDEX UNIQUE SCAN                           | PIPPSBOMVIEWREVISION     |    1 |      15 |    1 | 00:00:01 |
+|   29 |        TABLE ACCESS BY INDEX ROWID BATCHED          | PSTRUCTURE_REVISIONS     |    1 |      30 |    1 | 00:00:01 |
+| * 30 |         INDEX RANGE SCAN                            | PIPSTRUCTURE_REVISIONS_0 |    1 |         |    1 | 00:00:01 |
+| * 31 |       INDEX UNIQUE SCAN                             | PIPMEPRODUCTBOPREVISION  |    1 |      15 |    1 | 00:00:01 |
+| * 32 |      INDEX UNIQUE SCAN                              | PIPWORKSPACEOBJECT       |    1 |         |    1 | 00:00:01 |
+| * 33 |     TABLE ACCESS BY INDEX ROWID                     | PWORKSPACEOBJECT         |    1 |      18 |    1 | 00:00:01 |
+----------------------------------------------------------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+------------------------------------------
+* 16 - access(UPPER("PITEM_ID")='234')
+* 17 - access("T_06"."PUID"="T_07"."PUID")
+* 19 - access("T_05"."RCHILD_ITEMU"="T_07"."PUID")
+* 20 - access("T_04"."PUID"="T_05"."RPARENT_BVRU")
+* 22 - access("T_09"."PVALU_0"="T_04"."PUID")
+* 23 - access("T_08"."PUID"="T_09"."PUID")
+* 24 - access("T_09"."PUID"="T_010"."PUID")
+* 25 - access("T_011"."PUID"="T_010"."RITEMS_TAGU")
+* 27 - access("T_012"."RCHILD_ITEMU"="T_011"."PUID")
+* 28 - access("T_013"."PUID"="T_012"."RPARENT_BVRU")
+* 30 - access("T_02"."PVALU_0"="T_013"."PUID")
+* 31 - access("T_02"."PUID"="T_03"."PUID")
+* 32 - access("T_01"."PUID"="T_02"."PUID")
+* 33 - filter("T_01"."PACTIVE_SEQ"<>0)
