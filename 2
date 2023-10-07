@@ -1,39 +1,64 @@
-PMEPRODUCTBOPREVISION，PMEPROCESS，PMEPROCESSREVISION
-CREATE TABLE public.pmeproductboprevision (
-	puid varchar(15) NOT NULL,
-	rh6probopsourceidu varchar(15) NULL,
-	rh6probopsourceidc int8 NULL,
-	ph6productnew varchar(128) NULL,
-	ph6department varchar(128) NULL
-);
-CREATE UNIQUE INDEX pipmeproductboprevision ON public.pmeproductboprevision USING btree (puid);
-
-
-
-CREATE TABLE public.pmeprocess (
-	puid varchar(15) NOT NULL,
-	pmfg0cloningscope int8 NULL
-);
-CREATE UNIQUE INDEX pipmeprocess ON public.pmeprocess USING btree (puid);
-
-
--- Drop table
-
--- DROP TABLE public.pmeprocessrevision;
-
-CREATE TABLE public.pmeprocessrevision (
-	puid varchar(15) NOT NULL,
-	ph6recordno varchar(64) NULL,
-	ph6productnameen varchar(128) NULL,
-	ph6productnamecn varchar(128) NULL,
-	ph6processcardrev varchar(16) NULL,
-	ph6note varchar(512) NULL,
-	ph6materialt varchar(256) NULL,
-	ph6mass_sam varchar(16) NULL,
-	ph6executionno varchar(64) NULL,
-	ph6developname varchar(128) NULL,
-	ph6customerrev varchar(16) NULL,
-	ph6customerpartno varchar(128) NULL,
-	ph6customer varchar(128) NULL
-);
-CREATE UNIQUE INDEX pipmeprocessrevision ON public.pmeprocessrevision USING btree (puid);
+explain /*+ 
+IndexScan(t_06 pipitem_0)
+IndexScan(t_07 pipmeop)
+IndexScan(t_05 pippsoccurrence_1)
+IndexScan(t_04 pippsbomviewrevision)
+IndexScan(t_09 pipstructure_revisions_0)
+IndexScan(t_08 pippsbomviewrevision)
+IndexScan(t_010 pipitemrevision_3)
+IndexScan(t_011 pipmeprocess)
+IndexScan(t_012 pippsoccurrence_1)
+IndexScan(t_013 pippsbomviewrevision)
+IndexScan(t_02 pipstructure_revisions_0)
+IndexScan(t_02 pipstructure_revisions)
+IndexScan(t_03 pipmeproductboprevision)
+IndexScan(t_01 pipworkspaceobject)
+Leading( t_06 t_07  t_05 t_04 t_09 t_08 t_010 t_011 t_012 t_013 t_02 t_03 t_01) */ 
+SELECT DISTINCT
+	t_03.puid 
+FROM
+	PWORKSPACEOBJECT t_01,
+	PSTRUCTURE_REVISIONS t_02,
+	PMEPRODUCTBOPREVISION t_03,
+	PPSBOMVIEWREVISION t_04,
+	PPSOCCURRENCE t_05,
+	PITEM t_06,
+	PMEOP t_07,
+	PMEPROCESSREVISION t_08,
+	PSTRUCTURE_REVISIONS t_09,
+	PITEMREVISION t_010,
+	PMEPROCESS t_011,
+	PPSOCCURRENCE t_012,
+	PPSBOMVIEWREVISION t_013 
+WHERE
+	(
+		(
+			(
+				( t_02.pvalu_0 = t_013.puid ) 
+				AND (
+					( t_013.puid = t_012.rparent_bvru ) 
+					AND (
+						( t_012.rchild_itemu = t_011.puid ) 
+						AND (
+							( t_011.puid = t_010.ritems_tagu ) 
+							AND (
+								( t_09.pvalu_0 = t_04.puid ) 
+								AND (
+									( t_04.puid = t_05.rparent_bvru ) 
+									AND ( ( t_05.rchild_itemu = t_07.puid ) AND ( UPPER ( t_06.pitem_id ) = UPPER ( '234' ) ) ) 
+								) 
+							) 
+						) 
+					) 
+				) 
+			) 
+			AND ( t_01.pactive_seq != 0 ) 
+		) 
+		AND (
+			t_08.puid = t_09.puid 
+			AND t_09.puid = t_010.puid 
+			AND t_06.puid = t_07.puid 
+			AND t_01.puid = t_02.puid 
+			AND t_02.puid = t_03.puid 
+		) 
+	);
