@@ -1,411 +1,426 @@
+CREATE TABLE pmfg0meplantboprevision (
+	puid varchar(15) NOT NULL,
+	smfg0stationsize_0 int8 NULL,
+	smfg0stationsize_1 int8 NULL,
+	rh6plantbopsourceidu varchar(15) NULL,
+	rh6plantbopsourceidc int8 NULL,
+	ph6productnew varchar(128) NULL,
+	ph6department varchar(128) NULL
+);
+CREATE UNIQUE INDEX pipmfg0meplantboprevision ON public.pmfg0meplantboprevision USING btree (puid);
 
-序号30
-SELECT  DISTINCT t_02.puid FROM PWORKSPACEOBJECT t_01 , PMFG0MEPLANTBOPREVISION t_02 , PSTRUCTURE_REVISIONS t_03 , PPSBOMVIEWREVISION t_04 , PPSOCCURRENCE t_05 , PPSBOMVIEWREVISION t_06 , PPSOCCURRENCE t_07 , PITEM t_08 , PMEOP t_09 , PMFG0MEPROCSTATNREVISION t_010 , PSTRUCTURE_REVISIONS t_011 , PITEMREVISION t_012 , PMFG0MEPROCSTATN t_013 , PMFG0MEPROCLINEREVISION t_014 , PSTRUCTURE_REVISIONS t_015 , PITEMREVISION t_016 , PMFG0MEPROCLINE t_017 , PPSOCCURRENCE t_018 , PPSBOMVIEWREVISION t_019 WHERE ( ( ( ( t_03.pvalu_0 = t_019.puid ) AND ( ( t_019.puid = t_018.rparent_bvru ) AND ( ( t_018.rchild_itemu = t_017.puid ) AND ( ( t_017.puid = t_016.ritems_tagu ) AND ( ( t_015.pvalu_0 = t_04.puid ) AND ( ( t_04.puid = t_05.rparent_bvru ) AND ( ( t_05.rchild_itemu = t_013.puid ) AND ( ( t_013.puid = t_012.ritems_tagu ) AND ( ( t_011.pvalu_0 = t_06.puid ) AND ( ( t_06.puid = t_07.rparent_bvru ) AND ( ( t_07.rchild_itemu = t_09.puid ) AND  ( UPPER(t_08.pitem_id)  =  UPPER( '2735612'  )  ) ) ) ) ) ) ) ) ) ) ) ) AND ( t_01.pactive_seq != '0'::int4  ) ) AND ( t_010.puid = t_011.puid AND t_011.puid = t_012.puid AND t_01.puid = t_02.puid AND t_02.puid = t_03.puid AND t_08.puid = t_09.puid AND t_014.puid = t_015.puid AND t_015.puid = t_016.puid ) ) ;
+CREATE TABLE pmfg0meprocstatnrevision (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipmfg0meprocstatnrevision ON public.pmfg0meprocstatnrevision USING btree (puid);
 
-Unique  (cost=2443369.77..2443383.58 rows=113 width=15) (actual time=3122.705..3359.646 rows=1 loops=1)
-  ->  Gather Merge  (cost=2443369.77..2443383.30 rows=113 width=15) (actual time=3122.703..3359.643 rows=1 loops=1)
-        Workers Planned: 4
-        Workers Launched: 4
-        ->  Sort  (cost=2442369.71..2442369.78 rows=28 width=15) (actual time=3115.779..3115.808 rows=0 loops=5)
-              Sort Key: t_02.puid
-              Sort Method: quicksort  Memory: 25kB
-              Worker 0:  Sort Method: quicksort  Memory: 25kB
-              Worker 1:  Sort Method: quicksort  Memory: 25kB
-              Worker 2:  Sort Method: quicksort  Memory: 25kB
-              Worker 3:  Sort Method: quicksort  Memory: 25kB
-              ->  Parallel Hash Join  (cost=2381186.28..2442369.04 rows=28 width=15) (actual time=3115.701..3115.759 rows=0 loops=5)
-                    Hash Cond: ((t_03.puid)::text = (t_01.puid)::text)
-                    ->  Parallel Hash Join  (cost=2310402.24..2371388.70 rows=52313 width=15) (actual time=2961.335..2961.390 rows=0 loops=5)
-                          Hash Cond: ((t_03.pvalu_0)::text = (t_019.puid)::text)
-                          ->  Parallel Seq Scan on pstructure_revisions t_03  (cost=0.00..56393.13 rows=1190013 width=30) (actual time=0.011..79.396 rows=951722 loops=5)
-                          ->  Parallel Hash  (cost=2309748.15..2309748.15 rows=52327 width=30) (actual time=2732.193..2732.218 rows=0 loops=5)
-                                Buckets: 262144  Batches: 1  Memory Usage: 2080kB
-                                ->  Nested Loop  (cost=696661.36..2309748.15 rows=52327 width=30) (actual time=2715.629..2729.406 rows=0 loops=5)
-                                      ->  Nested Loop  (cost=696660.92..2251522.74 rows=52327 width=15) (actual time=2715.621..2729.398 rows=0 loops=5)
-                                            ->  Nested Loop  (cost=696660.35..782489.21 rows=12 width=30) (actual time=2715.611..2729.386 rows=0 loops=5)
-                                                  Join Filter: ((t_07.rchild_itemu)::text = (t_09.puid)::text)
-                                                  ->  Nested Loop  (cost=696659.91..782483.82 rows=12 width=60) (actual time=2715.597..2729.372 rows=0 loops=5)
-                                                        ->  Nested Loop  (cost=696659.49..782302.43 rows=165 width=45) (actual time=2715.581..2729.354 rows=0 loops=5)
-                                                              Join Filter: ((t_014.puid)::text = (t_016.puid)::text)
-                                                              ->  Nested Loop  (cost=696658.93..782095.41 rows=165 width=60) (actual time=2715.570..2729.342 rows=0 loops=5)
-                                                                    ->  Parallel Hash Join  (cost=696658.50..781911.75 rows=165 width=90) (actual time=2715.557..2729.328 rows=0 loops=5)
-                                                                          Hash Cond: ((t_015.pvalu_0)::text = (t_05.rparent_bvru)::text)
-                                                                          ->  Parallel Hash Join  (cost=87240.02..171963.72 rows=84662 width=60) (actual time=851.000..1624.268 rows=67791 loops=5)
-                                                                                Hash Cond: ((t_015.puid)::text = (t_014.puid)::text)
-                                                                                ->  Parallel Hash Join  (cost=80921.94..162521.85 rows=1190013 width=45) (actual time=815.685..1351.109 rows=951722 loops=5)
-                                                                                      Hash Cond: ((t_015.pvalu_0)::text = (t_04.puid)::text)
-                                                                                      ->  Parallel Seq Scan on pstructure_revisions t_015  (cost=0.00..56393.13 rows=1190013 width=30) (actual time=0.022..158.346 rows=951722 loops=5)
-                                                                                      ->  Parallel Hash  (cost=60229.81..60229.81 rows=1190330 width=15) (actual time=403.595..403.597 rows=951743 loops=5)
-                                                                                            Buckets: 524288  Batches: 32  Memory Usage: 11136kB
-                                                                                            ->  Parallel Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_04  (cost=0.43..60229.81 rows=1190330 width=15) (actual time=0.040..220.500 rows=951743 loops=5)
-                                                                                                  Heap Fetches: 13974
-                                                                                ->  Parallel Hash  (cost=3828.04..3828.04 rows=199204 width=15) (actual time=35.064..35.065 rows=67792 loops=5)
-                                                                                      Buckets: 524288  Batches: 1  Memory Usage: 20064kB
-                                                                                      ->  Parallel Seq Scan on pmfg0meproclinerevision t_014  (cost=0.00..3828.04 rows=199204 width=15) (actual time=0.017..6.183 rows=67792 loops=5)
-                                                                          ->  Parallel Hash  (cost=609389.48..609389.48 rows=2320 width=75) (actual time=1096.444..1096.453 rows=0 loops=5)
-                                                                                Buckets: 16384  Batches: 1  Memory Usage: 160kB
-                                                                                ->  Nested Loop  (cost=209139.73..609389.48 rows=2320 width=75) (actual time=1046.735..1096.099 rows=0 loops=5)
-                                                                                      ->  Nested Loop  (cost=209139.16..364578.75 rows=2 width=90) (actual time=1046.725..1096.089 rows=0 loops=5)
-                                                                                            ->  Hash Join  (cost=209138.73..364572.11 rows=6 width=120) (actual time=1046.707..1096.070 rows=0 loops=5)
-                                                                                                  Hash Cond: ((t_012.puid)::text = (t_011.puid)::text)
-                                                                                                  ->  Parallel Hash Join  (cost=9833.19..163455.85 rows=482838 width=45) (actual time=70.901..1075.815 rows=207077 loops=5)
-                                                                                                        Hash Cond: ((t_012.ritems_tagu)::text = (t_013.puid)::text)
-                                                                                                        ->  Parallel Index Only Scan using pipitemrevision_3 on pitemrevision t_012  (cost=0.56..147388.83 rows=2375002 width=30) (actual time=0.080..583.872 rows=1898712 loops=5)
-                                                                                                              Heap Fetches: 15455
-                                                                                                        ->  Parallel Hash  (cost=5957.28..5957.28 rows=310028 width=15) (actual time=69.401..69.402 rows=105551 loops=5)
-                                                                                                              Buckets: 1048576  Batches: 1  Memory Usage: 33024kB
-                                                                                                              ->  Parallel Seq Scan on pmfg0meprocstatn t_013  (cost=0.00..5957.28 rows=310028 width=15) (actual time=0.024..9.678 rows=105551 loops=5)
-                                                                                                  ->  Hash  (cost=199303.92..199303.92 rows=130 width=75) (actual time=0.129..0.133 rows=1 loops=5)
-                                                                                                        Buckets: 1024  Batches: 1  Memory Usage: 9kB
-                                                                                                        ->  Nested Loop  (cost=1.44..199303.92 rows=130 width=75) (actual time=0.123..0.127 rows=1 loops=5)
-                                                                                                              ->  Nested Loop  (cost=1.01..199072.05 rows=130 width=45) (actual time=0.087..0.090 rows=1 loops=5)
-                                                                                                                    ->  Index Scan using pipitem_0 on pitem t_08  (cost=0.43..2.65 rows=1 width=15) (actual time=0.046..0.046 rows=1 loops=5)
-                                                                                                                          Index Cond: (upper((pitem_id)::text) = '2735612'::text)
-                                                                                                                    ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_07  (cost=0.57..197300.82 rows=176858 width=30) (actual time=0.036..0.037 rows=1 loops=5)
-                                                                                                                          Index Cond: ((rchild_itemu)::text = (t_08.puid)::text)
-                                                                                                              ->  Index Scan using pipstructure_revisions_0 on pstructure_revisions t_011  (cost=0.43..1.77 rows=1 width=30) (actual time=0.032..0.033 rows=1 loops=5)
-                                                                                                                    Index Cond: ((pvalu_0)::text = (t_07.rparent_bvru)::text)
-                                                                                            ->  Index Only Scan using pipmfg0meprocstatnrevision on pmfg0meprocstatnrevision t_010  (cost=0.42..1.11 rows=1 width=15) (actual time=0.081..0.081 rows=1 loops=1)
-                                                                                                  Index Cond: (puid = (t_011.puid)::text)
-                                                                                                  Heap Fetches: 1
-                                                                                      ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_05  (cost=0.57..120636.79 rows=176858 width=30) (actual time=0.039..0.039 rows=1 loops=1)
-                                                                                            Index Cond: ((rchild_itemu)::text = (t_013.puid)::text)
-                                                                    ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_06  (cost=0.43..1.11 rows=1 width=15) (actual time=0.053..0.054 rows=1 loops=1)
-                                                                          Index Cond: (puid = (t_011.pvalu_0)::text)
-                                                                          Heap Fetches: 1
-                                                              ->  Index Only Scan using pipitemrevision_3 on pitemrevision t_016  (cost=0.56..1.24 rows=1 width=30) (actual time=0.046..0.046 rows=1 loops=1)
-                                                                    Index Cond: (puid = (t_015.puid)::text)
-                                                                    Heap Fetches: 1
-                                                        ->  Index Only Scan using pipmfg0meprocline on pmfg0meprocline t_017  (cost=0.42..1.10 rows=1 width=15) (actual time=0.078..0.078 rows=1 loops=1)
-                                                              Index Cond: (puid = (t_016.ritems_tagu)::text)
-                                                              Heap Fetches: 1
-                                                  ->  Memoize  (cost=0.44..2.66 rows=1 width=15) (actual time=0.055..0.055 rows=1 loops=1)
-                                                        Cache Key: t_08.puid
-                                                        Cache Mode: logical
-                                                        Worker 0:  Hits: 0  Misses: 1  Evictions: 0  Overflows: 0  Memory Usage: 1kB
-                                                        ->  Index Only Scan using pipmeop on pmeop t_09  (cost=0.43..2.65 rows=1 width=15) (actual time=0.048..0.048 rows=1 loops=1)
-                                                              Index Cond: (puid = (t_08.puid)::text)
-                                                              Heap Fetches: 1
-                                            ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_018  (cost=0.57..120650.88 rows=176858 width=30) (actual time=0.047..0.048 rows=1 loops=1)
-                                                  Index Cond: ((rchild_itemu)::text = (t_017.puid)::text)
-                                      ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_019  (cost=0.43..1.11 rows=1 width=15) (actual time=0.027..0.027 rows=1 loops=1)
-                                            Index Cond: (puid = (t_018.rparent_bvru)::text)
-                                            Heap Fetches: 1
-                    ->  Parallel Hash  (cost=70463.70..70463.70 rows=25628 width=30) (actual time=154.011..154.013 rows=11648 loops=5)
-                          Buckets: 65536  Batches: 1  Memory Usage: 4224kB
-                          ->  Nested Loop  (cost=0.98..70463.70 rows=25628 width=30) (actual time=0.096..147.321 rows=11648 loops=5)
-                                ->  Parallel Index Only Scan using pipmfg0meplantboprevision on pmfg0meplantboprevision t_02  (cost=0.41..831.47 rows=25725 width=15) (actual time=0.040..1.781 rows=12357 loops=5)
-                                      Heap Fetches: 140
-                                ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..2.71 rows=1 width=15) (actual time=0.011..0.011 rows=1 loops=61787)
-                                      Index Cond: ((puid)::text = (t_02.puid)::text)
-                                      Filter: (pactive_seq <> 0)
-                                      Rows Removed by Filter: 0
-Planning Time: 193.141 ms
-Execution Time: 3359.842 ms
+CREATE TABLE pmfg0meprocstatn (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipmfg0meprocstatn ON public.pmfg0meprocstatn USING btree (puid);
 
-oracle--
- Plan Hash Value  : 4170976138 
+CREATE TABLE pmfg0meproclinerevision (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipmfg0meproclinerevision ON public.pmfg0meproclinerevision USING btree (puid);
 
------------------------------------------------------------------------------------------------------------------------------------
-| Id   | Operation                                                 | Name                       | Rows | Bytes  | Cost | Time     |
------------------------------------------------------------------------------------------------------------------------------------
-|    0 | SELECT STATEMENT                                          |                            |   15 |   6285 |  406 | 00:00:01 |
-|    1 |   HASH UNIQUE                                             |                            |   15 |   6285 |  406 | 00:00:01 |
-|    2 |    NESTED LOOPS                                           |                            |   15 |   6285 |  405 | 00:00:01 |
-|    3 |     NESTED LOOPS                                          |                            |   15 |   6285 |  405 | 00:00:01 |
-|    4 |      NESTED LOOPS                                         |                            |   15 |   6015 |  404 | 00:00:01 |
-|    5 |       NESTED LOOPS                                        |                            | 1177 | 454322 |  403 | 00:00:01 |
-|    6 |        NESTED LOOPS                                       |                            | 1177 | 419012 |  285 | 00:00:01 |
-|    7 |         NESTED LOOPS                                      |                            | 1177 | 401357 |  284 | 00:00:01 |
-|    8 |          NESTED LOOPS                                     |                            |    4 |   1244 |  265 | 00:00:01 |
-|    9 |           NESTED LOOPS                                    |                            |  123 |  36408 |  264 | 00:00:01 |
-|   10 |            NESTED LOOPS                                   |                            |  123 |  32718 |  251 | 00:00:01 |
-|   11 |             NESTED LOOPS                                  |                            | 1733 | 434983 |  250 | 00:00:01 |
-|   12 |              NESTED LOOPS                                 |                            | 1733 | 382993 |   77 | 00:00:01 |
-|   13 |               NESTED LOOPS                                |                            | 1733 | 356998 |   76 | 00:00:01 |
-|   14 |                NESTED LOOPS                               |                            |    6 |   1056 |   47 | 00:00:01 |
-|   15 |                 NESTED LOOPS                              |                            |   67 |  10787 |   46 | 00:00:01 |
-|   16 |                  NESTED LOOPS                             |                            |   67 |   8777 |   40 | 00:00:01 |
-|   17 |                   NESTED LOOPS                            |                            |  308 |  35728 |   39 | 00:00:01 |
-|   18 |                    NESTED LOOPS                           |                            |  308 |  26488 |    8 | 00:00:01 |
-|   19 |                     NESTED LOOPS                          |                            |  308 |  21868 |    7 | 00:00:01 |
-|   20 |                      NESTED LOOPS                         |                            |    1 |     41 |    2 | 00:00:01 |
-|   21 |                       TABLE ACCESS BY INDEX ROWID BATCHED | PITEM                      |    1 |     26 |    1 | 00:00:01 |
-| * 22 |                        INDEX RANGE SCAN                   | PIPITEM_0                  |    1 |        |    1 | 00:00:01 |
-| * 23 |                       INDEX UNIQUE SCAN                   | PIPMEOP                    |    1 |     15 |    1 | 00:00:01 |
-|   24 |                      TABLE ACCESS BY INDEX ROWID BATCHED  | PPSOCCURRENCE              |  308 |   9240 |    5 | 00:00:01 |
-| * 25 |                       INDEX RANGE SCAN                    | PIPPSOCCURRENCE_1          |  308 |        |    1 | 00:00:01 |
-| * 26 |                     INDEX UNIQUE SCAN                     | PIPPSBOMVIEWREVISION       |    1 |     15 |    1 | 00:00:01 |
-|   27 |                    TABLE ACCESS BY INDEX ROWID BATCHED    | PSTRUCTURE_REVISIONS       |    1 |     30 |    1 | 00:00:01 |
-| * 28 |                     INDEX RANGE SCAN                      | PIPSTRUCTURE_REVISIONS_0   |    1 |        |    1 | 00:00:01 |
-| * 29 |                   INDEX UNIQUE SCAN                       | PIPMFG0MEPROCSTATNREVISION |    1 |     15 |    1 | 00:00:01 |
-| * 30 |                  INDEX RANGE SCAN                         | PIPITEMREVISION_3          |    1 |     30 |    1 | 00:00:01 |
-| * 31 |                 INDEX UNIQUE SCAN                         | PIPMFG0MEPROCSTATN         |    1 |     15 |    1 | 00:00:01 |
-|   32 |                TABLE ACCESS BY INDEX ROWID BATCHED        | PPSOCCURRENCE              |  308 |   9240 |    5 | 00:00:01 |
-| * 33 |                 INDEX RANGE SCAN                          | PIPPSOCCURRENCE_1          |  308 |        |    1 | 00:00:01 |
-| * 34 |               INDEX UNIQUE SCAN                           | PIPPSBOMVIEWREVISION       |    1 |     15 |    1 | 00:00:01 |
-|   35 |              TABLE ACCESS BY INDEX ROWID BATCHED          | PSTRUCTURE_REVISIONS       |    1 |     30 |    1 | 00:00:01 |
-| * 36 |               INDEX RANGE SCAN                            | PIPSTRUCTURE_REVISIONS_0   |    1 |        |    1 | 00:00:01 |
-| * 37 |             INDEX UNIQUE SCAN                             | PIPMFG0MEPROCLINEREVISION  |    1 |     15 |    1 | 00:00:01 |
-| * 38 |            INDEX RANGE SCAN                               | PIPITEMREVISION_3          |    1 |     30 |    1 | 00:00:01 |
-| * 39 |           INDEX UNIQUE SCAN                               | PIPMFG0MEPROCLINE          |    1 |     15 |    1 | 00:00:01 |
-|   40 |          TABLE ACCESS BY INDEX ROWID BATCHED              | PPSOCCURRENCE              |  308 |   9240 |    5 | 00:00:01 |
-| * 41 |           INDEX RANGE SCAN                                | PIPPSOCCURRENCE_1          |  308 |        |    1 | 00:00:01 |
-| * 42 |         INDEX UNIQUE SCAN                                 | PIPPSBOMVIEWREVISION       |    1 |     15 |    1 | 00:00:01 |
-|   43 |        TABLE ACCESS BY INDEX ROWID BATCHED                | PSTRUCTURE_REVISIONS       |    1 |     30 |    1 | 00:00:01 |
-| * 44 |         INDEX RANGE SCAN                                  | PIPSTRUCTURE_REVISIONS_0   |    1 |        |    1 | 00:00:01 |
-| * 45 |       INDEX UNIQUE SCAN                                   | PIPMFG0MEPLANTBOPREVISION  |    1 |     15 |    1 | 00:00:01 |
-| * 46 |      INDEX UNIQUE SCAN                                    | PIPWORKSPACEOBJECT         |    1 |        |    1 | 00:00:01 |
-| * 47 |     TABLE ACCESS BY INDEX ROWID                           | PWORKSPACEOBJECT           |    1 |     18 |    1 | 00:00:01 |
------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE pmfg0meprocline (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipmfg0meprocline ON public.pmfg0meprocline USING btree (puid);
 
-Predicate Information (identified by operation id):
-------------------------------------------
-* 22 - access(UPPER("PITEM_ID")='2735612')
-* 23 - access("T_08"."PUID"="T_09"."PUID")
-* 25 - access("T_07"."RCHILD_ITEMU"="T_09"."PUID")
-* 26 - access("T_06"."PUID"="T_07"."RPARENT_BVRU")
-* 28 - access("T_011"."PVALU_0"="T_06"."PUID")
-* 29 - access("T_010"."PUID"="T_011"."PUID")
-* 30 - access("T_011"."PUID"="T_012"."PUID")
-* 31 - access("T_013"."PUID"="T_012"."RITEMS_TAGU")
-* 33 - access("T_05"."RCHILD_ITEMU"="T_013"."PUID")
-* 34 - access("T_04"."PUID"="T_05"."RPARENT_BVRU")
-* 36 - access("T_015"."PVALU_0"="T_04"."PUID")
-* 37 - access("T_014"."PUID"="T_015"."PUID")
-* 38 - access("T_015"."PUID"="T_016"."PUID")
-* 39 - access("T_017"."PUID"="T_016"."RITEMS_TAGU")
-* 41 - access("T_018"."RCHILD_ITEMU"="T_017"."PUID")
-* 42 - access("T_019"."PUID"="T_018"."RPARENT_BVRU")
-* 44 - access("T_03"."PVALU_0"="T_019"."PUID")
-* 45 - access("T_02"."PUID"="T_03"."PUID")
-* 46 - access("T_01"."PUID"="T_02"."PUID")
-* 47 - filter("T_01"."PACTIVE_SEQ"<>0)
------------------------------------------------------------------------------------------------------------------------------------
-
-序号31
-SELECT  DISTINCT t_02.puid, t_01.pobject_type, t_02.rparent_processu,t_02.rparent_processc, t_02.rresponsible_partyu,t_02.rresponsible_partyc FROM PWORKSPACEOBJECT t_01 , PEPMTASK t_02 WHERE ( ( ( ( ( t_02.pstate_value = '4'::int4  OR ( t_02.pstate_value >= '128'::int4  ) ) AND t_02.rresponsible_partyu = 'g$alSVvIY3sEeA'  ) AND t_01.pobject_type NOT IN  ('EPMNotifyTask' , 'EPMPerformSignoffTask'  ) ) AND ( t_01.pobject_type = 'EPMRouteTask'  OR  NOT EXISTS ( SELECT  DISTINCT t_03.puid FROM PEPMTASK t_03 WHERE ( ( t_03.pstate_value = '4'::int4  OR ( t_03.pstate_value >= '128'::int4  ) ) AND ( t_03.rparent_tasku = t_02.puid ) ) ) ) ) AND ( t_01.puid = t_02.puid ) ) ;
-
-Unique  (cost=1654537.27..1654569.30 rows=2135 width=73) (actual time=1368.900..1421.630 rows=1949 loops=1)
-  ->  Sort  (cost=1654537.27..1654542.61 rows=2135 width=73) (actual time=1368.898..1420.832 rows=1949 loops=1)
-        Sort Key: t_02.puid, t_01.pobject_type, t_02.rparent_processu, t_02.rparent_processc, t_02.rresponsible_partyc
-        Sort Method: quicksort  Memory: 323kB
-        ->  Nested Loop  (cost=1000.57..1654419.21 rows=2135 width=73) (actual time=4.631..1419.075 rows=1949 loops=1)
-              ->  Gather  (cost=1000.00..640193.29 rows=4322 width=61) (actual time=0.471..1116.661 rows=20662 loops=1)
-                    Workers Planned: 4
-                    Workers Launched: 4
-                    ->  Parallel Seq Scan on pepmtask t_02  (cost=0.00..638761.09 rows=1080 width=61) (actual time=0.206..1286.042 rows=4132 loops=5)
-                          Filter: (((rresponsible_partyu)::text = 'g$alSVvIY3sEeA'::text) AND ((pstate_value = 4) OR (pstate_value >= 128)))
-                          Rows Removed by Filter: 2611324
-              ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..234.66 rows=1 width=27) (actual time=0.014..0.014 rows=0 loops=20662)
-                    Index Cond: ((puid)::text = (t_02.puid)::text)
-                    Filter: (((pobject_type)::text <> ALL ('{EPMNotifyTask,EPMPerformSignoffTask}'::text[])) AND (((pobject_type)::text = 'EPMRouteTask'::text) OR (NOT (SubPlan 1))))
-                    Rows Removed by Filter: 1
-                    SubPlan 1
-                      ->  Index Scan using pipepmtask_2 on pepmtask t_03  (cost=0.43..231.87 rows=1 width=0) (actual time=0.008..0.008 rows=1 loops=14672)
-                            Index Cond: ((rparent_tasku)::text = (t_02.puid)::text)
-                            Filter: ((pstate_value = 4) OR (pstate_value >= 128))
-                            Rows Removed by Filter: 1
-Planning Time: 0.794 ms
-Execution Time: 1421.768 ms
-
-oracle--
- Plan Hash Value  : 2280177773 
-
----------------------------------------------------------------------------------------------------------------
-| Id   | Operation                                 | Name               | Rows    | Bytes  | Cost  | Time     |
----------------------------------------------------------------------------------------------------------------
-|    0 | SELECT STATEMENT                          |                    |     251 |  21335 | 23572 | 00:00:01 |
-|    1 |   HASH UNIQUE                             |                    |     251 |  21335 | 23572 | 00:00:01 |
-|  * 2 |    FILTER                                 |                    |         |        |       |          |
-|    3 |     NESTED LOOPS                          |                    |    4996 | 424660 | 23571 | 00:00:01 |
-|    4 |      NESTED LOOPS                         |                    |    4996 | 424660 | 23571 | 00:00:01 |
-|  * 5 |       TABLE ACCESS BY INDEX ROWID BATCHED | PEPMTASK           |    4996 | 284772 | 23072 | 00:00:01 |
-|  * 6 |        INDEX RANGE SCAN                   | PIPEPMTASK_3       | 1544371 |        |   561 | 00:00:01 |
-|  * 7 |       INDEX UNIQUE SCAN                   | PIPWORKSPACEOBJECT |       1 |        |     1 | 00:00:01 |
-|  * 8 |      TABLE ACCESS BY INDEX ROWID          | PWORKSPACEOBJECT   |       1 |     28 |     1 | 00:00:01 |
-|  * 9 |     TABLE ACCESS BY INDEX ROWID BATCHED   | PEPMTASK           |       1 |     19 |     1 | 00:00:01 |
-| * 10 |      INDEX RANGE SCAN                     | PIPEPMTASK_2       |       7 |        |     1 | 00:00:01 |
----------------------------------------------------------------------------------------------------------------
-
-Predicate Information (identified by operation id):
-------------------------------------------
-* 2 - filter("T_01"."POBJECT_TYPE"='EPMRouteTask' OR NOT EXISTS (SELECT 0 FROM "PEPMTASK" "T_03" WHERE "T_03"."RPARENT_TASKU"=:B1 AND ("T_03"."PSTATE_VALUE"=4 OR "T_03"."PSTATE_VALUE">=128)))
-* 5 - filter("T_02"."PSTATE_VALUE"=4 OR "T_02"."PSTATE_VALUE">=128)
-* 6 - access("T_02"."RRESPONSIBLE_PARTYU"='g$alSVvIY3sEeA')
-* 7 - access("T_01"."PUID"="T_02"."PUID")
-* 8 - filter("T_01"."POBJECT_TYPE"<>'EPMPerformSignoffTask' AND "T_01"."POBJECT_TYPE"<>'EPMNotifyTask')
-* 9 - filter("T_03"."PSTATE_VALUE"=4 OR "T_03"."PSTATE_VALUE">=128)
-* 10 - access("T_03"."RPARENT_TASKU"=:B1)
----------------------------------------------------------------------------------------------------------------
-
-序号32
-SELECT  DISTINCT t_02.puid, t_01.pobject_type, t_02.rparent_processu,t_02.rparent_processc, t_02.rresponsible_partyu,t_02.rresponsible_partyc FROM PWORKSPACEOBJECT t_01 , PEPMTASK t_02 WHERE ( ( ( ( t_02.rresponsible_partyu = 'g$alSVvIY3sEeA'  AND t_02.pstate_value = '4'::int4  ) AND t_01.pobject_type NOT IN  ('EPMNotifyTask' , 'EPMPerformSignoffTask' , 'EPMRouteTask'  ) ) AND  EXISTS ( SELECT  DISTINCT t_03.puid FROM PEPMTASK t_03 WHERE ( ( t_03.pstate_value = '4'::int4  AND ( t_03.rresponsible_partyu != t_02.rresponsible_partyu ) ) AND ( t_03.rparent_tasku = t_02.puid ) ) ) ) AND ( t_01.puid = t_02.puid ) ) ;
-
-Unique  (cost=639490.25..639490.26 rows=1 width=73) (actual time=1389.204..1448.420 rows=56 loops=1)
-  ->  Sort  (cost=639490.25..639490.25 rows=1 width=73) (actual time=1389.203..1448.395 rows=56 loops=1)
-        Sort Key: t_02.puid, t_01.pobject_type, t_02.rparent_processu, t_02.rparent_processc, t_02.rresponsible_partyc
-        Sort Method: quicksort  Memory: 32kB
-        ->  Gather  (cost=1001.00..639490.24 rows=1 width=73) (actual time=637.398..1448.332 rows=56 loops=1)
-              Workers Planned: 4
-              Workers Launched: 4
-              ->  Nested Loop Semi Join  (cost=1.00..638490.14 rows=1 width=73) (actual time=446.565..1385.052 rows=11 loops=5)
-                    Join Filter: ((t_03.rresponsible_partyu)::text <> (t_02.rresponsible_partyu)::text)
-                    Rows Removed by Join Filter: 2533
-                    ->  Nested Loop  (cost=0.57..633589.03 rows=1067 width=88) (actual time=0.272..1353.728 rows=2933 loops=5)
-                          ->  Parallel Seq Scan on pepmtask t_02  (cost=0.00..630583.50 rows=1080 width=61) (actual time=0.203..1284.419 rows=4131 loops=5)
-                                Filter: (((rresponsible_partyu)::text = 'g$alSVvIY3sEeA'::text) AND (pstate_value = 4))
-                                Rows Removed by Filter: 2611325
-                          ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..2.78 rows=1 width=27) (actual time=0.016..0.016 rows=1 loops=20655)
-                                Index Cond: ((puid)::text = (t_02.puid)::text)
-                                Filter: ((pobject_type)::text <> ALL ('{EPMNotifyTask,EPMPerformSignoffTask,EPMRouteTask}'::text[]))
-                                Rows Removed by Filter: 0
-                    ->  Index Scan using pipepmtask_2 on pepmtask t_03  (cost=0.43..4.58 rows=1 width=30) (actual time=0.009..0.010 rows=1 loops=14665)
-                          Index Cond: ((rparent_tasku)::text = (t_01.puid)::text)
-                          Filter: (pstate_value = 4)
-                          Rows Removed by Filter: 3
-Planning Time: 0.722 ms
-Execution Time: 1448.471 ms
-
-oracle--
- Plan Hash Value  : 4008564247 
-
----------------------------------------------------------------------------------------------------------------
-| Id   | Operation                                 | Name               | Rows    | Bytes  | Cost  | Time     |
----------------------------------------------------------------------------------------------------------------
-|    0 | SELECT STATEMENT                          |                    |       2 |    238 | 24072 | 00:00:01 |
-|    1 |   HASH UNIQUE                             |                    |       2 |    238 | 24072 | 00:00:01 |
-|    2 |    NESTED LOOPS                           |                    |       2 |    238 | 24071 | 00:00:01 |
-|    3 |     NESTED LOOPS                          |                    |       2 |    238 | 24071 | 00:00:01 |
-|    4 |      NESTED LOOPS SEMI                    |                    |       2 |    182 | 24070 | 00:00:01 |
-|  * 5 |       TABLE ACCESS BY INDEX ROWID BATCHED | PEPMTASK           |    4993 | 284601 | 23071 | 00:00:01 |
-|  * 6 |        INDEX RANGE SCAN                   | PIPEPMTASK_3       | 1544371 |        |   561 | 00:00:01 |
-|  * 7 |       TABLE ACCESS BY INDEX ROWID BATCHED | PEPMTASK           |      15 |    510 |     1 | 00:00:01 |
-|  * 8 |        INDEX RANGE SCAN                   | PIPEPMTASK_2       |       7 |        |     1 | 00:00:01 |
-|  * 9 |      INDEX UNIQUE SCAN                    | PIPWORKSPACEOBJECT |       1 |        |     1 | 00:00:01 |
-| * 10 |     TABLE ACCESS BY INDEX ROWID           | PWORKSPACEOBJECT   |       1 |     28 |     1 | 00:00:01 |
----------------------------------------------------------------------------------------------------------------
-
-Predicate Information (identified by operation id):
-------------------------------------------
-* 5 - filter("T_02"."PSTATE_VALUE"=4)
-* 6 - access("T_02"."RRESPONSIBLE_PARTYU"='g$alSVvIY3sEeA')
-* 7 - filter("T_03"."PSTATE_VALUE"=4 AND "T_03"."RRESPONSIBLE_PARTYU"<>'g$alSVvIY3sEeA' AND "T_03"."RRESPONSIBLE_PARTYU"<>"T_02"."RRESPONSIBLE_PARTYU")
-* 8 - access("T_03"."RPARENT_TASKU"="T_02"."PUID")
-* 9 - access("T_01"."PUID"="T_02"."PUID")
-* 10 - filter("T_01"."POBJECT_TYPE"<>'EPMPerformSignoffTask' AND "T_01"."POBJECT_TYPE"<>'EPMNotifyTask' AND "T_01"."POBJECT_TYPE"<>'EPMRouteTask')
----------------------------------------------------------------------------------------------------------------
-序号33
-SELECT  DISTINCT t_02.puid, t_01.pobject_type, t_02.rparent_processu,t_02.rparent_processc, t_02.rresponsible_partyu,t_02.rresponsible_partyc FROM PWORKSPACEOBJECT t_01 , PEPMTASK t_02 WHERE ( ( ( t_02.pstate_value = '4'::int4  AND t_01.pobject_type = 'EPMPerformSignoffTask'  ) AND ( t_02.rresponsible_partyu = 'g$alSVvIY3sEeA'  ) ) AND ( t_01.puid = t_02.puid ) ) ;
-
-Unique  (cost=634587.98..634594.73 rows=52 width=73) (actual time=1206.108..1263.095 rows=5990 loops=1)
-  ->  Gather Merge  (cost=634587.98..634594.21 rows=52 width=73) (actual time=1206.107..1261.338 rows=5990 loops=1)
-        Workers Planned: 4
-        Workers Launched: 4
-        ->  Sort  (cost=633587.92..633587.95 rows=13 width=73) (actual time=1202.415..1202.565 rows=1198 loops=5)
-              Sort Key: t_02.puid, t_02.rparent_processu, t_02.rparent_processc, t_02.rresponsible_partyc
-              Sort Method: quicksort  Memory: 268kB
-              Worker 0:  Sort Method: quicksort  Memory: 212kB
-              Worker 1:  Sort Method: quicksort  Memory: 213kB
-              Worker 2:  Sort Method: quicksort  Memory: 195kB
-              Worker 3:  Sort Method: quicksort  Memory: 197kB
-              ->  Nested Loop  (cost=0.57..633587.68 rows=13 width=73) (actual time=0.333..1201.343 rows=1198 loops=5)
-                    ->  Parallel Seq Scan on pepmtask t_02  (cost=0.00..630583.50 rows=1080 width=61) (actual time=0.194..1135.216 rows=4131 loops=5)
-                          Filter: ((pstate_value = 4) AND ((rresponsible_partyu)::text = 'g$alSVvIY3sEeA'::text))
-                          Rows Removed by Filter: 2611325
-                    ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..2.78 rows=1 width=27) (actual time=0.016..0.016 rows=0 loops=20655)
-                          Index Cond: ((puid)::text = (t_02.puid)::text)
-                          Filter: ((pobject_type)::text = 'EPMPerformSignoffTask'::text)
-                          Rows Removed by Filter: 1
-Planning Time: 0.362 ms
-Execution Time: 1263.411 ms
-
-oracle--
- Plan Hash Value  : 613451132 
-
---------------------------------------------------------------------------------------------------------------
-| Id  | Operation                               | Name               | Rows    | Bytes    | Cost  | Time     |
---------------------------------------------------------------------------------------------------------------
-|   0 | SELECT STATEMENT                        |                    |    4993 |   424405 | 23572 | 00:00:01 |
-|   1 |   HASH UNIQUE                           |                    |    4993 |   424405 | 23572 | 00:00:01 |
-|   2 |    NESTED LOOPS SEMI                    |                    |    4993 |   424405 | 23571 | 00:00:01 |
-| * 3 |     TABLE ACCESS BY INDEX ROWID BATCHED | PEPMTASK           |    4993 |   284601 | 23071 | 00:00:01 |
-| * 4 |      INDEX RANGE SCAN                   | PIPEPMTASK_3       | 1544371 |          |   561 | 00:00:01 |
-| * 5 |     TABLE ACCESS BY INDEX ROWID         | PWORKSPACEOBJECT   | 1348379 | 37754612 |     1 | 00:00:01 |
-| * 6 |      INDEX UNIQUE SCAN                  | PIPWORKSPACEOBJECT |       1 |          |     1 | 00:00:01 |
---------------------------------------------------------------------------------------------------------------
-
-Predicate Information (identified by operation id):
-------------------------------------------
-* 3 - filter("T_02"."PSTATE_VALUE"=4)
-* 4 - access("T_02"."RRESPONSIBLE_PARTYU"='g$alSVvIY3sEeA')
-* 5 - filter("T_01"."POBJECT_TYPE"='EPMPerformSignoffTask')
-* 6 - access("T_01"."PUID"="T_02"."PUID")
-
---------------------------------------------------------------------------------------------------------------
-序号34
-SELECT  DISTINCT t_02.puid, t_01.pobject_type, t_02.rparent_processu,t_02.rparent_processc, t_02.rresponsible_partyu,t_02.rresponsible_partyc, t_02.ptask_result FROM PWORKSPACEOBJECT t_01 , PEPMTASK t_02 , PIMANRELATION t_03 , PFND0EPMINTERPROCESSTASK t_04 WHERE ( ( ( ( t_02.rresponsible_partyu = 'g$alSVvIY3sEeA'  ) AND ( t_03.rprimary_objectu NOT IN ( SELECT * FROM PRef1TT )  AND ( t_02.pstate_value = '4'::int4  ) ) ) AND ( t_03.rprimary_objectu = t_02.puid ) ) AND ( t_01.puid = t_02.puid AND t_03.puid = t_04.puid ) );
-
-Unique  (cost=2301840.60..2301840.89 rows=17 width=81) (actual time=9244.873..9424.519 rows=1858 loops=1)
-  ->  Sort  (cost=2301840.60..2301840.64 rows=17 width=81) (actual time=9244.872..9423.580 rows=1877 loops=1)
-        Sort Key: t_02.puid, t_01.pobject_type, t_02.rparent_processu, t_02.rparent_processc, t_02.rresponsible_partyc, t_02.ptask_result
-        Sort Method: quicksort  Memory: 312kB
-        ->  Gather  (cost=7623.48..2301840.25 rows=17 width=81) (actual time=186.695..9421.852 rows=1877 loops=1)
-              Workers Planned: 4
-              Workers Launched: 4
-              ->  Nested Loop  (cost=6623.48..2300838.55 rows=4 width=81) (actual time=194.957..9236.359 rows=375 loops=5)
-                    ->  Nested Loop  (cost=6622.92..2300835.73 rows=4 width=84) (actual time=194.906..9229.009 rows=375 loops=5)
-                          ->  Parallel Hash Join  (cost=6622.36..2293021.55 rows=13028 width=15) (actual time=99.312..8948.988 rows=20846 loops=5)
-                                Hash Cond: ((t_03.puid)::text = (t_04.puid)::text)
-                                ->  Parallel Seq Scan on pimanrelation t_03  (cost=4659.16..2264690.89 rows=10044749 width=30) (actual time=38.738..6471.649 rows=16068897 loops=5)
-                                      Filter: (NOT (hashed SubPlan 1))
-                                      SubPlan 1
-                                        ->  Seq Scan on pref1tt  (cost=0.00..4652.53 rows=2653 width=15) (actual time=38.359..38.441 rows=798 loops=5)
-                                ->  Parallel Hash  (cost=1420.34..1420.34 rows=43428 width=15) (actual time=12.500..12.501 rows=20846 loops=5)
-                                      Buckets: 131072  Batches: 1  Memory Usage: 6016kB
-                                      ->  Parallel Index Only Scan using pipfnd0epminterprocesstask on pfnd0epminterprocesstask t_04  (cost=0.42..1420.34 rows=43428 width=15) (actual time=0.056..3.234 rows=20846 loops=5)
-                                            Heap Fetches: 429
-                          ->  Index Scan using pipepmtask on pepmtask t_02  (cost=0.56..0.60 rows=1 width=69) (actual time=0.013..0.013 rows=0 loops=104228)
-                                Index Cond: ((puid)::text = (t_03.rprimary_objectu)::text)
-                                Filter: (((rresponsible_partyu)::text = 'g$alSVvIY3sEeA'::text) AND (pstate_value = 4))
-                                Rows Removed by Filter: 1
-                    ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..0.70 rows=1 width=27) (actual time=0.018..0.018 rows=1 loops=1877)
-                          Index Cond: ((puid)::text = (t_03.rprimary_objectu)::text)
-Planning Time: 1.439 ms
-Execution Time: 9424.680 ms
-
- Plan Hash Value  : 2635721781 
-
------------------------------------------------------------------------------------------------------------------
-| Id   | Operation                           | Name                       | Rows   | Bytes   | Cost  | Time     |
------------------------------------------------------------------------------------------------------------------
-|    0 | SELECT STATEMENT                    |                            |     15 |    2325 | 20892 | 00:00:01 |
-|    1 |   HASH UNIQUE                       |                            |     15 |    2325 | 20892 | 00:00:01 |
-|  * 2 |    HASH JOIN ANTI NA                |                            |     15 |    2325 | 20891 | 00:00:01 |
-|    3 |     NESTED LOOPS                    |                            |     15 |    2085 | 20889 | 00:00:01 |
-|    4 |      NESTED LOOPS                   |                            |     15 |    2085 | 20889 | 00:00:01 |
-|    5 |       NESTED LOOPS                  |                            |     15 |    1665 | 20888 | 00:00:01 |
-|    6 |        NESTED LOOPS                 |                            | 104226 | 4690170 | 10463 | 00:00:01 |
-|    7 |         INDEX FULL SCAN             | PIPFND0EPMINTERPROCESSTASK | 104226 | 1563390 |    38 | 00:00:01 |
-|    8 |         TABLE ACCESS BY INDEX ROWID | PIMANRELATION              |      1 |      30 |     1 | 00:00:01 |
-|  * 9 |          INDEX UNIQUE SCAN          | PIPIMANRELATION            |      1 |         |     1 | 00:00:01 |
-| * 10 |        TABLE ACCESS BY INDEX ROWID  | PEPMTASK                   |      1 |      66 |     1 | 00:00:01 |
-| * 11 |         INDEX UNIQUE SCAN           | PIPEPMTASK                 |      1 |         |     1 | 00:00:01 |
-| * 12 |       INDEX UNIQUE SCAN             | PIPWORKSPACEOBJECT         |      1 |         |     1 | 00:00:01 |
-|   13 |      TABLE ACCESS BY INDEX ROWID    | PWORKSPACEOBJECT           |      1 |      28 |     1 | 00:00:01 |
-|   14 |     TABLE ACCESS FULL               | PREF1TT                    |      1 |      16 |     2 | 00:00:01 |
------------------------------------------------------------------------------------------------------------------
-
-Predicate Information (identified by operation id):
-------------------------------------------
-* 2 - access("T_03"."RPRIMARY_OBJECTU"="PREF1TT"."PUID")
-* 9 - access("T_03"."PUID"="T_04"."PUID")
-* 10 - filter("T_02"."PSTATE_VALUE"=4 AND "T_02"."RRESPONSIBLE_PARTYU"='g$alSVvIY3sEeA')
-* 11 - access("T_03"."RPRIMARY_OBJECTU"="T_02"."PUID")
-* 12 - access("T_01"."PUID"="T_02"."PUID")
+CREATE TABLE ph6pcbprobop (
+	puid varchar(15) NOT NULL,
+	ph6_idismodified int8 NULL
+);
+CREATE UNIQUE INDEX piph6pcbprobop ON public.ph6pcbprobop USING btree (puid);
 
 
-Note
------
-- dynamic sampling used for this statement
------------------------------------------------------------------------------------------------------------------
+CREATE TABLE pimanrelation (
+	puid varchar(15) NOT NULL,
+	pfnd0copystableid varchar(128) NULL,
+	rsecondary_objectu varchar(15) NOT NULL,
+	rsecondary_objectc int8 NOT NULL,
+	rrelation_typeu varchar(15) NOT NULL,
+	rrelation_typec int8 NOT NULL,
+	ruser_datau varchar(15) NULL,
+	ruser_datac int8 NULL,
+	rprimary_objectu varchar(15) NOT NULL,
+	rprimary_objectc int8 NOT NULL,
+	pfnd0copystabledate timestamp NULL,
+	pfnd0requiresdigitalsign int8 NULL,
+	aoid varchar(15) NOT NULL,
+	arev_category int8 NOT NULL DEFAULT 48,
+	aspace_uid varchar(15) NULL,
+	avalid_from timestamp NOT NULL DEFAULT to_date('1900/01/02 00:00:00'::text, 'YYYY/MM/DD HH24:MI:SS'::text),
+	avalid_to timestamp NULL
+);
+CREATE UNIQUE INDEX pipimanrelation ON public.pimanrelation USING btree (puid);
+CREATE INDEX pipimanrelation_0 ON public.pimanrelation USING btree (aoid);
+CREATE UNIQUE INDEX pipimanrelation_1 ON public.pimanrelation USING btree ((
+CASE arev_category
+    WHEN 40 THEN rprimary_objectu
+    WHEN 48 THEN rprimary_objectu
+    WHEN 8 THEN rprimary_objectu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 40 THEN pfnd0copystableid
+    WHEN 48 THEN pfnd0copystableid
+    WHEN 8 THEN pfnd0copystableid
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 40 THEN rrelation_typeu
+    WHEN 48 THEN rrelation_typeu
+    WHEN 8 THEN rrelation_typeu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 8 THEN aspace_uid
+    ELSE NULL::character varying
+END));
+CREATE UNIQUE INDEX pipimanrelation_10 ON public.pimanrelation USING btree ((
+CASE arev_category
+    WHEN 48 THEN rprimary_objectu
+    WHEN 16 THEN rprimary_objectu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 48 THEN pfnd0copystableid
+    WHEN 16 THEN pfnd0copystableid
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 48 THEN rrelation_typeu
+    WHEN 16 THEN rrelation_typeu
+    ELSE NULL::character varying
+END));
+CREATE INDEX pipimanrelation_11 ON public.pimanrelation USING btree (rprimary_objectu, pfnd0copystableid, rrelation_typeu);
+CREATE INDEX pipimanrelation_12 ON public.pimanrelation USING btree (rprimary_objectu, rsecondary_objectu);
+CREATE UNIQUE INDEX pipimanrelation_13 ON public.pimanrelation USING btree ((
+CASE arev_category
+    WHEN 40 THEN rprimary_objectu
+    WHEN 48 THEN rprimary_objectu
+    WHEN 8 THEN rprimary_objectu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 40 THEN rsecondary_objectu
+    WHEN 48 THEN rsecondary_objectu
+    WHEN 8 THEN rsecondary_objectu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 40 THEN rrelation_typeu
+    WHEN 48 THEN rrelation_typeu
+    WHEN 8 THEN rrelation_typeu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 8 THEN aspace_uid
+    ELSE NULL::character varying
+END));
+CREATE INDEX pipimanrelation_2 ON public.pimanrelation USING btree (rsecondary_objectu);
+CREATE INDEX pipimanrelation_3 ON public.pimanrelation USING btree (rprimary_objectu, rrelation_typeu, rsecondary_objectu);
+CREATE INDEX pipimanrelation_4 ON public.pimanrelation USING btree (rsecondary_objectu);
+CREATE INDEX pipimanrelation_5 ON public.pimanrelation USING btree (pfnd0copystableid);
+CREATE INDEX pipimanrelation_6 ON public.pimanrelation USING btree (rprimary_objectu);
+CREATE UNIQUE INDEX pipimanrelation_7 ON public.pimanrelation USING btree ((
+CASE arev_category
+    WHEN 48 THEN rprimary_objectu
+    WHEN 16 THEN rprimary_objectu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 48 THEN rsecondary_objectu
+    WHEN 16 THEN rsecondary_objectu
+    ELSE NULL::character varying
+END), (
+CASE arev_category
+    WHEN 48 THEN rrelation_typeu
+    WHEN 16 THEN rrelation_typeu
+    ELSE NULL::character varying
+END));
+CREATE INDEX pipimanrelation_8 ON public.pimanrelation USING btree (rprimary_objectu, rsecondary_objectu, rrelation_typeu);
+CREATE INDEX pipimanrelation_9 ON public.pimanrelation USING btree (pfnd0copystableid);
+
+CREATE TABLE ph6hwpart (
+	puid varchar(15) NOT NULL,
+	ph6packageinfo varchar(3000) NULL,
+	ph6preprocess varchar(16) NULL,
+	vla_1718_3 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX piph6hwpart ON public.ph6hwpart USING btree (puid);
+
+CREATE TABLE pstructurecontext (
+	puid varchar(15) NOT NULL,
+	rconfiguration_contextu varchar(15) NULL,
+	rconfiguration_contextc int8 NULL
+);
+CREATE UNIQUE INDEX pipstructurecontext ON public.pstructurecontext USING btree (puid);
+
+CREATE TABLE pmecollaborationcontext (
+	puid varchar(15) NOT NULL,
+	ph6pcb0301code varchar(128) NULL
+);
+CREATE UNIQUE INDEX pipmecollaborationcontext ON public.pmecollaborationcontext USING btree (puid);
+
+
+CREATE TABLE ph6hwpartrevision (
+	puid varchar(15) NOT NULL,
+	ph6sourcesystem varchar(32) NULL,
+	ph6pdmversion varchar(64) NULL,
+	ph6componentoid varchar(512) NULL,
+	ph6componentlink varchar(1000) NULL,
+	ph6categorycode varchar(1500) NULL,
+	ph6categoryname varchar(1500) NULL,
+	ph6internalmodel varchar(1500) NULL,
+	ph6template varchar(64) NULL,
+	ph6additionalnote varchar(1500) NULL,
+	ph6itemrevision varchar(3000) NULL,
+	ph6drawingversion varchar(64) NULL,
+	ph6state varchar(600) NULL,
+	ph6productid varchar(600) NULL,
+	ph6productname varchar(4000) NULL,
+	ph6productlineid varchar(600) NULL,
+	ph6productlinename varchar(4000) NULL,
+	ph6status varchar(200) NULL,
+	ph6procdocname varchar(1500) NULL,
+	ph6procdoclink varchar(1000) NULL,
+	ph6boardthickness varchar(128) NULL,
+	ph6dielectricmaterialmodel varchar(1000) NULL,
+	ph6panelinfo varchar(1500) NULL,
+	ph6boardlength varchar(128) NULL,
+	ph6boardwidth varchar(128) NULL,
+	ph6haveplumbum varchar(32) NULL,
+	ph6package varchar(1500) NULL,
+	ph6desc varchar(2160) NULL,
+	ph6installationmodel varchar(128) NULL,
+	ph6surfacetreatment varchar(1500) NULL,
+	ph6packageinfo varchar(4000) NULL,
+	vla_1721_31 int8 NOT NULL DEFAULT 0,
+	vla_1721_32 int8 NOT NULL DEFAULT 0,
+	vla_1721_33 int8 NOT NULL DEFAULT 0,
+	vla_1721_34 int8 NOT NULL DEFAULT 0,
+	vla_1721_35 int8 NOT NULL DEFAULT 0,
+	vla_1721_36 int8 NOT NULL DEFAULT 0,
+	vla_1721_37 int8 NOT NULL DEFAULT 0,
+	vla_1721_38 int8 NOT NULL DEFAULT 0,
+	ph6weight varchar(32) NULL,
+	ph6resourcetype varchar(128) NULL,
+	ph6resourcestatus varchar(128) NULL,
+	ph6modifiedby varchar(128) NULL,
+	ph6modifiedat varchar(128) NULL,
+	ph6manufacture varchar(1024) NULL,
+	ph6ifsupporttranswithpcba varchar(32) NULL,
+	ph6dprversion varchar(128) NULL,
+	ph6dprurl varchar(512) NULL,
+	ph6dprname varchar(1500) NULL,
+	ph6createdby varchar(128) NULL,
+	ph6createdat varchar(128) NULL,
+	ph6preprocess varchar(128) NULL,
+	ph6accessoriesname varchar(128) NULL,
+	ph6drawingnumber varchar(256) NULL,
+	ph6dn_tsbn varchar(256) NULL,
+	ph6dn_model varchar(256) NULL,
+	ph6processingmethod varchar(256) NULL,
+	ph6externalname varchar(1500) NULL,
+	ph6productlinecp varchar(2000) NULL,
+	vla_1721_58 int8 NOT NULL DEFAULT 0,
+	ph6bomupdstatus varchar(32) NULL,
+	ph6startdateupd timestamp NULL,
+	ph6models varchar(256) NULL,
+	ph6organization varchar(128) NULL,
+	ph6pdmadditionalnote varchar(512) NULL,
+	ph6controlgranularity varchar(128) NULL
+);
+CREATE UNIQUE INDEX piph6hwpartrevision ON public.ph6hwpartrevision USING btree (puid);
+
+CREATE TABLE pworkspaceobject (
+	puid varchar(15) NOT NULL,
+	pobject_name varchar(128) NOT NULL,
+	pobject_desc varchar(240) NULL,
+	pobject_type varchar(32) NOT NULL,
+	pobject_application varchar(32) NOT NULL,
+	vla_691_7 int8 NOT NULL,
+	pip_classification varchar(128) NULL,
+	vla_691_10 int8 NOT NULL,
+	pgov_classification varchar(128) NULL,
+	vla_691_12 int8 NOT NULL,
+	pfnd0revisionid varchar(32) NULL,
+	vla_691_18 int8 NOT NULL,
+	vla_691_20 int8 NOT NULL,
+	rwso_threadu varchar(15) NULL,
+	rwso_threadc int8 NULL,
+	prevision_limit int8 NOT NULL,
+	prevision_number int8 NOT NULL,
+	rowning_organizationu varchar(15) NULL,
+	rowning_organizationc int8 NULL,
+	pactive_seq int8 NULL,
+	rowning_projectu varchar(15) NULL,
+	rowning_projectc int8 NULL,
+	pdate_released timestamp NULL,
+	pfnd0inprocess int8 NULL,
+	pfnd0isrevisiondiscontinued int8 NULL,
+	aoid varchar(15) NOT NULL,
+	arev_category int8 NOT NULL DEFAULT 48,
+	aspace_uid varchar(15) NULL,
+	avalid_from timestamp NOT NULL DEFAULT to_date('1900/01/02 00:00:00'::text, 'YYYY/MM/DD HH24:MI:SS'::text),
+	avalid_to timestamp NULL,
+	vla_691_22 int8 NOT NULL DEFAULT 0,
+	vla_691_23 int8 NOT NULL DEFAULT 0,
+	pawp0issuspect int8 NULL,
+	vla_691_28 int8 NOT NULL DEFAULT 0,
+	vla_691_27 int8 NOT NULL DEFAULT 0,
+	vla_691_26 int8 NOT NULL DEFAULT 0,
+	vla_691_25 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX pipworkspaceobject ON public.pworkspaceobject USING btree (puid);
+CREATE INDEX pipworkspaceobject_0 ON public.pworkspaceobject USING btree (aoid);
+CREATE INDEX pipworkspaceobject_1 ON public.pworkspaceobject USING btree (upper((pobject_type)::text));
+CREATE INDEX pipworkspaceobject_2 ON public.pworkspaceobject USING btree (upper((pobject_name)::text));
+CREATE INDEX pipworkspaceobject_3 ON public.pworkspaceobject USING btree (pobject_type);
+CREATE INDEX pipworkspaceobject_4 ON public.pworkspaceobject USING btree (pobject_name);
+CREATE INDEX pipworkspaceobject_5 ON public.pworkspaceobject USING btree (rwso_threadu);
+CREATE INDEX pipworkspaceobject_6 ON public.pworkspaceobject USING btree (rowning_projectu);
+CREATE INDEX pworkspaceobject_7 ON public.pworkspaceobject USING btree (vla_691_23);
+
+CREATE TABLE pl10n_object_name (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pval_0 varchar(176) NULL
+);
+CREATE INDEX pipl10n_object_name ON public.pl10n_object_name USING btree (puid, pseq);
+CREATE INDEX pipl10n_object_name_0 ON public.pl10n_object_name USING btree (pval_0);
+CREATE INDEX pipl10n_object_name_1 ON public.pl10n_object_name USING btree (substr((pval_0)::text, 49, 128));
+CREATE INDEX pipl10n_object_name_2 ON public.pl10n_object_name USING btree (upper(substr((pval_0)::text, 49, 128)));
+CREATE INDEX pipl10n_object_name_3 ON public.pl10n_object_name USING btree (substr((pval_0)::text, 1, 5));
+CREATE INDEX pipl10n_object_name_4 ON public.pl10n_object_name USING btree (upper(substr((pval_0)::text, 1, 5)));
+
+
+CREATE OR REPLACE VIEW public.vl10n_object_name
+AS SELECT pworkspaceobject.puid,
+    'NONE'::text AS locale,
+    'M'::text AS preference,
+    'M'::text AS status,
+    '0000'::text AS sequence_no,
+    pworkspaceobject.pobject_name::text AS pval_0
+   FROM pworkspaceobject
+  WHERE pworkspaceobject.pobject_name IS NOT NULL AND pworkspaceobject.vla_691_23 = 0
+UNION ALL
+ SELECT pl10n_object_name.puid,
+    substr(pl10n_object_name.pval_0::text, 1, 5) AS locale,
+    substr(pl10n_object_name.pval_0::text, 7, 1) AS preference,
+    substr(pl10n_object_name.pval_0::text, 9, 1) AS status,
+    substr(pl10n_object_name.pval_0::text, 11, 4) AS sequence_no,
+    substr(pl10n_object_name.pval_0::text, 49, 128) AS pval_0
+   FROM pl10n_object_name;
+
+   CREATE TABLE ph6witemplatecfg (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX piph6witemplatecfg ON public.ph6witemplatecfg USING btree (puid);
+
+CREATE TABLE pmeappearancepathnode (
+	puid varchar(15) NOT NULL,
+	vla_1247_7 int8 NOT NULL DEFAULT 0,
+	rnext_levelu varchar(15) NULL,
+	rnext_levelc int8 NULL,
+	rpath_rootu varchar(15) NOT NULL,
+	rpath_rootc int8 NOT NULL,
+	rabs_occu varchar(15) NULL,
+	rabs_occc int8 NULL,
+	rparent_abs_occu varchar(15) NULL,
+	rparent_abs_occc int8 NULL,
+	rparentu varchar(15) NULL,
+	rparentc int8 NULL,
+	rocc_threadu varchar(15) NULL,
+	rocc_threadc int8 NULL,
+	plast_mod_date timestamp NULL
+);
+CREATE UNIQUE INDEX pipmeappearancepathnode ON public.pmeappearancepathnode USING btree (puid);
+CREATE INDEX pipmeappearancepathnode_0 ON public.pmeappearancepathnode USING btree (rocc_threadu);
+CREATE INDEX pipmeappearancepathnode_1 ON public.pmeappearancepathnode USING btree (rparentu, rpath_rootu, rocc_threadu);
+CREATE INDEX pipmeappearancepathnode_2 ON public.pmeappearancepathnode USING btree (rabs_occu);
+CREATE INDEX pipmeappearancepathnode_3 ON public.pmeappearancepathnode USING btree (rparent_abs_occu);
+CREATE INDEX pipmeappearancepathnode_4 ON public.pmeappearancepathnode USING btree (rpath_rootu, rparentu);
+CREATE INDEX pipmeappearancepathnode_5 ON public.pmeappearancepathnode USING btree (rpath_rootu, rabs_occu);
+CREATE UNIQUE INDEX pipmeappearancepathnode_6 ON public.pmeappearancepathnode USING btree (rocc_threadu, rparentu, puid);
+CREATE UNIQUE INDEX pipmeappearancepathnode_7 ON public.pmeappearancepathnode USING btree (rparentu, puid);
+
+CREATE UNLOGGED TABLE pomquery_u (
+	col0 varchar(32) NULL
+);
+
+CREATE TABLE pabsoccurrence (
+	puid varchar(15) NOT NULL,
+	pabs_occ_id varchar(128) NULL,
+	pusage_address varchar(128) NULL,
+	plogical_position varchar(32) NULL,
+	plast_mod_date timestamp NULL
+);
+CREATE UNIQUE INDEX pipabsoccurrence ON public.pabsoccurrence USING btree (puid);
+CREATE INDEX pipabsoccurrence_0 ON public.pabsoccurrence USING btree (pabs_occ_id);
+
+
+CREATE TABLE pepmtask (
+	puid varchar(15) NOT NULL,
+	ptask_name varchar(32) NULL,
+	vla_923_8 int8 NOT NULL DEFAULT 0,
+	vla_923_9 int8 NOT NULL DEFAULT 0,
+	vla_923_10 int8 NOT NULL DEFAULT 0,
+	vla_923_13 int8 NOT NULL DEFAULT 0,
+	ptask_result varchar(240) NULL,
+	pcomments varchar(4000) NULL,
+	pfnd0priority varchar(128) NULL,
+	vla_923_26 int8 NOT NULL DEFAULT 0,
+	rparent_processu varchar(15) NULL,
+	rparent_processc int8 NULL,
+	rnamed_aclu varchar(15) NULL,
+	rnamed_aclc int8 NULL,
+	rresponsible_partyu varchar(15) NULL,
+	rresponsible_partyc int8 NULL,
+	ptask_duration int8 NULL,
+	psignoff_quorum int8 NULL,
+	ractive_surrogateu varchar(15) NULL,
+	ractive_surrogatec int8 NULL,
+	pstate_value int8 NOT NULL,
+	rparent_tasku varchar(15) NULL,
+	rparent_taskc int8 NULL,
+	pwait_for_all_reviewers int8 NULL,
+	pfnd0actualduration int8 NULL,
+	rfnd0assigneeoriginu varchar(15) NULL,
+	rfnd0assigneeoriginc int8 NULL,
+	ppriority int8 NOT NULL,
+	rtask_templateu varchar(15) NULL,
+	rtask_templatec int8 NULL,
+	rfnd0assigneru varchar(15) NULL,
+	rfnd0assignerc int8 NULL,
+	rfnd0performeru varchar(15) NULL,
+	rfnd0performerc int8 NULL,
+	pdue_date timestamp NULL,
+	pfnd0startdate timestamp NULL,
+	pfnd0enddate timestamp NULL,
+	plate_flag int8 NULL,
+	ph6refreshstatus varchar(2048) NULL,
+	ph6icon varchar(32) NULL,
+	ph6workflow_name varchar(2048) NULL,
+	ph6impactems int8 NULL,
+	ph6_owningbopid varchar(2048) NULL,
+	ph6keytips varchar(128) NULL,
+	pfnd0latesttargetoartpn varchar(1024) NULL,
+	pfnd0latestepmtaskoartpn varchar(1024) NULL,
+	pfnd0instructions varchar(2000) NULL
+);
+CREATE UNIQUE INDEX pipepmtask ON public.pepmtask USING btree (puid);
+CREATE INDEX pipepmtask_0 ON public.pepmtask USING btree (rparent_processu);
+CREATE INDEX pipepmtask_1 ON public.pepmtask USING btree (pdue_date);
+CREATE INDEX pipepmtask_2 ON public.pepmtask USING btree (rparent_tasku);
+CREATE INDEX pipepmtask_3 ON public.pepmtask USING btree (rresponsible_partyu);
+CREATE INDEX pipepmtask_4 ON public.pepmtask USING btree (rtask_templateu);
+
+CREATE TABLE pfnd0epminterprocesstask (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipfnd0epminterprocesstask ON public.pfnd0epminterprocesstask USING btree (puid);
