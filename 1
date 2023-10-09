@@ -1,643 +1,674 @@
 
--- Drop table
-
--- DROP TABLE acct_table;
-
-CREATE TABLE acct_table (
-	exp_obj_uid varchar(15) NOT NULL,
-	led timestamp NOT NULL,
-	island_anchor_uid varchar(15) NOT NULL,
-	state int8 NOT NULL,
-	object_class varchar(32) NULL,
-	app_id varchar(15) NULL
-);
-CREATE INDEX acct_table_app_id_idx ON public.acct_table USING btree (app_id);
-CREATE INDEX acct_table_index ON public.acct_table USING btree (exp_obj_uid);
-CREATE INDEX acct_table_index2 ON public.acct_table USING btree (island_anchor_uid);
-CREATE INDEX acct_table_index3 ON public.acct_table USING btree (state);
-CREATE INDEX acct_table_index4 ON public.acct_table USING btree (led);
-CREATE INDEX acct_table_index5 ON public.acct_table USING btree (island_anchor_uid, app_id, state);
-
--- Drop table
-
--- DROP TABLE acls;
-
-CREATE TABLE acls (
-	"object" varchar(27) NOT NULL,
-	seq_no int8 NOT NULL,
-	puser varchar(27) NULL,
-	pgroup varchar(27) NULL,
-	access_mask int8 NOT NULL,
-	priv_string varchar(64) NULL
-);
-CREATE UNIQUE INDEX aclsi ON public.acls USING btree (object, seq_no);
-
--- Drop table
-
--- DROP TABLE auditlog;
-
-CREATE TABLE auditlog (
+CREATE TABLE paccessor_list (
 	puid varchar(15) NOT NULL,
-	objectuid varchar(15) NOT NULL,
-	eventtypeuid varchar(15) NOT NULL,
-	objectid varchar(128) NULL,
-	objectname varchar(128) NOT NULL,
-	objectrev varchar(32) NULL,
-	auditdefuid varchar(15) NOT NULL,
-	eventtypename varchar(32) NOT NULL,
-	userid varchar(32) NOT NULL,
-	loggeddate timestamp NOT NULL,
-	objecttype varchar(32) NOT NULL,
-	objectseqno int8 NULL,
-	sec_objectuid varchar(15) NULL,
-	sec_objecttype varchar(32) NULL,
-	sec_objectid varchar(128) NULL,
-	sec_objectname varchar(128) NULL,
-	sec_objectrev varchar(32) NULL,
-	sec_objectseqno int8 NULL,
-	errorcode int8 NULL,
-	errorstring varchar(256) NULL,
-	groupname varchar(256) NOT NULL,
-	groupuid varchar(15) NOT NULL,
-	CONSTRAINT auditlog_puid_key UNIQUE (puid),
-	CONSTRAINT auditlog_puid_key1 UNIQUE (puid),
-	CONSTRAINT auditlog_puid_key2 UNIQUE (puid)
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
 );
-CREATE UNIQUE INDEX auditlog_puid_pk ON public.auditlog USING btree (puid);
-CREATE INDEX auditlogobjectuid ON public.auditlog USING btree (objectuid);
-CREATE UNIQUE INDEX pk_log ON public.auditlog USING btree (puid);
+CREATE INDEX pipaccessor_list ON public.paccessor_list USING btree (puid, pseq);
+CREATE INDEX pipaccessor_list_0 ON public.paccessor_list USING btree (pvalu_0);
 
 -- Drop table
 
--- DROP TABLE bom_acct_table;
+-- DROP TABLE paction_handlers;
 
-CREATE TABLE bom_acct_table (
+CREATE TABLE paction_handlers (
 	puid varchar(15) NOT NULL,
-	led timestamp NOT NULL,
-	occ_thread_chain varchar(4000) NOT NULL,
-	parentline_uid varchar(15) NULL,
-	window_uid varchar(15) NOT NULL,
-	bom_level int8 NOT NULL,
-	sync_reference_point varchar(15) NULL,
-	delta_flag int8 NULL
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
 );
-CREATE INDEX bom_acct_table_index ON public.bom_acct_table USING btree (puid);
-CREATE INDEX bom_acct_table_index2 ON public.bom_acct_table USING btree (window_uid, puid, led);
+CREATE INDEX pipaction_handlers ON public.paction_handlers USING btree (puid, pseq);
+CREATE INDEX pipaction_handlers_0 ON public.paction_handlers USING btree (pvalu_0);
 
 -- Drop table
 
--- DROP TABLE bom_recipe_props;
+-- DROP TABLE paction_list;
 
-CREATE TABLE bom_recipe_props (
-	recipe_props varchar(4000) NULL,
-	recipe_props_hash varchar(15) NULL
-);
-CREATE UNIQUE INDEX bom_recipe_props_index ON public.bom_recipe_props USING btree (recipe_props_hash);
-
--- Drop table
-
--- DROP TABLE bom_recipe_table;
-
-CREATE TABLE bom_recipe_table (
-	bomline_uid varchar(15) NOT NULL,
-	recipe_uid varchar(15) NOT NULL,
-	recipe_props_hash varchar(15) NULL
-);
-CREATE INDEX bom_recipe_table_index ON public.bom_recipe_table USING btree (recipe_uid, bomline_uid);
-CREATE INDEX bom_recipe_table_index2 ON public.bom_recipe_table USING btree (bomline_uid, recipe_uid);
-
--- Drop table
-
--- DROP TABLE eim_uid_generator_root;
-
-CREATE TABLE eim_uid_generator_root (
-	most_recent_time int8 NULL,
-	site_id int8 NOT NULL
-);
-CREATE UNIQUE INDEX eim_uid_generator_root1 ON public.eim_uid_generator_root USING btree (site_id);
-
--- Drop table
-
--- DROP TABLE exp_obj_table;
-
-CREATE TABLE exp_obj_table (
-	obj_uid varchar(15) NOT NULL,
-	principal_obj_uid varchar(15) NOT NULL,
-	CONSTRAINT exp_obj_table_obj_uid_principal_obj_uid_key UNIQUE (obj_uid, principal_obj_uid),
-	CONSTRAINT exp_obj_table_obj_uid_principal_obj_uid_key1 UNIQUE (obj_uid, principal_obj_uid),
-	CONSTRAINT exp_obj_table_obj_uid_principal_obj_uid_key2 UNIQUE (obj_uid, principal_obj_uid)
-);
-CREATE UNIQUE INDEX pk_exp_obj_tbl ON public.exp_obj_table USING btree (obj_uid, principal_obj_uid);
-
--- Drop table
-
--- DROP TABLE huawei_taskinbox_lock;
-
-CREATE TABLE huawei_taskinbox_lock (
-	ref_uid varchar(14) NULL,
-	pm_key varchar(100) NULL,
-	pm_syslog varchar(100) NULL,
-	pobject_name varchar(128) NULL,
-	pobject_type varchar(32) NULL,
-	process varchar(14) NULL,
-	insertdate timestamp NULL,
-	lock_row_id varchar(32) NULL
-);
-
--- Drop table
-
--- DROP TABLE huawei_taskinbox_lock_log;
-
-CREATE TABLE huawei_taskinbox_lock_log (
-	ref_uid varchar(14) NULL,
-	pm_key varchar(100) NULL,
-	pm_syslog varchar(100) NULL,
-	pobject_name varchar(128) NULL,
-	pobject_type varchar(32) NULL,
-	process varchar(14) NULL,
-	insertdate timestamp NULL,
-	lock_row_id varchar(32) NULL
-);
-
--- Drop table
-
--- DROP TABLE ibom_am_delta_master;
-
-CREATE TABLE ibom_am_delta_master (
-	recipe_uid varchar(15) NULL,
-	status int8 NULL
-);
-
--- Drop table
-
--- DROP TABLE ibom_delta_master;
-
-CREATE TABLE ibom_delta_master (
-	window_uid varchar(15) NULL,
-	bomline_uid varchar(15) NULL,
-	sync_query_time timestamp NULL,
-	sync_attempt int8 NULL,
-	status int8 NULL,
-	batch_id int8 NULL,
-	step int8 NULL,
-	occ_thread_chain varchar(4000) NULL,
-	line_object varchar(15) NULL,
-	bom_level int8 NULL,
-	sync_process_time timestamp NULL
-);
-
--- Drop table
-
--- DROP TABLE ibom_upgrade_definition;
-
-CREATE TABLE ibom_upgrade_definition (
-	window_uid varchar(15) NULL,
-	class_name varchar(32) NULL,
-	column_name varchar(32) NULL,
-	"action" varchar(32) NULL
-);
-
--- Drop table
-
--- DROP TABLE iman_curvedata;
-
-CREATE TABLE iman_curvedata (
-	"name" varchar(32) NOT NULL,
-	"data" text NULL
-);
-
--- Drop table
-
--- DROP TABLE iman_mvlblob;
-
-CREATE TABLE iman_mvlblob (
-	"name" varchar(32) NOT NULL,
-	"data" text NULL
-);
-
--- Drop table
-
--- DROP TABLE iman_proxytext;
-
-CREATE TABLE iman_proxytext (
-	"name" varchar(32) NOT NULL,
-	"data" text NULL
-);
-
--- Drop table
-
--- DROP TABLE mfk_work_keys;
-
-CREATE TABLE mfk_work_keys (
+CREATE TABLE paction_list (
 	puid varchar(15) NOT NULL,
-	"domain" varchar(1024) NOT NULL,
-	key_value varchar(1024) NOT NULL,
-	aoid varchar(15) NOT NULL,
-	arev_category int8 NOT NULL,
-	aspace_uid varchar(15) NULL
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
 );
-CREATE UNIQUE INDEX pimfk_work_keys ON public.mfk_work_keys USING btree (puid);
+CREATE INDEX pipaction_list ON public.paction_list USING btree (puid, pseq);
+CREATE INDEX pipaction_list_0 ON public.paction_list USING btree (pvalu_0);
 
 -- Drop table
 
--- DROP TABLE mfk_work_objpids;
+-- DROP TABLE pactions;
 
-CREATE TABLE mfk_work_objpids (
-	ppid int8 NOT NULL
-);
-
--- Drop table
-
--- DROP TABLE mfk_work_objs;
-
-CREATE TABLE mfk_work_objs (
-	pobject_type varchar(32) NOT NULL
-);
-
--- Drop table
-
--- DROP TABLE mmv_equivalent_threads;
-
-CREATE TABLE mmv_equivalent_threads (
+CREATE TABLE pactions (
 	puid varchar(15) NOT NULL,
-	spatial_rep varchar(15) NOT NULL,
-	anchor_thread varchar(15) NOT NULL,
-	equiv_thread varchar(15) NOT NULL
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
 );
-CREATE INDEX mmv_equivalent_anchorthread1 ON public.mmv_equivalent_threads USING btree (anchor_thread);
-CREATE INDEX mmv_equivalent_equivthread1 ON public.mmv_equivalent_threads USING btree (equiv_thread);
-CREATE INDEX mmv_equivalent_spatialrep1 ON public.mmv_equivalent_threads USING btree (spatial_rep);
-CREATE UNIQUE INDEX mmvequivalentthreads_puid_pk ON public.mmv_equivalent_threads USING btree (puid);
+CREATE INDEX pipactions ON public.pactions USING btree (puid, pseq);
+CREATE INDEX pipactions_0 ON public.pactions USING btree (pvalu_0);
 
 -- Drop table
 
--- DROP TABLE mmv_spatial_cell_index;
+-- DROP TABLE pactions_0;
 
-CREATE TABLE mmv_spatial_cell_index (
+CREATE TABLE pactions_0 (
 	puid varchar(15) NOT NULL,
-	spatial_rep varchar(15) NOT NULL,
-	cell_id int4 NOT NULL,
-	occ_path_prefix varchar(900) NOT NULL,
-	occ_path_suffix varchar(4000) NULL,
-	pxmin numeric NOT NULL,
-	ymin numeric NOT NULL,
-	zmin numeric NOT NULL,
-	pxmax numeric NOT NULL,
-	ymax numeric NOT NULL,
-	zmax numeric NOT NULL
+	pseq int8 NOT NULL,
+	pval_0 int8 NULL
 );
-CREATE INDEX mmv_spatial_cellid1 ON public.mmv_spatial_cell_index USING btree (cell_id);
-CREATE INDEX mmv_spatial_occpathprefix1 ON public.mmv_spatial_cell_index USING btree (occ_path_prefix);
-CREATE INDEX mmv_spatial_spatialrep1 ON public.mmv_spatial_cell_index USING btree (spatial_rep);
-CREATE UNIQUE INDEX mmvspatialcellindex_puid_pk ON public.mmv_spatial_cell_index USING btree (puid);
+CREATE INDEX pipactions_0_0 ON public.pactions_0 USING btree (puid, pseq);
+CREATE INDEX pipactions_0_1 ON public.pactions_0 USING btree (pval_0);
 
 -- Drop table
 
--- DROP FOREIGN TABLE op_user_indexes;
+-- DROP TABLE pada_license;
 
-CREATE FOREIGN TABLE op_user_indexes (
-	index_name varchar(150) NULL
-)
-SERVER oradb
-OPTIONS (schema 'SYS', table 'USER_INDEXES');
-
--- Drop table
-
--- DROP FOREIGN TABLE op_user_tables;
-
-CREATE FOREIGN TABLE op_user_tables (
-	"owner" varchar(30) NULL,
-	table_name varchar(150) NULL,
-	"temporary" varchar(4) NULL
-)
-SERVER oradb
-OPTIONS (schema 'SYS', table 'USER_TABLES');
-
--- Drop table
-
--- DROP FOREIGN TABLE op_user_views;
-
-CREATE FOREIGN TABLE op_user_views (
-	table_name varchar(150) NULL
-)
-SERVER oradb
-OPTIONS (schema 'SYS', table 'USER_VIEWS');
-
--- Drop table
-
--- DROP TABLE pabsoccarchref;
-
-CREATE TABLE pabsoccarchref (
+CREATE TABLE pada_license (
 	puid varchar(15) NOT NULL,
-	parch_type varchar(32) NOT NULL,
-	parch_elem_id varchar(128) NOT NULL
+	pid varchar(128) NOT NULL,
+	preason varchar(128) NULL,
+	vla_692_4 int8 NOT NULL DEFAULT 0,
+	vla_692_5 int8 NOT NULL DEFAULT 0,
+	pqualifying_cfr varchar(80) NULL,
+	pfnd0license_category varchar(128) NULL,
+	vla_692_9 int8 NOT NULL DEFAULT 0,
+	plock_date timestamp NULL,
+	pexpiry timestamp NULL
 );
-CREATE UNIQUE INDEX pipabsoccarchref ON public.pabsoccarchref USING btree (puid);
+CREATE UNIQUE INDEX pipada_license ON public.pada_license USING btree (puid);
+CREATE UNIQUE INDEX pipada_license_0 ON public.pada_license USING btree (pid);
 
 -- Drop table
 
--- DROP TABLE pabsoccchilditem;
+-- DROP TABLE paiebatchoperation;
 
-CREATE TABLE pabsoccchilditem (
+CREATE TABLE paiebatchoperation (
 	puid varchar(15) NOT NULL,
-	rchild_itemu varchar(15) NOT NULL,
-	rchild_itemc int8 NOT NULL,
-	rchild_bvu varchar(15) NULL,
-	rchild_bvc int8 NULL
+	pbatch_kind int8 NULL,
+	rop_refu varchar(15) NULL,
+	rop_refc int8 NULL
 );
-CREATE UNIQUE INDEX pipabsoccchilditem ON public.pabsoccchilditem USING btree (puid);
+CREATE UNIQUE INDEX pipaiebatchoperation ON public.paiebatchoperation USING btree (puid);
 
 -- Drop table
 
--- DROP TABLE pabsoccdata;
+-- DROP TABLE paiecomponentinfo;
 
-CREATE TABLE pabsoccdata (
+CREATE TABLE paiecomponentinfo (
 	puid varchar(15) NOT NULL,
-	pxt_transform_rot00 numeric NULL,
-	pxt_transform_rot10 numeric NULL,
-	pxt_transform_rot20 numeric NULL,
-	pxt_transform_per0 numeric NULL,
-	pxt_transform_rot01 numeric NULL,
-	pxt_transform_rot11 numeric NULL,
-	pxt_transform_rot21 numeric NULL,
-	pxt_transform_per1 numeric NULL,
-	pxt_transform_rot02 numeric NULL,
-	pxt_transform_rot12 numeric NULL,
-	pxt_transform_rot22 numeric NULL,
-	pxt_transform_per2 numeric NULL,
-	pxt_transform_tra0 numeric NULL,
-	pxt_transform_tra1 numeric NULL,
-	pxt_transform_tra2 numeric NULL,
-	pxt_transform_invscale numeric NULL,
-	pqtyvalue numeric NULL,
-	pnotetext varchar(160) NULL,
+	pbl_tag varchar(32) NULL,
+	pbl_name varchar(255) NULL,
+	pviewtype_name varchar(32) NULL,
+	vla_1204_5 int8 NOT NULL DEFAULT 0,
+	pnum_ds int8 NULL,
+	rir_refu varchar(15) NULL,
+	rir_refc int8 NULL,
+	rbvr_refu varchar(15) NULL,
+	rbvr_refc int8 NULL
+);
+CREATE UNIQUE INDEX pipaiecomponentinfo ON public.paiecomponentinfo USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieconnection;
+
+CREATE TABLE paieconnection (
+	puid varchar(15) NOT NULL,
+	pname varchar(80) NOT NULL,
+	pdesc varchar(240) NULL,
+	vla_1265_6 int8 NOT NULL DEFAULT 0,
+	rfile_listu varchar(15) NOT NULL,
+	rfile_listc int8 NOT NULL,
+	pimport_folder varchar(28) NULL,
+	rtransaction_logu varchar(15) NULL,
+	rtransaction_logc int8 NULL,
+	pexport_only int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaieconnection ON public.paieconnection USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieconnectionassocfile;
+
+CREATE TABLE paieconnectionassocfile (
+	puid varchar(15) NOT NULL,
+	pconnection_filespec varchar(256) NOT NULL,
+	pnamed_ref_type varchar(32) NOT NULL,
+	pclient_timestamp varchar(80) NOT NULL,
+	pfile varchar(28) NOT NULL
+);
+CREATE UNIQUE INDEX pipaieconnectionassocfile ON public.paieconnectionassocfile USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieconnectionfile;
+
+CREATE TABLE paieconnectionfile (
+	puid varchar(15) NOT NULL,
+	pnamed_ref_type varchar(32) NOT NULL,
+	pconnection_filespec varchar(256) NOT NULL,
+	pclient_timestamp varchar(80) NOT NULL,
+	pconnection_relative_path varchar(240) NULL,
+	vla_1205_12 int8 NOT NULL DEFAULT 0,
+	pitem varchar(28) NULL,
+	pitem_revision varchar(28) NULL,
+	passociated_tool varchar(28) NULL,
+	powning_dataset varchar(28) NOT NULL,
+	pfile varchar(28) NOT NULL,
+	rrootu varchar(15) NULL,
+	rrootc int8 NULL,
+	pchecked_out int8 NOT NULL,
+	pexported int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaieconnectionfile ON public.paieconnectionfile USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieconnectionfilelist;
+
+CREATE TABLE paieconnectionfilelist (
+	puid varchar(15) NOT NULL,
+	pexport_dir varchar(240) NULL,
+	ptemp_directory varchar(240) NULL,
+	vla_1206_3 int8 NOT NULL DEFAULT 0,
+	vla_1206_4 int8 NOT NULL DEFAULT 0,
+	rtransaction_logu varchar(15) NULL,
+	rtransaction_logc int8 NULL
+);
+CREATE UNIQUE INDEX pipaieconnectionfilelist ON public.paieconnectionfilelist USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieconnectionxdatafile;
+
+CREATE TABLE paieconnectionxdatafile (
+	puid varchar(15) NOT NULL,
+	pconnection_filespec varchar(256) NOT NULL,
+	pclient_timestamp varchar(80) NOT NULL
+);
+CREATE UNIQUE INDEX pipaieconnectionxdatafile ON public.paieconnectionxdatafile USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paiedatasetinfo;
+
+CREATE TABLE paiedatasetinfo (
+	puid varchar(15) NOT NULL,
+	pds_name varchar(32) NULL,
+	pdstype_name varchar(32) NULL,
+	pco_info varchar(240) NULL,
+	vla_1124_10 int8 NOT NULL DEFAULT 0,
+	pco_status int8 NULL,
+	pnum_nr int8 NULL,
+	rds_refu varchar(15) NULL,
+	rds_refc int8 NULL,
+	rdstype_refu varchar(15) NULL,
+	rdstype_refc int8 NULL,
+	pexport_status int8 NULL,
+	pco_request int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaiedatasetinfo ON public.paiedatasetinfo USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieencapsulation;
+
+CREATE TABLE paieencapsulation (
+	puid varchar(15) NOT NULL,
+	psession_id1 varchar(2046) NULL,
+	rencapsulation_toolu varchar(15) NOT NULL,
+	rencapsulation_toolc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaieencapsulation ON public.paieencapsulation USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieexportassembly;
+
+CREATE TABLE paieexportassembly (
+	puid varchar(15) NOT NULL,
+	pbw_ref varchar(32) NULL,
+	pprimary_filespec varchar(240) NULL,
+	pprimary_path varchar(240) NULL,
+	vla_1267_8 int8 NOT NULL DEFAULT 0,
+	vla_1267_9 int8 NOT NULL DEFAULT 0,
+	rtoplevel_refu varchar(15) NULL,
+	rtoplevel_refc int8 NULL,
+	pnum_dstypes int8 NULL,
+	rroot_ds_refu varchar(15) NULL,
+	rroot_ds_refc int8 NULL,
+	pco_root int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaieexportassembly ON public.paieexportassembly USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieexportnode;
+
+CREATE TABLE paieexportnode (
+	puid varchar(15) NOT NULL,
+	powning_assy_ref varchar(32) NULL,
+	vla_1207_8 int8 NOT NULL DEFAULT 0,
+	pco_comp int8 NULL,
+	pco_children int8 NULL,
+	pexport_comp int8 NULL,
+	pnum_children int8 NULL,
+	pexport_children int8 NULL,
+	rparent_refu varchar(15) NULL,
+	rparent_refc int8 NULL,
+	rcomp_refu varchar(15) NULL,
+	rcomp_refc int8 NULL,
+	pexpanded int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaieexportnode ON public.paieexportnode USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieexportoperation;
+
+CREATE TABLE paieexportoperation (
+	puid varchar(15) NOT NULL,
+	pconn_dir_name varchar(240) NOT NULL,
+	pexport_msg varchar(255) NULL,
+	pco_msg varchar(255) NULL,
+	pchange_id varchar(32) NULL,
+	preason varchar(240) NULL,
+	ptool_name varchar(32) NULL,
+	plogfile_name varchar(240) NOT NULL,
+	vla_1293_11 int8 NOT NULL DEFAULT 0,
+	vla_1293_13 int8 NOT NULL DEFAULT 0,
+	pnum_ds int8 NULL,
+	pexport_rule int8 NULL,
+	rconn_refu varchar(15) NULL,
+	rconn_refc int8 NULL,
+	pnum_assemblies int8 NULL,
+	rvariantrule_refu varchar(15) NULL,
+	rvariantrule_refc int8 NULL,
+	rrevrule_refu varchar(15) NULL,
+	rrevrule_refc int8 NULL
+);
+CREATE UNIQUE INDEX pipaieexportoperation ON public.paieexportoperation USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paieimportoperation;
+
+CREATE TABLE paieimportoperation (
+	puid varchar(15) NOT NULL,
+	vla_1294_2 int8 NOT NULL DEFAULT 0,
+	psupplier_user varchar(240) NULL,
+	pnum_files int8 NULL,
+	rconn_refu varchar(15) NULL,
+	rconn_refc int8 NULL,
+	rimport_folder_refu varchar(15) NULL,
+	rimport_folder_refc int8 NULL
+);
+CREATE UNIQUE INDEX pipaieimportoperation ON public.paieimportoperation USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paiepersistentconnection;
+
+CREATE TABLE paiepersistentconnection (
+	puid varchar(15) NOT NULL,
+	vla_1268_1 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX pipaiepersistentconnection ON public.paiepersistentconnection USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE paierootobject;
+
+CREATE TABLE paierootobject (
+	puid varchar(15) NOT NULL,
+	vla_1125_2 int8 NOT NULL DEFAULT 0,
+	ptarget_object varchar(28) NOT NULL,
+	pitem_revision varchar(28) NULL,
+	rnaming_ruleu varchar(15) NULL,
+	rnaming_rulec int8 NULL,
+	rvariant_ruleu varchar(15) NULL,
+	rvariant_rulec int8 NULL,
+	rrevision_ruleu varchar(15) NOT NULL,
+	rrevision_rulec int8 NOT NULL,
+	roverride_folderu varchar(15) NULL,
+	roverride_folderc int8 NULL,
+	peffectivity_date timestamp NULL,
+	pexport_as_assembly int8 NOT NULL,
+	proot_configured int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipaierootobject ON public.paierootobject USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallocation;
+
+CREATE TABLE pallocation (
+	puid varchar(15) NOT NULL,
+	palloc_reason_string varchar(128) NULL,
+	rtarget_absocc_tagu varchar(15) NULL,
+	rtarget_absocc_tagc int8 NULL,
+	rconfig_conditionu varchar(15) NOT NULL,
+	rconfig_conditionc int8 NOT NULL,
+	rmap_rev_tagu varchar(15) NULL,
+	rmap_rev_tagc int8 NULL,
+	rsource_absocc_tagu varchar(15) NULL,
+	rsource_absocc_tagc int8 NULL
+);
+CREATE UNIQUE INDEX pipallocation ON public.pallocation USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallocationdata;
+
+CREATE TABLE pallocationdata (
+	puid varchar(15) NOT NULL,
+	vla_1209_1 int8 NOT NULL DEFAULT 0,
+	vla_1209_2 int8 NOT NULL DEFAULT 0,
+	pchangereason varchar(128) NULL,
+	rchangeconditionu varchar(15) NULL,
+	rchangeconditionc int8 NULL,
+	pchangetype int8 NULL,
+	rallocationtagu varchar(15) NOT NULL,
+	rallocationtagc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipallocationdata ON public.pallocationdata USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallocationmap;
+
+CREATE TABLE pallocationmap (
+	puid varchar(15) NOT NULL,
+	vla_895_3 int8 NOT NULL DEFAULT 0,
+	rtarget_bv_tagu varchar(15) NULL,
+	rtarget_bv_tagc int8 NULL,
+	rsource_bv_tagu varchar(15) NULL,
+	rsource_bv_tagc int8 NULL
+);
+CREATE UNIQUE INDEX pipallocationmap ON public.pallocationmap USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallocationmapmaster;
+
+CREATE TABLE pallocationmapmaster (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipallocationmapmaster ON public.pallocationmapmaster USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallocationmaprevision;
+
+CREATE TABLE pallocationmaprevision (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipallocationmaprevision ON public.pallocationmaprevision USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallocationmaprevmaster;
+
+CREATE TABLE pallocationmaprevmaster (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipallocationmaprevmaster ON public.pallocationmaprevmaster USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pallowable_view_types;
+
+CREATE TABLE pallowable_view_types (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipallowable_view_types ON public.pallowable_view_types USING btree (puid, pseq);
+CREATE INDEX pipallowable_view_types_0 ON public.pallowable_view_types USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE palt_contexts;
+
+CREATE TABLE palt_contexts (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipalt_contexts ON public.palt_contexts USING btree (puid, pseq);
+CREATE INDEX pipalt_contexts_0 ON public.palt_contexts USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE palt_items;
+
+CREATE TABLE palt_items (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipalt_items ON public.palt_items USING btree (puid, pseq);
+CREATE INDEX pipalt_items_0 ON public.palt_items USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE palt_items_0;
+
+CREATE TABLE palt_items_0 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipalt_items_0_0 ON public.palt_items_0 USING btree (puid, pseq);
+CREATE INDEX pipalt_items_0_1 ON public.palt_items_0 USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE palt_views;
+
+CREATE TABLE palt_views (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipalt_views ON public.palt_views USING btree (puid, pseq);
+CREATE INDEX pipalt_views_0 ON public.palt_views USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE palt_views_0;
+
+CREATE TABLE palt_views_0 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipalt_views_0_0 ON public.palt_views_0 USING btree (puid, pseq);
+CREATE INDEX pipalt_views_0_1 ON public.palt_views_0 USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE pam_ace;
+
+CREATE TABLE pam_ace (
+	puid varchar(15) NOT NULL,
+	pprotection_id varchar(64) NOT NULL,
+	raccessor_idu varchar(15) NOT NULL,
+	raccessor_idc int8 NOT NULL,
+	racl_idu varchar(15) NOT NULL,
+	racl_idc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipam_ace ON public.pam_ace USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pam_acl;
+
+CREATE TABLE pam_acl (
+	puid varchar(15) NOT NULL,
+	pacl_name varchar(128) NOT NULL,
+	pacl_flag varchar(10) NOT NULL,
+	vla_22_6 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX pipam_acl ON public.pam_acl USING btree (puid);
+CREATE UNIQUE INDEX pipam_acl_0 ON public.pam_acl USING btree (pacl_name);
+
+-- Drop table
+
+-- DROP TABLE pam_named_tag;
+
+CREATE TABLE pam_named_tag (
+	puid varchar(15) NOT NULL,
+	pname varchar(32) NOT NULL
+);
+CREATE UNIQUE INDEX pipam_named_tag ON public.pam_named_tag USING btree (puid);
+CREATE UNIQUE INDEX pipam_named_tag_0 ON public.pam_named_tag USING btree (pname);
+
+-- Drop table
+
+-- DROP TABLE pam_privileges;
+
+CREATE TABLE pam_privileges (
+	puid varchar(15) NOT NULL,
+	pprivilege_name varchar(32) NOT NULL,
+	pprivilege_offset int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipam_privileges ON public.pam_privileges USING btree (puid);
+CREATE UNIQUE INDEX pipam_privileges_0 ON public.pam_privileges USING btree (pprivilege_name);
+CREATE UNIQUE INDEX pipam_privileges_1 ON public.pam_privileges USING btree (pprivilege_offset);
+
+-- Drop table
+
+-- DROP TABLE pam_tree;
+
+CREATE TABLE pam_tree (
+	puid varchar(15) NOT NULL,
+	prule_name varchar(32) NOT NULL,
+	prule_arg varchar(128) NULL,
+	rparentu varchar(15) NULL,
+	rparentc int8 NULL,
+	rprevu varchar(15) NULL,
+	rprevc int8 NULL,
+	raclu varchar(15) NULL,
+	raclc int8 NULL,
+	pedit_children int8 NOT NULL,
+	pexpand_below int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipam_tree ON public.pam_tree USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE panalysis_types;
+
+CREATE TABLE panalysis_types (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pval_0 varchar(32) NULL
+);
+CREATE INDEX pipanalysis_types ON public.panalysis_types USING btree (puid, pseq);
+CREATE INDEX pipanalysis_types_0 ON public.panalysis_types USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE panalysis_types_0;
+
+CREATE TABLE panalysis_types_0 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pval_0 varchar(32) NULL
+);
+CREATE INDEX pipanalysis_types_0_0 ON public.panalysis_types_0 USING btree (puid, pseq);
+CREATE INDEX pipanalysis_types_0_1 ON public.panalysis_types_0 USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE panalysis_types_1;
+
+CREATE TABLE panalysis_types_1 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pval_0 varchar(32) NULL
+);
+CREATE INDEX pipanalysis_types_1 ON public.panalysis_types_1 USING btree (puid, pseq);
+CREATE INDEX pipanalysis_types_1_0 ON public.panalysis_types_1 USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE panalysis_types_2;
+
+CREATE TABLE panalysis_types_2 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pval_0 varchar(32) NULL
+);
+CREATE INDEX pipanalysis_types_2 ON public.panalysis_types_2 USING btree (puid, pseq);
+CREATE INDEX pipanalysis_types_2_0 ON public.panalysis_types_2 USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE panalyst;
+
+CREATE TABLE panalyst (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipanalyst ON public.panalyst USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE panchor;
+
+CREATE TABLE panchor (
+	puid varchar(15) NOT NULL,
+	vla_693_2 int8 NOT NULL DEFAULT 0,
+	vla_693_3 int8 NOT NULL DEFAULT 0,
+	pkeep_limit int8 NULL
+);
+CREATE UNIQUE INDEX pipanchor ON public.panchor USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE papnsymlink;
+
+CREATE TABLE papnsymlink (
+	puid varchar(15) NOT NULL,
 	pseqno varchar(15) NULL,
-	poccname varchar(32) NULL,
-	parchtype varchar(32) NULL,
-	parchelemid varchar(128) NULL,
-	plogicalpos varchar(32) NULL,
-	vla_998_32 int8 NOT NULL DEFAULT 0,
-	vla_998_33 int8 NOT NULL DEFAULT 0,
-	pref_designator varchar(30) NULL,
-	pflagvalue int8 NULL,
-	pflagmask int8 NULL,
-	poccflags int8 NULL,
-	rdata_qualifieru varchar(15) NULL,
-	rdata_qualifierc int8 NULL,
-	rabs_occu varchar(15) NOT NULL,
-	rabs_occc int8 NOT NULL,
-	rchilditemu varchar(15) NULL,
-	rchilditemc int8 NULL,
-	rparent_absoccu varchar(15) NULL,
-	rparent_absoccc int8 NULL,
-	pdatamask int8 NULL,
-	pinstancenumber int8 NULL,
-	psource int8 NOT NULL,
-	rnotetypeu varchar(15) NULL,
-	rnotetypec int8 NULL,
-	rchildbvu varchar(15) NULL,
-	rchildbvc int8 NULL,
-	rocctypeu varchar(15) NULL,
-	rocctypec int8 NULL,
-	ruom_tagu varchar(15) NULL,
-	ruom_tagc int8 NULL,
-	rvariantconditionu varchar(15) NULL,
-	rvariantconditionc int8 NULL,
-	rucc_vcu varchar(15) NULL,
-	rucc_vcc int8 NULL,
-	rgdeobjectu varchar(15) NULL,
-	rgdeobjectc int8 NULL
+	rconfig_bvru varchar(15) NOT NULL,
+	rconfig_bvrc int8 NOT NULL,
+	rorig_apnu varchar(15) NOT NULL,
+	rorig_apnc int8 NOT NULL,
+	rsymbolic_apnu varchar(15) NOT NULL,
+	rsymbolic_apnc int8 NOT NULL,
+	rdestination_parent_apnu varchar(15) NOT NULL,
+	rdestination_parent_apnc int8 NOT NULL,
+	plast_mod_date timestamp NULL,
+	porig_visible int8 NOT NULL
 );
-CREATE UNIQUE INDEX pipabsoccdata ON public.pabsoccdata USING btree (puid);
-CREATE INDEX pipabsoccdata_0 ON public.pabsoccdata USING btree (rparent_absoccu);
-CREATE INDEX pipabsoccdata_1 ON public.pabsoccdata USING btree (rabs_occu);
-CREATE INDEX pipabsoccdata_2 ON public.pabsoccdata USING btree (rdata_qualifieru);
-CREATE INDEX pipabsoccdata_3 ON public.pabsoccdata USING btree (rchilditemu);
+CREATE UNIQUE INDEX pipapnsymlink ON public.papnsymlink USING btree (puid);
+CREATE INDEX pipapnsymlink_0 ON public.papnsymlink USING btree (rorig_apnu, rsymbolic_apnu, rconfig_bvru);
 
 -- Drop table
 
--- DROP TABLE pabsoccdataqualifier;
+-- DROP TABLE pappdatamodeldefinition;
 
-CREATE TABLE pabsoccdataqualifier (
+CREATE TABLE pappdatamodeldefinition (
 	puid varchar(15) NOT NULL,
-	rupper_qual_objectu varchar(15) NULL,
-	rupper_qual_objectc int8 NULL,
-	rlower_qual_objectu varchar(15) NULL,
-	rlower_qual_objectc int8 NULL,
-	rmo_qual_objectu varchar(15) NULL,
-	rmo_qual_objectc int8 NULL,
-	rqualifier_bvru varchar(15) NULL,
-	rqualifier_bvrc int8 NULL
+	pdataset_type_name varchar(2046) NULL,
+	vla_32_3 int8 NOT NULL DEFAULT 0,
+	pdefinition_type int8 NULL
 );
-CREATE UNIQUE INDEX pipabsoccdataqualifier ON public.pabsoccdataqualifier USING btree (puid);
-CREATE UNIQUE INDEX pipabsoccdataqualifier_0 ON public.pabsoccdataqualifier USING btree (rqualifier_bvru, rupper_qual_objectu, rlower_qual_objectu);
+CREATE UNIQUE INDEX pipappdatamodeldefinition ON public.pappdatamodeldefinition USING btree (puid);
 
 -- Drop table
 
--- DROP TABLE pabsoccflags;
+-- DROP TABLE pappearance;
 
-CREATE TABLE pabsoccflags (
-	puid varchar(15) NOT NULL,
-	pflag int8 NOT NULL,
-	pflag_mask int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccflags ON public.pabsoccflags USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccgdeobject;
-
-CREATE TABLE pabsoccgdeobject (
-	puid varchar(15) NOT NULL,
-	rgde_objectu varchar(15) NOT NULL,
-	rgde_objectc int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccgdeobject ON public.pabsoccgdeobject USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccgrmanchor;
-
-CREATE TABLE pabsoccgrmanchor (
-	puid varchar(15) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccgrmanchor ON public.pabsoccgrmanchor USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccinstanceno;
-
-CREATE TABLE pabsoccinstanceno (
-	puid varchar(15) NOT NULL,
-	pinstance_number int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccinstanceno ON public.pabsoccinstanceno USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccname;
-
-CREATE TABLE pabsoccname (
-	puid varchar(15) NOT NULL,
-	pocc_name varchar(32) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccname ON public.pabsoccname USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccnote;
-
-CREATE TABLE pabsoccnote (
-	puid varchar(15) NOT NULL,
-	pnote_text varchar(160) NOT NULL,
-	rnote_typeu varchar(15) NOT NULL,
-	rnote_typec int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccnote ON public.pabsoccnote USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccposref;
-
-CREATE TABLE pabsoccposref (
-	puid varchar(15) NOT NULL,
-	plogical_pos varchar(32) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccposref ON public.pabsoccposref USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccquantity;
-
-CREATE TABLE pabsoccquantity (
-	puid varchar(15) NOT NULL,
-	pqty_value int8 NOT NULL,
-	pocc_flags int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccquantity ON public.pabsoccquantity USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccrefdesignator;
-
-CREATE TABLE pabsoccrefdesignator (
-	puid varchar(15) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccrefdesignator ON public.pabsoccrefdesignator USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccseqno;
-
-CREATE TABLE pabsoccseqno (
-	puid varchar(15) NOT NULL,
-	pseq_no varchar(15) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccseqno ON public.pabsoccseqno USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccsource;
-
-CREATE TABLE pabsoccsource (
-	puid varchar(15) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccsource ON public.pabsoccsource USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsocctype;
-
-CREATE TABLE pabsocctype (
-	puid varchar(15) NOT NULL,
-	rocc_typeu varchar(15) NOT NULL,
-	rocc_typec int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsocctype ON public.pabsocctype USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccucc;
-
-CREATE TABLE pabsoccucc (
-	puid varchar(15) NOT NULL,
-	ruccu varchar(15) NOT NULL,
-	ruccc int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccucc ON public.pabsoccucc USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccuom;
-
-CREATE TABLE pabsoccuom (
-	puid varchar(15) NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccuom ON public.pabsoccuom USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccurrence;
-
-CREATE TABLE pabsoccurrence (
-	puid varchar(15) NOT NULL,
-	pabs_occ_id varchar(128) NULL,
-	pusage_address varchar(128) NULL,
-	plogical_position varchar(32) NULL,
-	plast_mod_date timestamp NULL
-);
-CREATE UNIQUE INDEX pipabsoccurrence ON public.pabsoccurrence USING btree (puid);
-CREATE INDEX pipabsoccurrence_0 ON public.pabsoccurrence USING btree (pabs_occ_id);
-
--- Drop table
-
--- DROP TABLE pabsoccusgpartid;
-
-CREATE TABLE pabsoccusgpartid (
-	puid varchar(15) NOT NULL,
-	vla_1013_1 int8 NOT NULL DEFAULT 0
-);
-CREATE UNIQUE INDEX pipabsoccusgpartid ON public.pabsoccusgpartid USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccusgproduct;
-
-CREATE TABLE pabsoccusgproduct (
-	puid varchar(15) NOT NULL,
-	vla_1014_1 int8 NOT NULL DEFAULT 0
-);
-CREATE UNIQUE INDEX pipabsoccusgproduct ON public.pabsoccusgproduct USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccvariantcondition;
-
-CREATE TABLE pabsoccvariantcondition (
-	puid varchar(15) NOT NULL,
-	rvariant_conditionu varchar(15) NOT NULL,
-	rvariant_conditionc int8 NOT NULL
-);
-CREATE UNIQUE INDEX pipabsoccvariantcondition ON public.pabsoccvariantcondition USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccviewqualifier;
-
-CREATE TABLE pabsoccviewqualifier (
-	puid varchar(15) NOT NULL,
-	rabsocc_tagu varchar(15) NULL,
-	rabsocc_tagc int8 NULL,
-	rbomview_tagu varchar(15) NULL,
-	rbomview_tagc int8 NULL
-);
-CREATE UNIQUE INDEX pipabsoccviewqualifier ON public.pabsoccviewqualifier USING btree (puid);
-
--- Drop table
-
--- DROP TABLE pabsoccxform;
-
-CREATE TABLE pabsoccxform (
+CREATE TABLE pappearance (
 	puid varchar(15) NOT NULL,
 	pext_transform_rot00 int8 NULL,
 	pext_transform_rot10 int8 NULL,
@@ -654,345 +685,373 @@ CREATE TABLE pabsoccxform (
 	pext_transform_tra0 int8 NULL,
 	pext_transform_tra1 int8 NULL,
 	pext_transform_tra2 int8 NULL,
-	pext_transform_invscale int8 NULL
+	pext_transform_invscale int8 NULL,
+	rparentu varchar(15) NOT NULL,
+	rparentc int8 NOT NULL,
+	rappearance_rootu varchar(15) NOT NULL,
+	rappearance_rootc int8 NOT NULL,
+	pvalidity_unit_in int8 NULL,
+	pvalidity_unit_out int8 NULL,
+	rcomponent_item_revu varchar(15) NULL,
+	rcomponent_item_revc int8 NULL,
+	rcomponent_itemu varchar(15) NOT NULL,
+	rcomponent_itemc int8 NOT NULL,
+	rcomponent_bom_viewu varchar(15) NOT NULL,
+	rcomponent_bom_viewc int8 NOT NULL,
+	rocc_threadu varchar(15) NULL,
+	rocc_threadc int8 NULL,
+	pcreation_date timestamp NOT NULL,
+	pvalidity_date_in timestamp NULL,
+	pvalidity_date_out timestamp NULL,
+	pis_precise int8 NOT NULL
 );
-CREATE UNIQUE INDEX pipabsoccxform ON public.pabsoccxform USING btree (puid);
+CREATE UNIQUE INDEX pipappearance ON public.pappearance USING btree (puid);
+CREATE INDEX pipappearance_0 ON public.pappearance USING btree (rappearance_rootu);
+CREATE INDEX pipappearance_1 ON public.pappearance USING btree (rcomponent_itemu);
+CREATE INDEX pipappearance_2 ON public.pappearance USING btree (rcomponent_bom_viewu);
+CREATE INDEX pipappearance_3 ON public.pappearance USING btree (rocc_threadu);
+CREATE INDEX pipappearance_4 ON public.pappearance USING btree (rparentu);
+CREATE INDEX pipappearance_5 ON public.pappearance USING btree (rcomponent_item_revu);
+CREATE INDEX pipappearance_6 ON public.pappearance USING btree (pvalidity_date_in);
+CREATE INDEX pipappearance_7 ON public.pappearance USING btree (pvalidity_date_out);
 
 -- Drop table
 
--- DROP TABLE pac0comment;
+-- DROP TABLE pappearance_list;
 
-CREATE TABLE pac0comment (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0createuserid varchar(32) NOT NULL,
-	pac0commenttitle varchar(128) NOT NULL,
-	ls_2304_3 int4 NOT NULL DEFAULT 0,
-	pac0plaintext varchar(2048) NOT NULL,
-	pac0automsgtype varchar(20) NULL,
-	rac0rootcommentu varchar(15) NULL,
-	rac0rootcommentc int4 NULL,
-	rac0owningconversationu varchar(15) NOT NULL,
-	rac0owningconversationc int4 NOT NULL,
-	pac0datemodified timestamp NOT NULL,
-	pac0createdate timestamp NOT NULL,
-	pac0isquestion int2 NOT NULL,
-	CONSTRAINT pipac0comment PRIMARY KEY (puid)
-);
-CREATE INDEX pipac0comment_0 ON public.pac0comment USING btree (rac0owningconversationu);
-CREATE INDEX pipac0comment_1 ON public.pac0comment USING btree (pac0datemodified);
-
--- Drop table
-
--- DROP TABLE pac0comment_0;
-
-CREATE TABLE pac0comment_0 (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0createuserid varchar(32) NOT NULL,
-	pac0commenttitle varchar(128) NOT NULL,
-	ls_2368_3 int4 NOT NULL DEFAULT 0,
-	pac0plaintext varchar(2048) NOT NULL,
-	pac0automsgtype varchar(20) NULL,
-	rac0rootcommentu varchar(15) NULL,
-	rac0rootcommentc int4 NULL,
-	rac0owningconversationu varchar(15) NOT NULL,
-	rac0owningconversationc int4 NOT NULL,
-	pac0datemodified timestamp NOT NULL,
-	pac0createdate timestamp NOT NULL,
-	pac0isquestion int2 NOT NULL,
-	CONSTRAINT pipac0comment_0_0 PRIMARY KEY (puid)
-);
-CREATE INDEX pipac0comment_0_1 ON public.pac0comment_0 USING btree (rac0owningconversationu);
-CREATE INDEX pipac0comment_0_2 ON public.pac0comment_0 USING btree (pac0datemodified);
-
--- Drop table
-
--- DROP TABLE pac0commentstatsrecord;
-
-CREATE TABLE pac0commentstatsrecord (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0userid varchar(32) NOT NULL,
-	rac0commentu varchar(15) NOT NULL,
-	rac0commentc int4 NOT NULL,
-	pac0isupvoted int2 NOT NULL,
-	CONSTRAINT pipac0commentstatsrecord PRIMARY KEY (puid)
-);
-CREATE UNIQUE INDEX pipac0commentstatsrecord_0 ON public.pac0commentstatsrecord USING btree (rac0commentu, pac0userid);
-
--- Drop table
-
--- DROP TABLE pac0commentstatsrecord_0;
-
-CREATE TABLE pac0commentstatsrecord_0 (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0userid varchar(32) NOT NULL,
-	rac0commentu varchar(15) NOT NULL,
-	rac0commentc int4 NOT NULL,
-	pac0isupvoted int2 NOT NULL,
-	CONSTRAINT pipac0commentstatsrecord_0_0 PRIMARY KEY (puid)
-);
-CREATE UNIQUE INDEX pipac0commentstatsrecord_0_1 ON public.pac0commentstatsrecord_0 USING btree (rac0commentu, pac0userid);
-
--- Drop table
-
--- DROP TABLE pac0conversation;
-
-CREATE TABLE pac0conversation (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0createuserid varchar(32) NOT NULL,
-	vla_1782_2 int4 NOT NULL DEFAULT 0,
-	pac0status varchar(128) NULL,
-	pac0priority varchar(128) NULL,
-	pac0closinguserid varchar(32) NULL,
-	pac0dateclosed timestamp NULL,
-	pac0isprivate int2 NULL,
-	CONSTRAINT pipac0conversation PRIMARY KEY (puid)
-);
-
--- Drop table
-
--- DROP TABLE pac0conversation_0;
-
-CREATE TABLE pac0conversation_0 (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0createuserid varchar(32) NOT NULL,
-	vla_2365_2 int4 NOT NULL DEFAULT 0,
-	pac0status varchar(128) NULL,
-	pac0priority varchar(128) NULL,
-	pac0closinguserid varchar(32) NULL,
-	pac0dateclosed timestamp NULL,
-	pac0isprivate int2 NULL,
-	CONSTRAINT pipac0conversation_0 PRIMARY KEY (puid)
-);
-
--- Drop table
-
--- DROP TABLE pac0conversationsrcrel;
-
-CREATE TABLE pac0conversationsrcrel (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0sourcerefstring varchar(128) NOT NULL,
-	pac0source varchar(28) NOT NULL,
-	rac0conversationu varchar(15) NOT NULL,
-	rac0conversationc int4 NOT NULL,
-	CONSTRAINT pipac0conversationsrcrel PRIMARY KEY (puid)
-);
-CREATE UNIQUE INDEX pipac0conversationsrcrel_0 ON public.pac0conversationsrcrel USING btree (rac0conversationu, pac0source);
-
--- Drop table
-
--- DROP TABLE pac0conversationsrcrel_0;
-
-CREATE TABLE pac0conversationsrcrel_0 (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0sourcerefstring varchar(128) NOT NULL,
-	pac0source varchar(28) NOT NULL,
-	rac0conversationu varchar(15) NOT NULL,
-	rac0conversationc int4 NOT NULL,
-	CONSTRAINT pipac0conversationsrcrel_0_0 PRIMARY KEY (puid)
-);
-CREATE UNIQUE INDEX pipac0conversationsrcrel_0_1 ON public.pac0conversationsrcrel_0 USING btree (rac0conversationu, pac0source);
-
--- Drop table
-
--- DROP TABLE pac0privateparticipants;
-
-CREATE TABLE pac0privateparticipants (
-	puid varchar(15) NOT NULL,
-	pseq int4 NOT NULL,
-	pval_0 varchar(32) NULL,
-	CONSTRAINT pipac0privateparticipants PRIMARY KEY (puid, pseq) DEFERRABLE INITIALLY DEFERRED
-);
-CREATE INDEX pipac0privateparticipants_0 ON public.pac0privateparticipants USING btree (pval_0);
-
--- Drop table
-
--- DROP TABLE pac0privateparticipants_0;
-
-CREATE TABLE pac0privateparticipants_0 (
-	puid varchar(15) NOT NULL,
-	pseq int4 NOT NULL,
-	pval_0 varchar(32) NULL,
-	CONSTRAINT pipac0privateparticipants_0_0 PRIMARY KEY (puid, pseq) DEFERRABLE INITIALLY DEFERRED
-);
-CREATE INDEX pipac0privateparticipants_0_1 ON public.pac0privateparticipants_0 USING btree (pval_0);
-
--- Drop table
-
--- DROP TABLE pac0richtext;
-
-CREATE TABLE pac0richtext (
-	puid varchar(15) NOT NULL,
-	pval text NOT NULL,
-	CONSTRAINT pipac0richtext PRIMARY KEY (puid)
-);
-
--- Drop table
-
--- DROP TABLE pac0richtext_0;
-
-CREATE TABLE pac0richtext_0 (
-	puid varchar(15) NOT NULL,
-	pval text NOT NULL,
-	CONSTRAINT pipac0richtext_0 PRIMARY KEY (puid)
-);
-
--- Drop table
-
--- DROP TABLE pac0subscriptionrecord;
-
-CREATE TABLE pac0subscriptionrecord (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0userid varchar(32) NOT NULL,
-	pac0targetobject varchar(28) NULL,
-	rac0targetconversationu varchar(15) NULL,
-	rac0targetconversationc int4 NULL,
-	CONSTRAINT pipac0subscriptionrecord PRIMARY KEY (puid)
-);
-
--- Drop table
-
--- DROP TABLE pac0subscriptionrecord_0;
-
-CREATE TABLE pac0subscriptionrecord_0 (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0userid varchar(32) NOT NULL,
-	pac0targetobject varchar(28) NULL,
-	rac0targetconversationu varchar(15) NULL,
-	rac0targetconversationc int4 NULL,
-	CONSTRAINT pipac0subscriptionrecord_0 PRIMARY KEY (puid)
-);
-
--- Drop table
-
--- DROP TABLE pac0userfeedrecord;
-
-CREATE TABLE pac0userfeedrecord (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0affecteduserid varchar(32) NOT NULL,
-	rac0affectedcommentu varchar(15) NULL,
-	rac0affectedcommentc int4 NULL,
-	rac0affectedconversationu varchar(15) NULL,
-	rac0affectedconversationc int4 NULL,
-	pac0entrydate timestamp NOT NULL,
-	pac0isread int2 NOT NULL,
-	CONSTRAINT pipac0userfeedrecord PRIMARY KEY (puid)
-);
-CREATE UNIQUE INDEX pipac0userfeedrecord_0 ON public.pac0userfeedrecord USING btree (pac0affecteduserid);
-
--- Drop table
-
--- DROP TABLE pac0userfeedrecord_0;
-
-CREATE TABLE pac0userfeedrecord_0 (
-	puid varchar(15) NOT NULL,
-	ptimestamp varchar(33) NOT NULL,
-	ppid int4 NOT NULL,
-	rowning_siteu varchar(15) NULL,
-	rowning_sitec int4 NULL,
-	plsd timestamp NULL,
-	pobject_properties int2 NOT NULL,
-	pac0affecteduserid varchar(32) NOT NULL,
-	rac0affectedcommentu varchar(15) NULL,
-	rac0affectedcommentc int4 NULL,
-	rac0affectedconversationu varchar(15) NULL,
-	rac0affectedconversationc int4 NULL,
-	pac0entrydate timestamp NOT NULL,
-	pac0isread int2 NOT NULL,
-	CONSTRAINT pipac0userfeedrecord_0_0 PRIMARY KEY (puid)
-);
-CREATE UNIQUE INDEX pipac0userfeedrecord_0_1 ON public.pac0userfeedrecord_0 USING btree (pac0affecteduserid);
-
--- Drop table
-
--- DROP TABLE paccessor;
-
-CREATE TABLE paccessor (
-	puid varchar(15) NOT NULL,
-	pseq int8 NOT NULL,
-	pval_0 varchar(28) NULL
-);
-CREATE INDEX pipaccessor ON public.paccessor USING btree (puid, pseq);
-CREATE INDEX pipaccessor_0 ON public.paccessor USING btree (pval_0);
-
--- Drop table
-
--- DROP TABLE paccessor_0;
-
-CREATE TABLE paccessor_0 (
+CREATE TABLE pappearance_list (
 	puid varchar(15) NOT NULL,
 	pseq int8 NOT NULL,
 	pvalu_0 varchar(15) NULL,
 	pvalc_0 int8 NULL
 );
-CREATE INDEX pipaccessor_0_0 ON public.paccessor_0 USING btree (puid, pseq);
-CREATE INDEX pipaccessor_0_1 ON public.paccessor_0 USING btree (pvalu_0);
+CREATE INDEX pipappearance_list ON public.pappearance_list USING btree (puid, pseq);
+CREATE INDEX pipappearance_list_0 ON public.pappearance_list USING btree (pvalu_0);
 
 -- Drop table
 
--- DROP TABLE paccessor_list;
+-- DROP TABLE pappearanceattr;
+
+CREATE TABLE pappearanceattr (
+	puid varchar(15) NOT NULL,
+	pvalue varchar(160) NULL,
+	rdefinitionu varchar(15) NOT NULL,
+	rdefinitionc int8 NOT NULL,
+	rappearanceu varchar(15) NOT NULL,
+	rappearancec int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappearanceattr ON public.pappearanceattr USING btree (puid);
+CREATE UNIQUE INDEX pipappearanceattr_0 ON public.pappearanceattr USING btree (rappearanceu, rdefinitionu);
+CREATE INDEX pipappearanceattr_1 ON public.pappearanceattr USING btree (pvalue, rdefinitionu);
+
+-- Drop table
+
+-- DROP TABLE pappearanceattrdefinition;
+
+CREATE TABLE pappearanceattrdefinition (
+	puid varchar(15) NOT NULL,
+	pname varchar(32) NOT NULL
+);
+CREATE UNIQUE INDEX pipappearanceattrdefinition ON public.pappearanceattrdefinition USING btree (puid);
+CREATE UNIQUE INDEX pipappearanceattrdefinition_0 ON public.pappearanceattrdefinition USING btree (pname);
+
+-- Drop table
+
+-- DROP TABLE pappearanceattrmapping;
+
+CREATE TABLE pappearanceattrmapping (
+	puid varchar(15) NOT NULL,
+	vla_494_2 int8 NOT NULL DEFAULT 0,
+	vla_494_3 int8 NOT NULL DEFAULT 0,
+	pexternal int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappearanceattrmapping ON public.pappearanceattrmapping USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappearancecheckerpkg;
+
+CREATE TABLE pappearancecheckerpkg (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipappearancecheckerpkg ON public.pappearancecheckerpkg USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappearanceconfigcontext;
+
+CREATE TABLE pappearanceconfigcontext (
+	puid varchar(15) NOT NULL,
+	pconfig_mode int8 NULL,
+	rrevision_ruleu varchar(15) NOT NULL,
+	rrevision_rulec int8 NOT NULL,
+	phas_precise int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappearanceconfigcontext ON public.pappearanceconfigcontext USING btree (puid);
+CREATE UNIQUE INDEX pipappearanceconfigcontext_0 ON public.pappearanceconfigcontext USING btree (rrevision_ruleu);
+
+-- Drop table
+
+-- DROP TABLE pappearancegroup;
+
+CREATE TABLE pappearancegroup (
+	puid varchar(15) NOT NULL,
+	pfnd0clone_stable_id varchar(14) NULL,
+	rapp_path_rootu varchar(15) NOT NULL,
+	rapp_path_rootc int8 NOT NULL,
+	rsearch_criteriau varchar(15) NULL,
+	rsearch_criteriac int8 NULL
+);
+CREATE UNIQUE INDEX pipappearancegroup ON public.pappearancegroup USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappearanceroot;
+
+CREATE TABLE pappearanceroot (
+	puid varchar(15) NOT NULL,
+	rconfig_contextu varchar(15) NOT NULL,
+	rconfig_contextc int8 NOT NULL,
+	rtracked_item_infou varchar(15) NOT NULL,
+	rtracked_item_infoc int8 NOT NULL,
+	pcorruption_status int8 NOT NULL,
+	rlast_aucpu varchar(15) NULL,
+	rlast_aucpc int8 NULL,
+	plast_fix_date timestamp NULL,
+	plast_check_date timestamp NULL,
+	pok_date timestamp NULL,
+	pis_available int8 NOT NULL,
+	phas_spatial_data int8 NOT NULL,
+	pis_for_pre_release int8 NULL,
+	pis_active int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappearanceroot ON public.pappearanceroot USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappearances;
+
+CREATE TABLE pappearances (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipappearances ON public.pappearances USING btree (puid, pseq);
+CREATE INDEX pipappearances_0 ON public.pappearances USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE pappearances_0;
+
+CREATE TABLE pappearances_0 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipappearances_0_0 ON public.pappearances_0 USING btree (puid, pseq);
+CREATE INDEX pipappearances_0_1 ON public.pappearances_0 USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE pappearances_1;
+
+CREATE TABLE pappearances_1 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipappearances_1 ON public.pappearances_1 USING btree (puid, pseq);
+CREATE INDEX pipappearances_1_0 ON public.pappearances_1 USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE pappearancetrackediteminfo;
+
+CREATE TABLE pappearancetrackediteminfo (
+	puid varchar(15) NOT NULL,
+	rtracked_itemu varchar(15) NOT NULL,
+	rtracked_itemc int8 NOT NULL,
+	rbom_viewu varchar(15) NOT NULL,
+	rbom_viewc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappearancetrackediteminfo ON public.pappearancetrackediteminfo USING btree (puid);
+CREATE UNIQUE INDEX pipappearancetrackediteminfo_0 ON public.pappearancetrackediteminfo USING btree (rtracked_itemu, rbom_viewu);
+
+-- Drop table
+
+-- DROP TABLE pappextensionpoint;
+
+CREATE TABLE pappextensionpoint (
+	puid varchar(15) NOT NULL,
+	pid varchar(240) NOT NULL,
+	pcategory varchar(240) NULL,
+	vla_1129_4 int8 NOT NULL DEFAULT 0,
+	vla_1129_5 int8 NOT NULL DEFAULT 0,
+	prule_type int8 NULL
+);
+CREATE UNIQUE INDEX pipappextensionpoint ON public.pappextensionpoint USING btree (puid);
+CREATE UNIQUE INDEX pipappextensionpoint_0 ON public.pappextensionpoint USING btree (pid);
+
+-- Drop table
+
+-- DROP TABLE pappextensionrule;
+
+CREATE TABLE pappextensionrule (
+	puid varchar(15) NOT NULL,
+	pid varchar(240) NOT NULL,
+	vla_1130_3 int8 NOT NULL DEFAULT 0,
+	rrule_typeu varchar(15) NOT NULL,
+	rrule_typec int8 NOT NULL,
+	psecure int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappextensionrule ON public.pappextensionrule USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappextensionruletype;
+
+CREATE TABLE pappextensionruletype (
+	puid varchar(15) NOT NULL
+);
+CREATE UNIQUE INDEX pipappextensionruletype ON public.pappextensionruletype USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappinterface;
+
+CREATE TABLE pappinterface (
+	puid varchar(15) NOT NULL,
+	vla_1131_1 int8 NOT NULL DEFAULT 0,
+	vla_1131_2 int8 NOT NULL DEFAULT 0,
+	vla_1131_6 int8 NOT NULL DEFAULT 0,
+	rincremental_changeu varchar(15) NULL,
+	rincremental_changec int8 NULL,
+	rsite_idu varchar(15) NULL,
+	rsite_idc int8 NULL,
+	rmaster_recordu varchar(15) NULL,
+	rmaster_recordc int8 NULL,
+	rtm_exportu varchar(15) NULL,
+	rtm_exportc int8 NULL,
+	rtm_importu varchar(15) NULL,
+	rtm_importc int8 NULL
+);
+CREATE UNIQUE INDEX pipappinterface ON public.pappinterface USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappinterfacetype;
+
+CREATE TABLE pappinterfacetype (
+	puid varchar(15) NOT NULL,
+	pname varchar(32) NOT NULL,
+	pdesc varchar(1400) NOT NULL,
+	vla_896_5 int8 NOT NULL DEFAULT 0,
+	vla_896_6 int8 NOT NULL DEFAULT 0,
+	rtoolu varchar(15) NULL,
+	rtoolc int8 NULL,
+	rtm_exportu varchar(15) NULL,
+	rtm_exportc int8 NULL,
+	rtm_importu varchar(15) NULL,
+	rtm_importc int8 NULL,
+	pisusedforidc int8 NULL,
+	pisicrequired int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappinterfacetype ON public.pappinterfacetype USING btree (puid);
+CREATE UNIQUE INDEX pipappinterfacetype_0 ON public.pappinterfacetype USING btree (pname);
+
+-- Drop table
+
+-- DROP TABLE papprhistorydateentry;
+
+CREATE TABLE papprhistorydateentry (
+	puid varchar(15) NOT NULL,
+	pin_date timestamp NULL,
+	pout_date timestamp NULL
+);
+CREATE UNIQUE INDEX pipapprhistorydateentry ON public.papprhistorydateentry USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE papprhistoryentry;
+
+CREATE TABLE papprhistoryentry (
+	puid varchar(15) NOT NULL,
+	rappearanceu varchar(15) NOT NULL,
+	rappearancec int8 NOT NULL,
+	pmod_date timestamp NOT NULL
+);
+CREATE UNIQUE INDEX pipapprhistoryentry ON public.papprhistoryentry USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE papprhistoryunitnoentry;
+
+CREATE TABLE papprhistoryunitnoentry (
+	puid varchar(15) NOT NULL,
+	pin_unit_no int8 NULL,
+	pout_unit_no int8 NULL
+);
+CREATE UNIQUE INDEX pipapprhistoryunitnoentry ON public.papprhistoryunitnoentry USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pappritemrevorder;
+
+CREATE TABLE pappritemrevorder (
+	puid varchar(15) NOT NULL,
+	vla_1134_2 int8 NOT NULL DEFAULT 0,
+	vla_1134_3 int8 NOT NULL DEFAULT 0,
+	rappr_rootu varchar(15) NOT NULL,
+	rappr_rootc int8 NOT NULL,
+	ritemu varchar(15) NOT NULL,
+	ritemc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipappritemrevorder ON public.pappritemrevorder USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE papprover_roles;
+
+CREATE TABLE papprover_roles (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipapprover_roles ON public.papprover_roles USING btree (puid, pseq);
+CREATE INDEX pipapprover_roles_0 ON public.papprover_roles USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE papprqueryaudit;
+
+CREATE TABLE papprqueryaudit (
+	puid varchar(15) NOT NULL,
+	pvalidation_worthiness int8 NOT NULL,
+	pend_unit_no int8 NULL,
+	pstart_unit_no int8 NULL,
+	pcount int8 NULL,
+	rappearance_rootu varchar(15) NOT NULL,
+	rappearance_rootc int8 NOT NULL,
+	pstart_date timestamp NULL,
+	pend_date timestamp NULL,
+	plast_worthiness_update_date timestamp NOT NULL
+);
+CREATE UNIQUE INDEX pipapprqueryaudit ON public.papprqueryaudit USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE papprqueryauditpkg;
+
+CREATE TABLE papprqueryauditpkg (
+	puid varchar(15) NOT NULL,
+	rappearance_rootu varchar(15) NOT NULL,
+	rappearance_rootc int8 NOT NULL,
+	pquery_unit_no_arg int8 NOT NULL,
+	pquery_date_arg timestamp NULL,
+	pqueued_date timestamp NOT NULL,
+	pquery_search_on_unit_no_arg int8 NOT NULL
+);
