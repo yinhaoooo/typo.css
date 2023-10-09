@@ -107,3 +107,319 @@ CREATE INDEX pipmeappearancepathnode_4 ON public.pmeappearancepathnode USING btr
 CREATE INDEX pipmeappearancepathnode_5 ON public.pmeappearancepathnode USING btree (rpath_rootu, rabs_occu);
 CREATE UNIQUE INDEX pipmeappearancepathnode_6 ON public.pmeappearancepathnode USING btree (rocc_threadu, rparentu, puid);
 CREATE UNIQUE INDEX pipmeappearancepathnode_7 ON public.pmeappearancepathnode USING btree (rparentu, puid);
+
+CREATE UNLOGGED TABLE pomquery_u (
+	col0 varchar(32) NULL
+);
+
+CREATE TABLE pabsoccurrence (
+	puid varchar(15) NOT NULL,
+	pabs_occ_id varchar(128) NULL,
+	pusage_address varchar(128) NULL,
+	plogical_position varchar(32) NULL,
+	plast_mod_date timestamp NULL
+);
+CREATE UNIQUE INDEX pipabsoccurrence ON public.pabsoccurrence USING btree (puid);
+CREATE INDEX pipabsoccurrence_0 ON public.pabsoccurrence USING btree (pabs_occ_id);
+
+
+CREATE TABLE ph6hwpartrevision (
+	puid varchar(15) NOT NULL,
+	ph6sourcesystem varchar(32) NULL,
+	ph6pdmversion varchar(64) NULL,
+	ph6componentoid varchar(512) NULL,
+	ph6componentlink varchar(1000) NULL,
+	ph6categorycode varchar(1500) NULL,
+	ph6categoryname varchar(1500) NULL,
+	ph6internalmodel varchar(1500) NULL,
+	ph6template varchar(64) NULL,
+	ph6additionalnote varchar(1500) NULL,
+	ph6itemrevision varchar(3000) NULL,
+	ph6drawingversion varchar(64) NULL,
+	ph6state varchar(600) NULL,
+	ph6productid varchar(600) NULL,
+	ph6productname varchar(4000) NULL,
+	ph6productlineid varchar(600) NULL,
+	ph6productlinename varchar(4000) NULL,
+	ph6status varchar(200) NULL,
+	ph6procdocname varchar(1500) NULL,
+	ph6procdoclink varchar(1000) NULL,
+	ph6boardthickness varchar(128) NULL,
+	ph6dielectricmaterialmodel varchar(1000) NULL,
+	ph6panelinfo varchar(1500) NULL,
+	ph6boardlength varchar(128) NULL,
+	ph6boardwidth varchar(128) NULL,
+	ph6haveplumbum varchar(32) NULL,
+	ph6package varchar(1500) NULL,
+	ph6desc varchar(2160) NULL,
+	ph6installationmodel varchar(128) NULL,
+	ph6surfacetreatment varchar(1500) NULL,
+	ph6packageinfo varchar(4000) NULL,
+	vla_1721_31 int8 NOT NULL DEFAULT 0,
+	vla_1721_32 int8 NOT NULL DEFAULT 0,
+	vla_1721_33 int8 NOT NULL DEFAULT 0,
+	vla_1721_34 int8 NOT NULL DEFAULT 0,
+	vla_1721_35 int8 NOT NULL DEFAULT 0,
+	vla_1721_36 int8 NOT NULL DEFAULT 0,
+	vla_1721_37 int8 NOT NULL DEFAULT 0,
+	vla_1721_38 int8 NOT NULL DEFAULT 0,
+	ph6weight varchar(32) NULL,
+	ph6resourcetype varchar(128) NULL,
+	ph6resourcestatus varchar(128) NULL,
+	ph6modifiedby varchar(128) NULL,
+	ph6modifiedat varchar(128) NULL,
+	ph6manufacture varchar(1024) NULL,
+	ph6ifsupporttranswithpcba varchar(32) NULL,
+	ph6dprversion varchar(128) NULL,
+	ph6dprurl varchar(512) NULL,
+	ph6dprname varchar(1500) NULL,
+	ph6createdby varchar(128) NULL,
+	ph6createdat varchar(128) NULL,
+	ph6preprocess varchar(128) NULL,
+	ph6accessoriesname varchar(128) NULL,
+	ph6drawingnumber varchar(256) NULL,
+	ph6dn_tsbn varchar(256) NULL,
+	ph6dn_model varchar(256) NULL,
+	ph6processingmethod varchar(256) NULL,
+	ph6externalname varchar(1500) NULL,
+	ph6productlinecp varchar(2000) NULL,
+	vla_1721_58 int8 NOT NULL DEFAULT 0,
+	ph6bomupdstatus varchar(32) NULL,
+	ph6startdateupd timestamp NULL,
+	ph6models varchar(256) NULL,
+	ph6organization varchar(128) NULL,
+	ph6pdmadditionalnote varchar(512) NULL,
+	ph6controlgranularity varchar(128) NULL
+);
+CREATE UNIQUE INDEX piph6hwpartrevision ON public.ph6hwpartrevision USING btree (puid);
+
+
+CREATE TABLE ppsoccurrence (
+	puid varchar(15) NOT NULL,
+	pqty_value numeric NOT NULL,
+	pext_transform_rot00 numeric NULL,
+	pext_transform_rot10 numeric NULL,
+	pext_transform_rot20 numeric NULL,
+	pext_transform_per0 numeric NULL,
+	pext_transform_rot01 numeric NULL,
+	pext_transform_rot11 numeric NULL,
+	pext_transform_rot21 numeric NULL,
+	pext_transform_per1 numeric NULL,
+	pext_transform_rot02 numeric NULL,
+	pext_transform_rot12 numeric NULL,
+	pext_transform_rot22 numeric NULL,
+	pext_transform_per2 numeric NULL,
+	pext_transform_tra0 numeric NULL,
+	pext_transform_tra1 numeric NULL,
+	pext_transform_tra2 numeric NULL,
+	pext_transform_invscale numeric NULL,
+	pseq_no varchar(15) NULL,
+	vla_1100_5 int8 NOT NULL DEFAULT 0,
+	vla_1100_12 int8 NOT NULL DEFAULT 0,
+	vla_1100_13 int8 NOT NULL DEFAULT 0,
+	vla_1100_6 int8 NOT NULL DEFAULT 0,
+	vla_1100_30 int8 NOT NULL DEFAULT 0,
+	poccurrence_name varchar(100) NULL,
+	pref_designator varchar(30) NULL,
+	rchild_itemu varchar(15) NOT NULL,
+	rchild_itemc int8 NOT NULL,
+	ralternate_etc_refu varchar(15) NOT NULL,
+	ralternate_etc_refc int8 NOT NULL,
+	rvariant_conditionu varchar(15) NOT NULL,
+	rvariant_conditionc int8 NOT NULL,
+	poccurrence_type int8 NOT NULL,
+	porder_no int8 NOT NULL,
+	pocc_flags int8 NOT NULL,
+	rchild_bvu varchar(15) NOT NULL,
+	rchild_bvc int8 NOT NULL,
+	rparent_bvru varchar(15) NOT NULL,
+	rparent_bvrc int8 NOT NULL,
+	ruom_tagu varchar(15) NULL,
+	ruom_tagc int8 NULL,
+	rocc_typeu varchar(15) NULL,
+	rocc_typec int8 NULL,
+	rocc_threadu varchar(15) NOT NULL,
+	rocc_threadc int8 NOT NULL,
+	rxformu varchar(15) NOT NULL,
+	rxformc int8 NOT NULL,
+	rnotes_refu varchar(15) NOT NULL,
+	rnotes_refc int8 NOT NULL,
+	ph6mpndesc varchar(4000) NULL,
+	ph6enabledate timestamp NULL,
+	ph6occmespecification varchar(1024) NULL,
+	ph6occusageaddress varchar(32) NULL,
+	ph6occpositiondesignator varchar(32) NULL,
+	ph6occismanualfill varchar(32) NULL,
+	ph6materialreplace varchar(256) NULL,
+	ph6auxqty varchar(32) NULL,
+	ph6ishidepartid varchar(128) NULL,
+	ph6shareprocess varchar(4000) NULL,
+	ph6resourcecategory varchar(256) NULL,
+	ph6matchedsite varchar(256) NULL,
+	vla_1100_51 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX pippsoccurrence ON public.ppsoccurrence USING btree (puid);
+CREATE INDEX pippsoccurrence_0 ON public.ppsoccurrence USING btree (rparent_bvru);
+CREATE INDEX pippsoccurrence_1 ON public.ppsoccurrence USING btree (rchild_itemu);
+CREATE INDEX pippsoccurrence_2 ON public.ppsoccurrence USING btree (rocc_threadu);
+CREATE INDEX pippsoccurrence_3 ON public.ppsoccurrence USING btree (ralternate_etc_refu);
+CREATE INDEX pippsoccurrence_4 ON public.ppsoccurrence USING btree (rnotes_refu);
+CREATE INDEX pippsoccurrence_5 ON public.ppsoccurrence USING btree (rchild_itemu, rocc_threadu);
+CREATE INDEX pippsoccurrence_6 ON public.ppsoccurrence USING btree (ralternate_etc_refu, rocc_threadu);
+CREATE INDEX pippsoccurrence_7 ON public.ppsoccurrence USING btree (rvariant_conditionu);
+CREATE UNIQUE INDEX pippsoccurrence_8 ON public.ppsoccurrence USING btree (puid, rocc_threadu, rparent_bvru);
+CREATE INDEX pippsoccurrence_9 ON public.ppsoccurrence USING btree (rocc_threadu, rparent_bvru);
+
+
+CREATE TABLE ph6hwpartrevision (
+	puid varchar(15) NOT NULL,
+	ph6sourcesystem varchar(32) NULL,
+	ph6pdmversion varchar(64) NULL,
+	ph6componentoid varchar(512) NULL,
+	ph6componentlink varchar(1000) NULL,
+	ph6categorycode varchar(1500) NULL,
+	ph6categoryname varchar(1500) NULL,
+	ph6internalmodel varchar(1500) NULL,
+	ph6template varchar(64) NULL,
+	ph6additionalnote varchar(1500) NULL,
+	ph6itemrevision varchar(3000) NULL,
+	ph6drawingversion varchar(64) NULL,
+	ph6state varchar(600) NULL,
+	ph6productid varchar(600) NULL,
+	ph6productname varchar(4000) NULL,
+	ph6productlineid varchar(600) NULL,
+	ph6productlinename varchar(4000) NULL,
+	ph6status varchar(200) NULL,
+	ph6procdocname varchar(1500) NULL,
+	ph6procdoclink varchar(1000) NULL,
+	ph6boardthickness varchar(128) NULL,
+	ph6dielectricmaterialmodel varchar(1000) NULL,
+	ph6panelinfo varchar(1500) NULL,
+	ph6boardlength varchar(128) NULL,
+	ph6boardwidth varchar(128) NULL,
+	ph6haveplumbum varchar(32) NULL,
+	ph6package varchar(1500) NULL,
+	ph6desc varchar(2160) NULL,
+	ph6installationmodel varchar(128) NULL,
+	ph6surfacetreatment varchar(1500) NULL,
+	ph6packageinfo varchar(4000) NULL,
+	vla_1721_31 int8 NOT NULL DEFAULT 0,
+	vla_1721_32 int8 NOT NULL DEFAULT 0,
+	vla_1721_33 int8 NOT NULL DEFAULT 0,
+	vla_1721_34 int8 NOT NULL DEFAULT 0,
+	vla_1721_35 int8 NOT NULL DEFAULT 0,
+	vla_1721_36 int8 NOT NULL DEFAULT 0,
+	vla_1721_37 int8 NOT NULL DEFAULT 0,
+	vla_1721_38 int8 NOT NULL DEFAULT 0,
+	ph6weight varchar(32) NULL,
+	ph6resourcetype varchar(128) NULL,
+	ph6resourcestatus varchar(128) NULL,
+	ph6modifiedby varchar(128) NULL,
+	ph6modifiedat varchar(128) NULL,
+	ph6manufacture varchar(1024) NULL,
+	ph6ifsupporttranswithpcba varchar(32) NULL,
+	ph6dprversion varchar(128) NULL,
+	ph6dprurl varchar(512) NULL,
+	ph6dprname varchar(1500) NULL,
+	ph6createdby varchar(128) NULL,
+	ph6createdat varchar(128) NULL,
+	ph6preprocess varchar(128) NULL,
+	ph6accessoriesname varchar(128) NULL,
+	ph6drawingnumber varchar(256) NULL,
+	ph6dn_tsbn varchar(256) NULL,
+	ph6dn_model varchar(256) NULL,
+	ph6processingmethod varchar(256) NULL,
+	ph6externalname varchar(1500) NULL,
+	ph6productlinecp varchar(2000) NULL,
+	vla_1721_58 int8 NOT NULL DEFAULT 0,
+	ph6bomupdstatus varchar(32) NULL,
+	ph6startdateupd timestamp NULL,
+	ph6models varchar(256) NULL,
+	ph6organization varchar(128) NULL,
+	ph6pdmadditionalnote varchar(512) NULL,
+	ph6controlgranularity varchar(128) NULL
+);
+CREATE UNIQUE INDEX piph6hwpartrevision ON public.ph6hwpartrevision USING btree (puid);
+
+CREATE TABLE ph6hwpart (
+	puid varchar(15) NOT NULL,
+	ph6packageinfo varchar(3000) NULL,
+	ph6preprocess varchar(16) NULL,
+	vla_1718_3 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX piph6hwpart ON public.ph6hwpart USING btree (puid);
+
+CREATE TABLE ppsalternatelist (
+	puid varchar(15) NOT NULL,
+	vla_970_1 int8 NOT NULL DEFAULT 0,
+	vla_970_3 int8 NOT NULL DEFAULT 0,
+	rpreferred_itemu varchar(15) NOT NULL,
+	rpreferred_itemc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pippsalternatelist ON public.ppsalternatelist USING btree (puid);
+CREATE INDEX pippsalternatelist_0 ON public.ppsalternatelist USING btree (rpreferred_itemu);
+
+CREATE TABLE pstructure_revisions (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipstructure_revisions ON public.pstructure_revisions USING btree (puid, pseq);
+CREATE INDEX pipstructure_revisions_0 ON public.pstructure_revisions USING btree (pvalu_0);
+
+CREATE TABLE pfnd0abstractoccrevision (
+	puid varchar(15) NOT NULL,
+	pfnd0structlastmodified timestamp NULL,
+	pfnd0isprecise int8 NULL
+);
+CREATE UNIQUE INDEX pipfnd0abstractoccrevision ON public.pfnd0abstractoccrevision USING btree (puid);
+
+CREATE TABLE pfnd0relevantbvr (
+	puid varchar(15) NOT NULL,
+	rfnd0bvru varchar(15) NOT NULL,
+	rfnd0bvrc int8 NOT NULL,
+	rfnd0occurrenceu varchar(15) NOT NULL,
+	rfnd0occurrencec int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipfnd0relevantbvr ON public.pfnd0relevantbvr USING btree (puid);
+CREATE INDEX pipfnd0relevantbvr_0 ON public.pfnd0relevantbvr USING btree (rfnd0occurrenceu);
+CREATE INDEX pipfnd0relevantbvr_1 ON public.pfnd0relevantbvr USING btree (rfnd0bvru);
+
+CREATE TABLE pfnd0abstractocc (
+	puid varchar(15) NOT NULL,
+	rfnd0bomviewu varchar(15) NOT NULL,
+	rfnd0bomviewc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipfnd0abstractocc ON public.pfnd0abstractocc USING btree (puid);
+
+CREATE TABLE ppsbomviewrevision (
+	puid varchar(15) NOT NULL,
+	plegacy_transform_factor numeric NULL,
+	vla_849_4 int8 NOT NULL DEFAULT 0,
+	vla_849_2 int8 NOT NULL DEFAULT 0,
+	rbom_viewu varchar(15) NOT NULL,
+	rbom_viewc int8 NOT NULL,
+	pis_precise int8 NOT NULL,
+	pstruct_last_mod_date timestamp NULL,
+	ph6fromgenericbop int8 NULL,
+	ph6fromtemplate int8 NULL
+);
+CREATE UNIQUE INDEX pippsbomviewrevision ON public.ppsbomviewrevision USING btree (puid);
+CREATE INDEX pippsbomviewrevision_0 ON public.ppsbomviewrevision USING btree (rbom_viewu);
+CREATE INDEX pippsbomviewrevision_1 ON public.ppsbomviewrevision USING btree (pstruct_last_mod_date);
+
+CREATE TABLE ppsbomview (
+	puid varchar(15) NOT NULL,
+	vla_848_2 int8 NOT NULL DEFAULT 0,
+	vla_848_3 int8 NOT NULL DEFAULT 0,
+	rparent_itemu varchar(15) NOT NULL,
+	rparent_itemc int8 NOT NULL,
+	rview_typeu varchar(15) NOT NULL,
+	rview_typec int8 NOT NULL,
+	pfnd0structmanagementmode int8 NULL
+);
+CREATE UNIQUE INDEX pippsbomview ON public.ppsbomview USING btree (puid);
+CREATE INDEX pippsbomview_0 ON public.ppsbomview USING btree (rparent_itemu, rview_typeu);
+CREATE INDEX pippsbomview_1 ON public.ppsbomview USING btree (rview_typeu);
+
