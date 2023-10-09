@@ -1,31 +1,90 @@
-序号16
-pmfg0meplantboprevision
-pmfg0meprocstatnrevision
-pmfg0meprocstatn
-pmfg0meproclinerevision
-pmfg0meprocline
+explain 
+/*+Set(enable_hashjoin off)
+Set(enable_mergejoin off)
+Parallel(t_01 0 hard)
+Parallel(t_02 0 hard)
+Parallel(t_03 0 hard)
+Parallel(t_04 0 hard)
+Parallel(t_05 0 hard)
+Parallel(t_06 0 hard)
+Parallel(t_07 0 hard)
+Parallel(t_08 0 hard)
+Parallel(t_09 0 hard)
+Parallel(t_010 0 hard)
+Parallel(t_011 0 hard)
+Parallel(t_012 0 hard)
+Parallel(t_013 0 hard) 
+Parallel(t_014 0 hard) 
+Parallel(t_015 0 hard) 
+Parallel(t_016 0 hard) 
+Parallel(t_017 0 hard) 
+Parallel(t_018 0 hard) 
+Parallel(t_019 0 hard) 
+*/
+SELECT  DISTINCT t_02.puid FROM PWORKSPACEOBJECT t_01 , PMFG0MEPLANTBOPREVISION t_02 , PSTRUCTURE_REVISIONS t_03 , PPSBOMVIEWREVISION t_04 , PPSOCCURRENCE t_05 , PPSBOMVIEWREVISION t_06 , PPSOCCURRENCE t_07 , PITEM t_08 , PMEOP t_09 , PMFG0MEPROCSTATNREVISION t_010 , PSTRUCTURE_REVISIONS t_011 , PITEMREVISION t_012 , PMFG0MEPROCSTATN t_013 , PMFG0MEPROCLINEREVISION t_014 , PSTRUCTURE_REVISIONS t_015 , PITEMREVISION t_016 , PMFG0MEPROCLINE t_017 , PPSOCCURRENCE t_018 , PPSBOMVIEWREVISION t_019 WHERE ( ( ( ( t_03.pvalu_0 = t_019.puid ) AND ( ( t_019.puid = t_018.rparent_bvru ) AND ( ( t_018.rchild_itemu = t_017.puid ) AND ( ( t_017.puid = t_016.ritems_tagu ) AND ( ( t_015.pvalu_0 = t_04.puid ) AND ( ( t_04.puid = t_05.rparent_bvru ) AND ( ( t_05.rchild_itemu = t_013.puid ) AND ( ( t_013.puid = t_012.ritems_tagu ) AND ( ( t_011.pvalu_0 = t_06.puid ) AND ( ( t_06.puid = t_07.rparent_bvru ) AND ( ( t_07.rchild_itemu = t_09.puid ) AND  ( UPPER(t_08.pitem_id)  =  UPPER( '2738543'  )  ) ) ) ) ) ) ) ) ) ) ) ) AND ( t_01.pactive_seq != '0'::int4  ) ) AND ( t_01.puid = t_02.puid AND t_02.puid = t_03.puid AND t_08.puid = t_09.puid AND t_014.puid = t_015.puid AND t_015.puid = t_016.puid AND t_010.puid = t_011.puid AND t_011.puid = t_012.puid ) ) 
 
-序号23
-ph6pcbprobop
-pimanrelation
-ph6hwpart
-pstructurecontext
-pmecollaborationcontext
-ph6hwpartrevision
-vl10n_object_name
-
-
-序号25
-ph6witemplatecfg
-
-序号26
-pmeappearancepathnode
-pomquery_u
-pabsoccurrence
-
-
-序号31
-pepmtask
-
-序号34
-pfnd0epminterprocesstask
+Unique  (cost=7.12..109992327.80 rows=113 width=15)
+  ->  Nested Loop  (cost=7.12..109992327.52 rows=113 width=15)
+        ->  Nested Loop  (cost=6.69..109992201.73 rows=113 width=45)
+              Join Filter: ((t_03.pvalu_0)::text = (t_018.rparent_bvru)::text)
+              ->  Nested Loop  (cost=1.85..280875.80 rows=2563 width=45)
+                    ->  Nested Loop  (cost=1.42..278022.70 rows=2563 width=30)
+                          ->  Nested Loop  (cost=0.98..168311.67 rows=61508 width=30)
+                                ->  Index Only Scan using pipmfg0meplantboprevision on pmfg0meplantboprevision t_02  (cost=0.41..1191.63 rows=61741 width=15)
+                                ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..2.71 rows=1 width=15)
+                                      Index Cond: ((puid)::text = (t_02.puid)::text)
+                                      Filter: (pactive_seq <> 0)
+                          ->  Index Scan using pipstructure_revisions on pstructure_revisions t_03  (cost=0.43..1.77 rows=1 width=30)
+                                Index Cond: ((puid)::text = (t_01.puid)::text)
+                    ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_019  (cost=0.43..1.11 rows=1 width=15)
+                          Index Cond: (puid = (t_03.pvalu_0)::text)
+              ->  Materialize  (cost=4.84..101665003.14 rows=209308 width=45)
+                    ->  Nested Loop  (cost=4.84..101663956.60 rows=209308 width=45)
+                          ->  Nested Loop  (cost=4.27..95542924.30 rows=50 width=60)
+                                Join Filter: ((t_015.pvalu_0)::text = (t_05.rparent_bvru)::text)
+                                ->  Nested Loop  (cost=1.83..12005883.40 rows=25438 width=60)
+                                      ->  Nested Loop  (cost=1.42..11633592.69 rows=338646 width=45)
+                                            ->  Nested Loop  (cost=0.98..11256616.28 rows=338646 width=30)
+                                                  ->  Nested Loop  (cost=0.56..6005755.08 rows=4760587 width=60)
+                                                        ->  Seq Scan on pstructure_revisions t_015  (cost=0.00..92103.87 rows=4760587 width=30)
+                                                        ->  Index Only Scan using pipitemrevision_3 on pitemrevision t_016  (cost=0.56..1.24 rows=1 width=30)
+                                                              Index Cond: (puid = (t_015.puid)::text)
+                                                  ->  Index Only Scan using pipmfg0meproclinerevision on pmfg0meproclinerevision t_014  (cost=0.42..1.10 rows=1 width=15)
+                                                        Index Cond: (puid = (t_015.puid)::text)
+                                            ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_04  (cost=0.43..1.11 rows=1 width=15)
+                                                  Index Cond: (puid = (t_015.pvalu_0)::text)
+                                      ->  Index Only Scan using pipmfg0meprocline on pmfg0meprocline t_017  (cost=0.42..1.10 rows=1 width=15)
+                                            Index Cond: (puid = (t_016.ritems_tagu)::text)
+                                ->  Materialize  (cost=2.44..79995331.36 rows=9282 width=45)
+                                      ->  Nested Loop  (cost=2.44..79995284.95 rows=9282 width=45)
+                                            ->  Nested Loop  (cost=1.86..79260845.64 rows=6 width=60)
+                                                  Join Filter: ((t_013.puid)::text = (t_012.ritems_tagu)::text)
+                                                  ->  Seq Scan on pmfg0meprocstatn t_013  (cost=0.00..8127.48 rows=527048 width=15)
+                                                  ->  Materialize  (cost=1.86..79031358.07 rows=28 width=45)
+                                                        ->  Nested Loop  (cost=1.86..79031357.93 rows=28 width=45)
+                                                              ->  Nested Loop  (cost=1.30..79031323.02 rows=28 width=60)
+                                                                    Join Filter: ((t_07.rchild_itemu)::text = (t_09.puid)::text)
+                                                                    ->  Seq Scan on pmeop t_09  (cost=0.00..16477.06 rows=1067806 width=15)
+                                                                    ->  Materialize  (cost=1.30..78566367.51 rows=28 width=90)
+                                                                          ->  Nested Loop  (cost=1.30..78566367.37 rows=28 width=90)
+                                                                                ->  Nested Loop  (cost=0.88..78566223.50 rows=130 width=75)
+                                                                                      Join Filter: ((t_08.puid)::text = (t_07.rchild_itemu)::text)
+                                                                                      ->  Index Scan using pipitem_0 on pitem t_08  (cost=0.43..2.65 rows=1 width=15)
+                                                                                            Index Cond: (upper((pitem_id)::text) = '2738543'::text)
+                                                                                      ->  Nested Loop  (cost=0.44..68374712.83 rows=815320642 width=60)
+                                                                                            ->  Seq Scan on ppsoccurrence t_07  (cost=0.00..47897169.42 rows=815320642 width=30)
+                                                                                            ->  Memoize  (cost=0.44..1.78 rows=1 width=30)
+                                                                                                  Cache Key: t_07.rparent_bvru
+                                                                                                  Cache Mode: logical
+                                                                                                  ->  Index Scan using pipstructure_revisions_0 on pstructure_revisions t_011  (cost=0.43..1.77 rows=1 width=30)
+                                                                                                        Index Cond: ((pvalu_0)::text = (t_07.rparent_bvru)::text)
+                                                                                ->  Index Only Scan using pipmfg0meprocstatnrevision on pmfg0meprocstatnrevision t_010  (cost=0.42..1.11 rows=1 width=15)
+                                                                                      Index Cond: (puid = (t_011.puid)::text)
+                                                              ->  Index Only Scan using pipitemrevision_3 on pitemrevision t_012  (cost=0.56..1.25 rows=1 width=30)
+                                                                    Index Cond: (puid = (t_010.puid)::text)
+                                            ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_05  (cost=0.57..120637.96 rows=176859 width=30)
+                                                  Index Cond: ((rchild_itemu)::text = (t_013.puid)::text)
+                          ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_018  (cost=0.57..120652.06 rows=176859 width=30)
+                                Index Cond: ((rchild_itemu)::text = (t_017.puid)::text)
+        ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_06  (cost=0.43..1.11 rows=1 width=15)
+              Index Cond: (puid = (t_011.pvalu_0)::text)
