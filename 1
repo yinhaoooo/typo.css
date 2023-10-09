@@ -598,3 +598,401 @@ CREATE TABLE pabsoccusgpartid (
 	vla_1013_1 int8 NOT NULL DEFAULT 0
 );
 CREATE UNIQUE INDEX pipabsoccusgpartid ON public.pabsoccusgpartid USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pabsoccusgproduct;
+
+CREATE TABLE pabsoccusgproduct (
+	puid varchar(15) NOT NULL,
+	vla_1014_1 int8 NOT NULL DEFAULT 0
+);
+CREATE UNIQUE INDEX pipabsoccusgproduct ON public.pabsoccusgproduct USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pabsoccvariantcondition;
+
+CREATE TABLE pabsoccvariantcondition (
+	puid varchar(15) NOT NULL,
+	rvariant_conditionu varchar(15) NOT NULL,
+	rvariant_conditionc int8 NOT NULL
+);
+CREATE UNIQUE INDEX pipabsoccvariantcondition ON public.pabsoccvariantcondition USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pabsoccviewqualifier;
+
+CREATE TABLE pabsoccviewqualifier (
+	puid varchar(15) NOT NULL,
+	rabsocc_tagu varchar(15) NULL,
+	rabsocc_tagc int8 NULL,
+	rbomview_tagu varchar(15) NULL,
+	rbomview_tagc int8 NULL
+);
+CREATE UNIQUE INDEX pipabsoccviewqualifier ON public.pabsoccviewqualifier USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pabsoccxform;
+
+CREATE TABLE pabsoccxform (
+	puid varchar(15) NOT NULL,
+	pext_transform_rot00 int8 NULL,
+	pext_transform_rot10 int8 NULL,
+	pext_transform_rot20 int8 NULL,
+	pext_transform_per0 int8 NULL,
+	pext_transform_rot01 int8 NULL,
+	pext_transform_rot11 int8 NULL,
+	pext_transform_rot21 int8 NULL,
+	pext_transform_per1 int8 NULL,
+	pext_transform_rot02 int8 NULL,
+	pext_transform_rot12 int8 NULL,
+	pext_transform_rot22 int8 NULL,
+	pext_transform_per2 int8 NULL,
+	pext_transform_tra0 int8 NULL,
+	pext_transform_tra1 int8 NULL,
+	pext_transform_tra2 int8 NULL,
+	pext_transform_invscale int8 NULL
+);
+CREATE UNIQUE INDEX pipabsoccxform ON public.pabsoccxform USING btree (puid);
+
+-- Drop table
+
+-- DROP TABLE pac0comment;
+
+CREATE TABLE pac0comment (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0createuserid varchar(32) NOT NULL,
+	pac0commenttitle varchar(128) NOT NULL,
+	ls_2304_3 int4 NOT NULL DEFAULT 0,
+	pac0plaintext varchar(2048) NOT NULL,
+	pac0automsgtype varchar(20) NULL,
+	rac0rootcommentu varchar(15) NULL,
+	rac0rootcommentc int4 NULL,
+	rac0owningconversationu varchar(15) NOT NULL,
+	rac0owningconversationc int4 NOT NULL,
+	pac0datemodified timestamp NOT NULL,
+	pac0createdate timestamp NOT NULL,
+	pac0isquestion int2 NOT NULL,
+	CONSTRAINT pipac0comment PRIMARY KEY (puid)
+);
+CREATE INDEX pipac0comment_0 ON public.pac0comment USING btree (rac0owningconversationu);
+CREATE INDEX pipac0comment_1 ON public.pac0comment USING btree (pac0datemodified);
+
+-- Drop table
+
+-- DROP TABLE pac0comment_0;
+
+CREATE TABLE pac0comment_0 (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0createuserid varchar(32) NOT NULL,
+	pac0commenttitle varchar(128) NOT NULL,
+	ls_2368_3 int4 NOT NULL DEFAULT 0,
+	pac0plaintext varchar(2048) NOT NULL,
+	pac0automsgtype varchar(20) NULL,
+	rac0rootcommentu varchar(15) NULL,
+	rac0rootcommentc int4 NULL,
+	rac0owningconversationu varchar(15) NOT NULL,
+	rac0owningconversationc int4 NOT NULL,
+	pac0datemodified timestamp NOT NULL,
+	pac0createdate timestamp NOT NULL,
+	pac0isquestion int2 NOT NULL,
+	CONSTRAINT pipac0comment_0_0 PRIMARY KEY (puid)
+);
+CREATE INDEX pipac0comment_0_1 ON public.pac0comment_0 USING btree (rac0owningconversationu);
+CREATE INDEX pipac0comment_0_2 ON public.pac0comment_0 USING btree (pac0datemodified);
+
+-- Drop table
+
+-- DROP TABLE pac0commentstatsrecord;
+
+CREATE TABLE pac0commentstatsrecord (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0userid varchar(32) NOT NULL,
+	rac0commentu varchar(15) NOT NULL,
+	rac0commentc int4 NOT NULL,
+	pac0isupvoted int2 NOT NULL,
+	CONSTRAINT pipac0commentstatsrecord PRIMARY KEY (puid)
+);
+CREATE UNIQUE INDEX pipac0commentstatsrecord_0 ON public.pac0commentstatsrecord USING btree (rac0commentu, pac0userid);
+
+-- Drop table
+
+-- DROP TABLE pac0commentstatsrecord_0;
+
+CREATE TABLE pac0commentstatsrecord_0 (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0userid varchar(32) NOT NULL,
+	rac0commentu varchar(15) NOT NULL,
+	rac0commentc int4 NOT NULL,
+	pac0isupvoted int2 NOT NULL,
+	CONSTRAINT pipac0commentstatsrecord_0_0 PRIMARY KEY (puid)
+);
+CREATE UNIQUE INDEX pipac0commentstatsrecord_0_1 ON public.pac0commentstatsrecord_0 USING btree (rac0commentu, pac0userid);
+
+-- Drop table
+
+-- DROP TABLE pac0conversation;
+
+CREATE TABLE pac0conversation (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0createuserid varchar(32) NOT NULL,
+	vla_1782_2 int4 NOT NULL DEFAULT 0,
+	pac0status varchar(128) NULL,
+	pac0priority varchar(128) NULL,
+	pac0closinguserid varchar(32) NULL,
+	pac0dateclosed timestamp NULL,
+	pac0isprivate int2 NULL,
+	CONSTRAINT pipac0conversation PRIMARY KEY (puid)
+);
+
+-- Drop table
+
+-- DROP TABLE pac0conversation_0;
+
+CREATE TABLE pac0conversation_0 (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0createuserid varchar(32) NOT NULL,
+	vla_2365_2 int4 NOT NULL DEFAULT 0,
+	pac0status varchar(128) NULL,
+	pac0priority varchar(128) NULL,
+	pac0closinguserid varchar(32) NULL,
+	pac0dateclosed timestamp NULL,
+	pac0isprivate int2 NULL,
+	CONSTRAINT pipac0conversation_0 PRIMARY KEY (puid)
+);
+
+-- Drop table
+
+-- DROP TABLE pac0conversationsrcrel;
+
+CREATE TABLE pac0conversationsrcrel (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0sourcerefstring varchar(128) NOT NULL,
+	pac0source varchar(28) NOT NULL,
+	rac0conversationu varchar(15) NOT NULL,
+	rac0conversationc int4 NOT NULL,
+	CONSTRAINT pipac0conversationsrcrel PRIMARY KEY (puid)
+);
+CREATE UNIQUE INDEX pipac0conversationsrcrel_0 ON public.pac0conversationsrcrel USING btree (rac0conversationu, pac0source);
+
+-- Drop table
+
+-- DROP TABLE pac0conversationsrcrel_0;
+
+CREATE TABLE pac0conversationsrcrel_0 (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0sourcerefstring varchar(128) NOT NULL,
+	pac0source varchar(28) NOT NULL,
+	rac0conversationu varchar(15) NOT NULL,
+	rac0conversationc int4 NOT NULL,
+	CONSTRAINT pipac0conversationsrcrel_0_0 PRIMARY KEY (puid)
+);
+CREATE UNIQUE INDEX pipac0conversationsrcrel_0_1 ON public.pac0conversationsrcrel_0 USING btree (rac0conversationu, pac0source);
+
+-- Drop table
+
+-- DROP TABLE pac0privateparticipants;
+
+CREATE TABLE pac0privateparticipants (
+	puid varchar(15) NOT NULL,
+	pseq int4 NOT NULL,
+	pval_0 varchar(32) NULL,
+	CONSTRAINT pipac0privateparticipants PRIMARY KEY (puid, pseq) DEFERRABLE INITIALLY DEFERRED
+);
+CREATE INDEX pipac0privateparticipants_0 ON public.pac0privateparticipants USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE pac0privateparticipants_0;
+
+CREATE TABLE pac0privateparticipants_0 (
+	puid varchar(15) NOT NULL,
+	pseq int4 NOT NULL,
+	pval_0 varchar(32) NULL,
+	CONSTRAINT pipac0privateparticipants_0_0 PRIMARY KEY (puid, pseq) DEFERRABLE INITIALLY DEFERRED
+);
+CREATE INDEX pipac0privateparticipants_0_1 ON public.pac0privateparticipants_0 USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE pac0richtext;
+
+CREATE TABLE pac0richtext (
+	puid varchar(15) NOT NULL,
+	pval text NOT NULL,
+	CONSTRAINT pipac0richtext PRIMARY KEY (puid)
+);
+
+-- Drop table
+
+-- DROP TABLE pac0richtext_0;
+
+CREATE TABLE pac0richtext_0 (
+	puid varchar(15) NOT NULL,
+	pval text NOT NULL,
+	CONSTRAINT pipac0richtext_0 PRIMARY KEY (puid)
+);
+
+-- Drop table
+
+-- DROP TABLE pac0subscriptionrecord;
+
+CREATE TABLE pac0subscriptionrecord (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0userid varchar(32) NOT NULL,
+	pac0targetobject varchar(28) NULL,
+	rac0targetconversationu varchar(15) NULL,
+	rac0targetconversationc int4 NULL,
+	CONSTRAINT pipac0subscriptionrecord PRIMARY KEY (puid)
+);
+
+-- Drop table
+
+-- DROP TABLE pac0subscriptionrecord_0;
+
+CREATE TABLE pac0subscriptionrecord_0 (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0userid varchar(32) NOT NULL,
+	pac0targetobject varchar(28) NULL,
+	rac0targetconversationu varchar(15) NULL,
+	rac0targetconversationc int4 NULL,
+	CONSTRAINT pipac0subscriptionrecord_0 PRIMARY KEY (puid)
+);
+
+-- Drop table
+
+-- DROP TABLE pac0userfeedrecord;
+
+CREATE TABLE pac0userfeedrecord (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0affecteduserid varchar(32) NOT NULL,
+	rac0affectedcommentu varchar(15) NULL,
+	rac0affectedcommentc int4 NULL,
+	rac0affectedconversationu varchar(15) NULL,
+	rac0affectedconversationc int4 NULL,
+	pac0entrydate timestamp NOT NULL,
+	pac0isread int2 NOT NULL,
+	CONSTRAINT pipac0userfeedrecord PRIMARY KEY (puid)
+);
+CREATE UNIQUE INDEX pipac0userfeedrecord_0 ON public.pac0userfeedrecord USING btree (pac0affecteduserid);
+
+-- Drop table
+
+-- DROP TABLE pac0userfeedrecord_0;
+
+CREATE TABLE pac0userfeedrecord_0 (
+	puid varchar(15) NOT NULL,
+	ptimestamp varchar(33) NOT NULL,
+	ppid int4 NOT NULL,
+	rowning_siteu varchar(15) NULL,
+	rowning_sitec int4 NULL,
+	plsd timestamp NULL,
+	pobject_properties int2 NOT NULL,
+	pac0affecteduserid varchar(32) NOT NULL,
+	rac0affectedcommentu varchar(15) NULL,
+	rac0affectedcommentc int4 NULL,
+	rac0affectedconversationu varchar(15) NULL,
+	rac0affectedconversationc int4 NULL,
+	pac0entrydate timestamp NOT NULL,
+	pac0isread int2 NOT NULL,
+	CONSTRAINT pipac0userfeedrecord_0_0 PRIMARY KEY (puid)
+);
+CREATE UNIQUE INDEX pipac0userfeedrecord_0_1 ON public.pac0userfeedrecord_0 USING btree (pac0affecteduserid);
+
+-- Drop table
+
+-- DROP TABLE paccessor;
+
+CREATE TABLE paccessor (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pval_0 varchar(28) NULL
+);
+CREATE INDEX pipaccessor ON public.paccessor USING btree (puid, pseq);
+CREATE INDEX pipaccessor_0 ON public.paccessor USING btree (pval_0);
+
+-- Drop table
+
+-- DROP TABLE paccessor_0;
+
+CREATE TABLE paccessor_0 (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipaccessor_0_0 ON public.paccessor_0 USING btree (puid, pseq);
+CREATE INDEX pipaccessor_0_1 ON public.paccessor_0 USING btree (pvalu_0);
+
+-- Drop table
+
+-- DROP TABLE paccessor_list;
