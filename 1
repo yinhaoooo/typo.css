@@ -423,3 +423,13 @@ CREATE UNIQUE INDEX pippsbomview ON public.ppsbomview USING btree (puid);
 CREATE INDEX pippsbomview_0 ON public.ppsbomview USING btree (rparent_itemu, rview_typeu);
 CREATE INDEX pippsbomview_1 ON public.ppsbomview USING btree (rview_typeu);
 
+CREATE TABLE palt_items (
+	puid varchar(15) NOT NULL,
+	pseq int8 NOT NULL,
+	pvalu_0 varchar(15) NULL,
+	pvalc_0 int8 NULL
+);
+CREATE INDEX pipalt_items ON public.palt_items USING btree (puid, pseq);
+CREATE INDEX pipalt_items_0 ON public.palt_items USING btree (pvalu_0);
+
+
