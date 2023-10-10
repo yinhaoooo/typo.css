@@ -1,42 +1,192 @@
-explain analyze /*+ Set(enable_hashjoin off)
+tc=# explain analyze
+/*+leading(t_08 t_09)
+Set(enable_hashjoin off)
 Set(enable_mergejoin off)
-IndexScan(t_08 pipitem_0)
-IndexScan(t_09 pipmeop)
-IndexScan(t_07 pippsoccurrence_1)
-IndexScan(t_06 pippsbomviewrevision)
-IndexScan(t_011 pipstructure_revisions_0)
-IndexScan(t_010 pipmfg0meprocstatnrevision)
-IndexScan(t_012 pipitemrevision_3)
-IndexScan(t_013 pipmfg0meprocstatn)
-IndexScan(t_05 pippsoccurrence_1)
-IndexScan(t_04 pippsbomviewrevision)
-IndexScan(t_015 pipstructure_revisions_0)
-IndexScan(t_014 pipmfg0meproclinerevision)
-IndexScan(t_016 pipitemrevision_3)
-IndexScan(t_017 pipmfg0meprocline)
-IndexScan(t_018 pippsoccurrence_1)
-IndexScan(t_019 pippsbomviewrevision)
-IndexScan(t_03 pipstructure_revisions_0)
-IndexScan(t_02 pippsbomviewrevision)
-IndexScan(t_01 pipworkspaceobject)
-Parallel(t_01 0 hard)
-Parallel(t_02 0 hard)
-Parallel(t_03 0 hard)
-Parallel(t_04 0 hard)
-Parallel(t_05 0 hard)
-Parallel(t_06 0 hard)
-Parallel(t_07 0 hard)
-Parallel(t_08 0 hard)
-Parallel(t_09 0 hard)
-Parallel(t_010 0 hard)
-Parallel(t_011 0 hard)
-Parallel(t_012 0 hard)
-Parallel(t_013 0 hard)
-Parallel(t_014 0 hard)
-Parallel(t_015 0 hard)
-Parallel(t_016 0 hard)
-Parallel(t_017 0 hard)
-Parallel(t_018 0 hard)
-Parallel(t_019 0 hard)
-leading((((t_08 t_09) t_07) t_06) t_011)
- */
+Set(max_parallel_workers_per_gather 0)
+*/
+select
+    distinct t_02.puid
+from
+    PWORKSPACEOBJECT t_01 ,
+    PMFG0MEPLANTBOPREVISION t_02 ,
+    PSTRUCTURE_REVISIONS t_03 ,
+    PPSBOMVIEWREVISION t_04 ,
+    PPSOCCURRENCE t_05 ,
+    PPSBOMVIEWREVISION t_06 ,
+    PPSOCCURRENCE t_07 ,
+    PITEM t_08 ,
+    PMEOP t_09 ,
+    PMFG0MEPROCSTATNREVISION t_010 ,
+    PSTRUCTURE_REVISIONS t_011 ,
+    PITEMREVISION t_012 ,
+    PMFG0MEPROCSTATN t_013 ,
+    PMFG0MEPROCLINEREVISION t_014 ,
+    PSTRUCTURE_REVISIONS t_015 ,
+    PITEMREVISION t_016 ,
+    PMFG0MEPROCLINE t_017 ,
+    PPSOCCURRENCE t_018 ,
+    PPSBOMVIEWREVISION t_019
+where
+    ( ( ( ( t_03.pvalu_0 = t_019.puid )
+    and ( ( t_019.puid = t_018.rparent_bvru )
+    and ( ( t_018.rchild_itemu = t_017.puid )
+    and ( ( t_017.puid = t_016.ritems_tagu )
+    and ( ( t_015.pvalu_0 = t_04.puid )
+    and ( ( t_04.puid = t_05.rparent_bvru )
+    and ( ( t_05.rchild_itemu = t_013.puid )
+    and ( ( t_013.puid = t_012.ritems_tagu )
+    and ( ( t_011.pvalu_0 = t_06.puid )
+    and ( ( t_06.puid = t_07.rparent_bvru )
+    and ( ( t_07.rchild_itemu = t_09.puid )
+    and ( upper(t_08.pitem_id) = upper('2738711') ) ) ) ) ) ) ) ) ) ) ) )
+    and ( t_01.pactive_seq != '0'::int4 ) )
+    and ( t_01.puid = t_02.puid
+    and t_02.puid = t_03.puid
+    and t_010.puid = t_011.puid
+    and t_011.puid = t_012.puid
+    and t_014.puid = t_015.puid
+    and t_015.puid = t_016.puid
+    and t_08.puid = t_09.puid ) );
+LOG:  pg_hint_plan:
+used hint:
+Set(enable_hashjoin off)
+Set(enable_mergejoin off)
+Set(max_parallel_workers_per_gather 0)
+not used hint:
+Leading(t_08 t_09)
+duplication hint:
+error hint:
+
+LOG:  duration: 3936.365 ms  statement: explain analyze
+/*+leading(t_08 t_09)
+Set(enable_hashjoin off)
+Set(enable_mergejoin off)
+Set(max_parallel_workers_per_gather 0)
+*/
+select
+    distinct t_02.puid
+from
+    PWORKSPACEOBJECT t_01 ,
+    PMFG0MEPLANTBOPREVISION t_02 ,
+    PSTRUCTURE_REVISIONS t_03 ,
+    PPSBOMVIEWREVISION t_04 ,
+    PPSOCCURRENCE t_05 ,
+    PPSBOMVIEWREVISION t_06 ,
+    PPSOCCURRENCE t_07 ,
+    PITEM t_08 ,
+    PMEOP t_09 ,
+    PMFG0MEPROCSTATNREVISION t_010 ,
+    PSTRUCTURE_REVISIONS t_011 ,
+    PITEMREVISION t_012 ,
+    PMFG0MEPROCSTATN t_013 ,
+    PMFG0MEPROCLINEREVISION t_014 ,
+    PSTRUCTURE_REVISIONS t_015 ,
+    PITEMREVISION t_016 ,
+    PMFG0MEPROCLINE t_017 ,
+    PPSOCCURRENCE t_018 ,
+    PPSBOMVIEWREVISION t_019
+where
+    ( ( ( ( t_03.pvalu_0 = t_019.puid )
+    and ( ( t_019.puid = t_018.rparent_bvru )
+    and ( ( t_018.rchild_itemu = t_017.puid )
+    and ( ( t_017.puid = t_016.ritems_tagu )
+    and ( ( t_015.pvalu_0 = t_04.puid )
+    and ( ( t_04.puid = t_05.rparent_bvru )
+    and ( ( t_05.rchild_itemu = t_013.puid )
+    and ( ( t_013.puid = t_012.ritems_tagu )
+    and ( ( t_011.pvalu_0 = t_06.puid )
+    and ( ( t_06.puid = t_07.rparent_bvru )
+    and ( ( t_07.rchild_itemu = t_09.puid )
+    and ( upper(t_08.pitem_id) = upper('2738711') ) ) ) ) ) ) ) ) ) ) ) )
+    and ( t_01.pactive_seq != '0'::int4 ) )
+    and ( t_01.puid = t_02.puid
+    and t_02.puid = t_03.puid
+    and t_010.puid = t_011.puid
+    and t_011.puid = t_012.puid
+    and t_014.puid = t_015.puid
+    and t_015.puid = t_016.puid
+    and t_08.puid = t_09.puid ) );
+                                                                                                             QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Unique  (cost=119269698.65..119269701.78 rows=627 width=15) (actual time=3850.481..3850.499 rows=3 loops=1)
+   ->  Sort  (cost=119269698.65..119269700.21 rows=627 width=15) (actual time=3850.480..3850.493 rows=9 loops=1)
+         Sort Key: t_02.puid
+         Sort Method: quicksort  Memory: 25kB
+         ->  Nested Loop  (cost=8.14..119269669.51 rows=627 width=15) (actual time=3497.757..3850.476 rows=9 loops=1)
+               Join Filter: ((t_03.pvalu_0)::text = (t_018.rparent_bvru)::text)
+               Rows Removed by Join Filter: 1048275
+               ->  Nested Loop  (cost=6.71..74230161.91 rows=1163775 width=15) (actual time=2308.783..2486.479 rows=18 loops=1)
+                     ->  Nested Loop  (cost=6.13..40195939.17 rows=278 width=30) (actual time=2308.765..2486.390 rows=3 loops=1)
+                           ->  Nested Loop  (cost=5.70..40195629.67 rows=278 width=60) (actual time=2308.748..2486.352 rows=3 loops=1)
+                                 Join Filter: ((t_014.puid)::text = (t_015.puid)::text)
+                                 Rows Removed by Join Filter: 1017138
+                                 ->  Nested Loop  (cost=4.72..19515594.09 rows=52102 width=45) (actual time=0.139..0.322 rows=3 loops=1)
+                                       ->  Nested Loop  (cost=4.29..19422665.17 rows=52102 width=15) (actual time=0.129..0.290 rows=3 loops=1)
+                                             ->  Nested Loop  (cost=3.85..19364659.67 rows=52102 width=45) (actual time=0.115..0.254 rows=3 loops=1)
+                                                   ->  Nested Loop  (cost=3.43..19099299.69 rows=239783 width=75) (actual time=0.101..0.211 rows=3 loops=1)
+                                                         ->  Nested Loop  (cost=2.85..125568.67 rows=155 width=90) (actual time=0.089..0.172 rows=3 loops=1)
+                                                               ->  Nested Loop  (cost=2.43..124724.12 rows=764 width=75) (actual time=0.074..0.135 rows=3 loops=1)
+                                                                     ->  Nested Loop  (cost=1.87..123774.95 rows=764 width=45) (actual time=0.059..0.099 rows=3 loops=1)
+                                                                           ->  Nested Loop  (cost=1.44..122412.28 rows=764 width=15) (actual time=0.048..0.059 rows=3 loops=1)
+                                                                                 ->  Nested Loop  (cost=0.86..5.30 rows=1 width=30) (actual time=0.033..0.036 rows=1 loops=1)
+                                                                                       ->  Index Scan using pipitem_0 on pitem t_08  (cost=0.43..2.65 rows=1 width=15) (actual time=0.015..0.017 rows=1 loops=1)
+                                                                                             Index Cond: (upper((pitem_id)::text) = '2738711'::text)
+                                                                                       ->  Index Only Scan using pipmeop on pmeop t_09  (cost=0.43..2.65 rows=1 width=15) (actual time=0.015..0.015 rows=1 loops=1)
+                                                                                             Index Cond: (puid = (t_08.puid)::text)
+                                                                                             Heap Fetches: 1
+                                                                                 ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_07  (cost=0.57..120638.35 rows=176863 width=30) (actual time=0.013..0.019 rows=3 loops=1)
+                                                                                       Index Cond: ((rchild_itemu)::text = (t_09.puid)::text)
+                                                                           ->  Index Scan using pipstructure_revisions_0 on pstructure_revisions t_011  (cost=0.43..1.77 rows=1 width=30) (actual time=0.010..0.011 rows=1 loops=3)
+                                                                                 Index Cond: ((pvalu_0)::text = (t_07.rparent_bvru)::text)
+                                                                     ->  Index Only Scan using pipitemrevision_3 on pitemrevision t_012  (cost=0.56..1.24 rows=1 width=30) (actual time=0.010..0.010 rows=1 loops=3)
+                                                                           Index Cond: (puid = (t_011.puid)::text)
+                                                                           Heap Fetches: 3
+                                                               ->  Index Only Scan using pipmfg0meprocstatn on pmfg0meprocstatn t_013  (cost=0.42..1.11 rows=1 width=15) (actual time=0.010..0.010 rows=1 loops=3)
+                                                                     Index Cond: (puid = (t_012.ritems_tagu)::text)
+                                                                     Heap Fetches: 3
+                                                         ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_05  (cost=0.57..120642.54 rows=176863 width=30) (actual time=0.010..0.011 rows=1 loops=3)
+                                                               Index Cond: ((rchild_itemu)::text = (t_013.puid)::text)
+                                                   ->  Index Only Scan using pipmfg0meprocstatnrevision on pmfg0meprocstatnrevision t_010  (cost=0.42..1.11 rows=1 width=15) (actual time=0.012..0.012 rows=1 loops=3)
+                                                         Index Cond: (puid = (t_011.puid)::text)
+                                                         Heap Fetches: 3
+                                             ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_06  (cost=0.43..1.11 rows=1 width=15) (actual time=0.009..0.009 rows=1 loops=3)
+                                                   Index Cond: (puid = (t_011.pvalu_0)::text)
+                                                   Heap Fetches: 3
+                                       ->  Index Scan using pipstructure_revisions_0 on pstructure_revisions t_015  (cost=0.43..1.77 rows=1 width=30) (actual time=0.008..0.009 rows=1 loops=3)
+                                             Index Cond: ((pvalu_0)::text = (t_05.rparent_bvru)::text)
+                                 ->  Materialize  (cost=0.98..804228.21 rows=25432 width=60) (actual time=0.015..790.035 rows=339047 loops=3)
+                                       ->  Nested Loop  (cost=0.98..804101.05 rows=25432 width=60) (actual time=0.030..2142.055 rows=339047 loops=1)
+                                             ->  Nested Loop  (cost=0.56..431810.33 rows=338646 width=45) (actual time=0.019..1231.846 rows=339047 loops=1)
+                                                   ->  Seq Scan on pmfg0meproclinerevision t_014  (cost=0.00..5222.46 rows=338646 width=15) (actual time=0.006..42.942 rows=339047 loops=1)
+                                                   ->  Index Only Scan using pipitemrevision_3 on pitemrevision t_016  (cost=0.56..1.26 rows=1 width=30) (actual time=0.003..0.003 rows=1 loops=339047)
+                                                         Index Cond: (puid = (t_014.puid)::text)
+                                                         Heap Fetches: 503
+                                             ->  Index Only Scan using pipmfg0meprocline on pmfg0meprocline t_017  (cost=0.42..1.10 rows=1 width=15) (actual time=0.002..0.002 rows=1 loops=339047)
+                                                   Index Cond: (puid = (t_016.ritems_tagu)::text)
+                                                   Heap Fetches: 651
+                           ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_04  (cost=0.43..1.11 rows=1 width=15) (actual time=0.010..0.010 rows=1 loops=3)
+                                 Index Cond: (puid = (t_015.pvalu_0)::text)
+                                 Heap Fetches: 3
+                     ->  Index Scan using pippsoccurrence_1 on ppsoccurrence t_018  (cost=0.57..120656.63 rows=176863 width=30) (actual time=0.013..0.024 rows=6 loops=3)
+                           Index Cond: ((rchild_itemu)::text = (t_017.puid)::text)
+               ->  Materialize  (cost=1.43..280727.52 rows=2564 width=45) (actual time=0.004..68.634 rows=58238 loops=18)
+                     ->  Nested Loop  (cost=1.43..280714.70 rows=2564 width=45) (actual time=0.065..1160.806 rows=58238 loops=1)
+                           ->  Nested Loop  (cost=1.00..277860.18 rows=2564 width=30) (actual time=0.054..870.254 rows=58238 loops=1)
+                                 ->  Nested Loop  (cost=0.57..168147.65 rows=61508 width=30) (actual time=0.041..500.780 rows=58247 loops=1)
+                                       ->  Seq Scan on pmfg0meplantboprevision t_02  (cost=0.00..1025.41 rows=61741 width=15) (actual time=0.008..6.827 rows=61795 loops=1)
+                                       ->  Index Scan using pipworkspaceobject on pworkspaceobject t_01  (cost=0.57..2.71 rows=1 width=15) (actual time=0.008..0.008 rows=1 loops=61795)
+                                             Index Cond: ((puid)::text = (t_02.puid)::text)
+                                             Filter: (pactive_seq <> 0)
+                                             Rows Removed by Filter: 0
+                                 ->  Index Scan using pipstructure_revisions on pstructure_revisions t_03  (cost=0.43..1.77 rows=1 width=30) (actual time=0.006..0.006 rows=1 loops=58247)
+                                       Index Cond: ((puid)::text = (t_01.puid)::text)
+                           ->  Index Only Scan using pippsbomviewrevision on ppsbomviewrevision t_019  (cost=0.43..1.11 rows=1 width=15) (actual time=0.005..0.005 rows=1 loops=58238)
+                                 Index Cond: (puid = (t_03.pvalu_0)::text)
+                                 Heap Fetches: 124
+ Planning Time: 79.576 ms
+ Execution Time: 3855.926 ms
+(77 rows)
+
+Time: 3936.587 ms (00:03.937)
+tc=#
+
