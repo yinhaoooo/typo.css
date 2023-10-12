@@ -1,116 +1,25 @@
-explain analyze/*+Set(enable_hashjoin off)
-Set(enable_mergejoin off) 
+序号25
+explain analyze /*+ 
+Set(enable_hashjoin off)
+Set(enable_mergejoin off)
 Set(max_parallel_workers_per_gather 0)
-Set(from_collapse_limit 20)
-Set(join_collapse_limit 20)
-Set(geqo_threshold 20)
+*/
+SELECT  DISTINCT t_01.puid FROM PH6WITEMPLATECFG t_01 , VL10N_OBJECT_NAME t_02 WHERE (  ( UPPER(t_02.pval_0)  =  UPPER( '贴条码'  )  ) AND ( t_02.locale IN  ( 'NONE', 'zh_CN'  ) AND ( ( t_01.puid = t_02.puid ) AND t_02.status IN  ('A' , 'M'  ) ) ) ) ;
 
- */
-SELECT  DISTINCT t_01.puid FROM PH6PCBPROBOP t_01 , PIMANRELATION t_02 , PIMANRELATION t_03 , PIMANRELATION t_04 , PH6HWPART t_05 , PITEM t_06 , PWORKSPACEOBJECT t_07 , PSTRUCTURECONTEXT t_08 , PMECOLLABORATIONCONTEXT t_09 , PWORKSPACEOBJECT t_010 , PSTRUCTURECONTEXT t_011 , PIMANRELATION t_012 , PIMANRELATION t_013 , PIMANRELATION t_014 , PIMANRELATION t_015 , PIMANRELATION t_016 , PH6HWPARTREVISION t_017 , PITEMREVISION t_018 , PIMANRELATION t_019 , PIMANRELATION t_020 , VL10N_OBJECT_NAME t_021 WHERE ( ( ( ( ( ( t_01.puid = t_012.rsecondary_objectu ) AND ( ( t_012.rrelation_typeu = 'RUftCECe47UIUC'  ) AND ( ( t_012.rprimary_objectu = t_011.puid ) AND ( ( t_011.puid = t_02.rsecondary_objectu ) AND ( ( t_02.rrelation_typeu = 'B0ftCECe47UIUC'  ) AND ( ( t_02.rprimary_objectu = t_09.puid ) AND ( ( t_09.puid = t_03.rprimary_objectu ) AND ( ( t_03.rrelation_typeu = 'B0ftCECe47UIUC'  ) AND ( ( t_03.rsecondary_objectu = t_08.puid ) AND ( ( t_08.puid = t_04.rprimary_objectu ) AND ( ( t_04.rrelation_typeu = 'RUftCECe47UIUC'  ) AND ( ( t_04.rsecondary_objectu = t_05.puid ) AND  ( UPPER(t_06.pitem_id)  =  UPPER( 'TRIAL_03025XMA'  )  ) ) ) ) ) ) ) ) ) ) ) ) ) AND ( ( ( t_01.puid = t_013.rsecondary_objectu ) AND ( ( t_013.rrelation_typeu = 'RUftCECe47UIUC'  ) AND ( ( t_013.rprimary_objectu = t_011.puid ) AND ( ( t_011.puid = t_014.rsecondary_objectu ) AND ( ( t_014.rrelation_typeu = 'B0ftCECe47UIUC'  ) AND ( ( t_014.rprimary_objectu = t_09.puid ) AND ( ( t_09.puid = t_015.rprimary_objectu ) AND ( ( t_015.rrelation_typeu = 'B0ftCECe47UIUC'  ) AND ( ( t_015.rsecondary_objectu = t_08.puid ) AND ( ( t_08.puid = t_016.rprimary_objectu ) AND ( ( t_016.rrelation_typeu = 'RUftCECe47UIUC'  ) AND ( ( t_016.rsecondary_objectu = t_05.puid ) AND ( ( t_05.puid = t_018.ritems_tagu ) AND  ( UPPER(t_017.ph6DrawingVersion)  =  UPPER( 'A'   )  ) ) ) ) ) ) ) ) ) ) ) ) ) ) AND ( ( t_01.puid = t_019.rsecondary_objectu ) AND ( ( t_019.rrelation_typeu = 'RUftCECe47UIUC'   ) AND ( ( t_019.rprimary_objectu = t_011.puid ) AND ( ( t_011.puid = t_020.rsecondary_objectu ) AND ( ( t_020.rrelation_typeu = 'B0ftCECe47UIUC'   ) AND ( ( t_020.rprimary_objectu = t_09.puid ) AND (  UPPER(t_021.pval_0)  LIKE  UPPER( '%图纸版本A%'   )  AND ( t_021.locale IN  ('NONE'  , 'zh_CN'   ) AND ( ( t_09.puid = t_021.puid ) AND t_021.status IN  ('A'  , 'M'   ) ) ) ) ) ) ) ) ) ) ) ) AND ( t_05.puid = t_06.puid AND t_010.puid = t_011.puid AND t_017.puid = t_018.puid AND t_07.puid = t_08.puid ) ) AND t_07.pobject_type = 'MEProductContext' ) AND t_010.pobject_type = 'MEProcessContext' ) AND (t_02.arev_category IN (48,40)) AND (t_03.arev_category IN (48,40)) AND (t_04.arev_category IN (48,40)) AND (t_012.arev_category IN (48,40)) AND (t_013.arev_category IN (48,40)) AND (t_014.arev_category IN (48,40)) AND (t_015.arev_category IN (48,40)) AND (t_016.arev_category IN (48,40)) AND (t_019.arev_category IN (48,40)) AND (t_020.arev_category IN (48,40));
+序号27
+explain analyze /*+ 
+Set(enable_hashjoin off)
+Set(enable_mergejoin off)
+Set(max_parallel_workers_per_gather 0)
+Leading(t_014 t_015 t_07 t_06 t_05 t_04 t_03 t_03 t_08 t_010 t_09 t_011 t_012 t_013 t_02 t_01)
+*/
+SELECT  DISTINCT t_01.puid FROM PH6HWPARTREVISION t_01 , PITEMREVISION t_02 , PPSOCCURRENCE t_03 , PWORKSPACEOBJECT t_04 , PSTRUCTURE_REVISIONS t_05 , PH6HWPARTREVISION t_06 , PITEMREVISION t_07 , PITEM t_08 , PSTRUCTURE_REVISIONS t_09 , PITEMREVISION t_010 , PWORKSPACEOBJECT t_011 , PPSOCCURRENCE t_012 , PH6HWPART t_013 , PH6HWPART t_014 , PITEM t_015 WHERE ( (  UPPER(t_01.ph6CategoryCode)  IN  ( UPPER( '0301'  ) ,  UPPER( '0301A'  ) ,  UPPER( '0301B'  ) ,  UPPER( '0301C'  ) ,  UPPER( '0301D'  ) ,  UPPER( '0301E'  ) ,  UPPER( '0301F'  ) ,  UPPER( '0301G'  ) ,  UPPER( '0301H'  ) ,  UPPER( '0301J'   ) ,  UPPER( '0301K'   ) ,  UPPER( '0301L'   ) ,  UPPER( '0301M'   ) ,  UPPER( '0301N'   ) ,  UPPER( '0301P'   ) ,  UPPER( '0301Q'   ) ,  UPPER( '0301R'   ) ,  UPPER( '0301S'   ) ,  UPPER( '0301T'   ) ,  UPPER( '0301U'   ) ,  UPPER( '0301V'   ) ,  UPPER( '0301W'   ) ,  UPPER( '0308'   ) ,  UPPER( '0310A'   ) ,  UPPER( '0310B'   ) ,  UPPER( '0312'   ) ,  UPPER( '0312A'   ) ,  UPPER( '0312B'   ) ,  UPPER( '0312C'   ) ,  UPPER( '0313A'   ) ,  UPPER( '0313B'   ) ,  UPPER( '0313C'   ) ,  UPPER( '0313D'   ) ,  UPPER( '0370'   ) ,  UPPER( '0370V'   ) ,  UPPER( '0371'   ) ,  UPPER( '0372'   ) ,  UPPER( '0373'   ) ,  UPPER( '0374'   ) ,  UPPER( '0375A'   ) ,  UPPER( '0375B'   ) ,  UPPER( '0375C'   ) ,  UPPER( '0375D'   ) ,  UPPER( '0375F'   ) ,  UPPER( '0375H'   ) ,  UPPER( '0379A'   ) ,  UPPER( '0379B'   ) ,UPPER( '0379C'   ) ) AND ( ( ( t_02.ritems_tagu = t_013.puid ) AND ( ( t_013.puid = t_012.rchild_itemu ) AND ( ( t_012.rparent_bvru = t_011.aoid ) AND ( ( t_011.aoid = t_09.pvalu_0 ) AND ( ( t_010.ritems_tagu = t_08.puid ) AND ( ( t_08.puid = t_03.rchild_itemu ) AND ( ( t_03.rparent_bvru = t_04.aoid ) AND ( ( t_04.aoid = t_05.pvalu_0 ) AND  ( UPPER(t_06.ph6PDMVersion)  =  UPPER( 'E.3'   )  ) ) ) ) ) ) ) ) ) ;
 
-Unique  (cost=5902099.46..5925466.65 rows=1 width=15) (actual time=100038.875..100094.411 rows=1 loops=1)
-  ->  Nested Loop  (cost=5902099.46..5925466.64 rows=1 width=15) (actual time=100038.873..100094.406 rows=6 loops=1)
-        ->  Nested Loop  (cost=5902098.90..5925465.09 rows=1 width=120) (actual time=100038.854..100094.369 rows=6 loops=1)
-              Join Filter: ((t_012.rprimary_objectu)::text = (t_014.rsecondary_objectu)::text)
-              ->  Nested Loop  (cost=5902098.33..5925462.36 rows=1 width=195) (actual time=100038.833..100094.324 rows=6 loops=1)
-                    Join Filter: ((t_012.rsecondary_objectu)::text = (t_01.puid)::text)
-                    Rows Removed by Join Filter: 513882
-                    ->  Index Only Scan using piph6pcbprobop on ph6pcbprobop t_01  (cost=0.29..424.12 rows=21362 width=15) (actual time=0.016..2.648 rows=21412 loops=1)
-                          Heap Fetches: 500
-                    ->  Materialize  (cost=5902098.04..5924717.81 rows=1 width=225) (actual time=4.641..4.671 rows=24 loops=21412)
-                          ->  Nested Loop  (cost=5902098.04..5924717.81 rows=1 width=225) (actual time=99362.394..99981.677 rows=24 loops=1)
-                                ->  Nested Loop  (cost=5902097.61..5924717.35 rows=1 width=210) (actual time=99362.383..99981.594 rows=24 loops=1)
-                                      Join Filter: ((t_03.rsecondary_objectu)::text = (t_08.puid)::text)
-                                      ->  Nested Loop  (cost=5902097.18..5924716.89 rows=1 width=285) (actual time=99362.367..99981.502 rows=24 loops=1)
-                                            Join Filter: ((t_03.rsecondary_objectu)::text = (t_07.puid)::text)
-                                            ->  Nested Loop  (cost=5902096.61..5924715.32 rows=1 width=270) (actual time=99362.349..99981.390 rows=24 loops=1)
-                                                  Join Filter: ((t_03.rsecondary_objectu)::text = (t_016.rprimary_objectu)::text)
-                                                  ->  Nested Loop  (cost=5902096.05..5924713.89 rows=1 width=315) (actual time=99362.338..99981.275 rows=24 loops=1)
-                                                        ->  Nested Loop  (cost=5902095.62..5924712.00 rows=4 width=330) (actual time=99362.320..99981.148 rows=24 loops=1)
-                                                              ->  Nested Loop  (cost=5902095.06..5924711.30 rows=1 width=300) (actual time=99362.304..99981.107 rows=4 loops=1)
-                                                                    ->  Nested Loop  (cost=5902094.49..5924709.88 rows=1 width=270) (actual time=99362.294..99981.082 rows=4 loops=1)
-                                                                          ->  Nested Loop  (cost=5902094.06..5924709.43 rows=1 width=255) (actual time=99362.279..99981.057 rows=4 loops=1)
-                                                                                ->  Nested Loop  (cost=5902093.49..5924708.00 rows=1 width=225) (actual time=99362.259..99981.017 rows=4 loops=1)
-                                                                                      Join Filter: ((t_04.rsecondary_objectu)::text = (t_06.puid)::text)
-                                                                                      Rows Removed by Join Filter: 222243
-                                                                                      ->  Nested Loop  (cost=5902093.06..5924704.09 rows=84 width=210) (actual time=97209.542..99899.213 rows=222247 loops=1)
-                                                                                            ->  Nested Loop  (cost=5902092.49..5924607.78 rows=9 width=180) (actual time=97209.535..99177.792 rows=172898 loops=1)
-                                                                                                  ->  Nested Loop  (cost=5902091.93..5924597.08 rows=1 width=150) (actual time=97209.524..98492.293 rows=135250 loops=1)
-                                                                                                        Join Filter: ((t_09.puid)::text = (t_02.rprimary_objectu)::text)
-                                                                                                        ->  Nested Loop  (cost=5902091.36..5924594.35 rows=1 width=120) (actual time=97209.515..97893.851 rows=135250 loops=1)
-                                                                                                              Join Filter: ((t_09.puid)::text = (t_020.rprimary_objectu)::text)
-                                                                                                              ->  Nested Loop  (cost=5902090.79..5924591.60 rows=1 width=90) (actual time=97209.506..97636.286 rows=37532 loops=1)
-                                                                                                                    Join Filter: ((t_09.puid)::text = (t_015.rprimary_objectu)::text)
-                                                                                                                    ->  Nested Loop  (cost=5902090.22..5924318.66 rows=100 width=60) (actual time=97209.489..97446.326 rows=37532 loops=1)
-                                                                                                                          ->  Nested Loop  (cost=5902089.94..5923883.34 rows=1418 width=45) (actual time=97209.478..97365.385 rows=37532 loops=1)
-                                                                                                                                ->  Merge Append  (cost=5902089.37..5902206.24 rows=7765 width=15) (actual time=97209.455..97216.685 rows=23344 loops=1)
-                                                                                                                                      Sort Key: "*SELECT* 1".puid
-                                                                                                                                      ->  Sort  (cost=5902089.09..5902108.50 rows=7764 width=15) (actual time=97209.214..97213.845 rows=23344 loops=1)
-                                                                                                                                            Sort Key: "*SELECT* 1".puid
-                                                                                                                                            Sort Method: quicksort  Memory: 1863kB
-                                                                                                                                            ->  Subquery Scan on "*SELECT* 1"  (cost=0.00..5901587.43 rows=7764 width=15) (actual time=46.592..97196.240 rows=23344 loops=1)
-                                                                                                                                                  ->  Seq Scan on pworkspaceobject  (cost=0.00..5901509.79 rows=7764 width=175) (actual time=46.592..97192.607 rows=23344 loops=1)
-                                                                                                                                                        Filter: ((pobject_name IS NOT NULL) AND (vla_691_23 = 0) AND (upper((pobject_name)::text) ~~ '%图纸版本A%'::text))
-                                                                                                                                                        Rows Removed by Filter: 114221632
-                                                                                                                                      ->  Index Scan using pipl10n_object_name on pl10n_object_name  (cost=0.27..20.08 rows=1 width=15) (actual time=0.240..0.240 rows=0 loops=1)
-                                                                                                                                            Filter: ((substr((pval_0)::text, 1, 5) = ANY ('{NONE,zh_CN}'::text[])) AND (substr((pval_0)::text, 9, 1) = ANY ('{A,M}'::text[])) AND (upper(substr((pval_0)::text, 49, 128)) ~~ '%图纸版本A%'::text))
-                                                                                                                                            Rows Removed by Filter: 305
-                                                                                                                                ->  Index Scan using pipimanrelation_3 on pimanrelation t_03  (cost=0.57..2.78 rows=1 width=30) (actual time=0.005..0.006 rows=2 loops=23344)
-                                                                                                                                      Index Cond: (((rprimary_objectu)::text = ("*SELECT* 1".puid)::text) AND ((rrelation_typeu)::text = 'B0ftCECe47UIUC'::text))
-                                                                                                                                      Filter: (arev_category = ANY ('{48,40}'::bigint[]))
-                                                                                                                          ->  Index Only Scan using pipmecollaborationcontext on pmecollaborationcontext t_09  (cost=0.29..0.31 rows=1 width=15) (actual time=0.002..0.002 rows=1 loops=37532)
-                                                                                                                                Index Cond: (puid = (t_03.rprimary_objectu)::text)
-                                                                                                                                Heap Fetches: 788
-                                                                                                                    ->  Index Scan using pipimanrelation_12 on pimanrelation t_015  (cost=0.57..2.72 rows=1 width=30) (actual time=0.004..0.005 rows=1 loops=37532)
-                                                                                                                          Index Cond: (((rprimary_objectu)::text = (t_03.rprimary_objectu)::text) AND ((rsecondary_objectu)::text = (t_03.rsecondary_objectu)::text))
-                                                                                                                          Filter: ((arev_category = ANY ('{48,40}'::bigint[])) AND ((rrelation_typeu)::text = 'B0ftCECe47UIUC'::text))
-                                                                                                              ->  Index Scan using pipimanrelation_3 on pimanrelation t_020  (cost=0.57..2.73 rows=1 width=30) (actual time=0.004..0.006 rows=4 loops=37532)
-                                                                                                                    Index Cond: (((rprimary_objectu)::text = (t_03.rprimary_objectu)::text) AND ((rrelation_typeu)::text = 'B0ftCECe47UIUC'::text))
-                                                                                                                    Filter: (arev_category = ANY ('{48,40}'::bigint[]))
-                                                                                                        ->  Index Scan using pipimanrelation_12 on pimanrelation t_02  (cost=0.57..2.72 rows=1 width=30) (actual time=0.004..0.004 rows=1 loops=135250)
-                                                                                                              Index Cond: (((rprimary_objectu)::text = (t_020.rprimary_objectu)::text) AND ((rsecondary_objectu)::text = (t_020.rsecondary_objectu)::text))
-                                                                                                              Filter: ((arev_category = ANY ('{48,40}'::bigint[])) AND ((rrelation_typeu)::text = 'B0ftCECe47UIUC'::text))
-                                                                                                  ->  Index Scan using pipimanrelation_3 on pimanrelation t_012  (cost=0.57..10.61 rows=9 width=30) (actual time=0.004..0.005 rows=1 loops=135250)
-                                                                                                        Index Cond: (((rprimary_objectu)::text = (t_02.rsecondary_objectu)::text) AND ((rrelation_typeu)::text = 'RUftCECe47UIUC'::text))
-                                                                                                        Filter: (arev_category = ANY ('{48,40}'::bigint[]))
-                                                                                            ->  Index Scan using pipimanrelation_3 on pimanrelation t_04  (cost=0.57..10.61 rows=9 width=30) (actual time=0.003..0.004 rows=1 loops=172898)
-                                                                                                  Index Cond: (((rprimary_objectu)::text = (t_03.rsecondary_objectu)::text) AND ((rrelation_typeu)::text = 'RUftCECe47UIUC'::text))
-                                                                                                  Filter: (arev_category = ANY ('{48,40}'::bigint[]))
-                                                                                      ->  Materialize  (cost=0.43..2.66 rows=1 width=15) (actual time=0.000..0.000 rows=1 loops=222247)
-                                                                                            ->  Index Scan using pipitem_0 on pitem t_06  (cost=0.43..2.65 rows=1 width=15) (actual time=0.011..0.012 rows=1 loops=1)
-                                                                                                  Index Cond: (upper((pitem_id)::text) = 'TRIAL_03025XMA'::text)
-                                                                                ->  Index Scan using pipimanrelation_12 on pimanrelation t_013  (cost=0.57..1.42 rows=1 width=30) (actual time=0.008..0.008 rows=1 loops=4)
-                                                                                      Index Cond: (((rprimary_objectu)::text = (t_012.rprimary_objectu)::text) AND ((rsecondary_objectu)::text = (t_012.rsecondary_objectu)::text))
-                                                                                      Filter: ((arev_category = ANY ('{48,40}'::bigint[])) AND ((rrelation_typeu)::text = 'RUftCECe47UIUC'::text))
-                                                                          ->  Index Only Scan using piph6hwpart on ph6hwpart t_05  (cost=0.43..0.45 rows=1 width=15) (actual time=0.005..0.005 rows=1 loops=4)
-                                                                                Index Cond: (puid = (t_04.rsecondary_objectu)::text)
-                                                                                Heap Fetches: 0
-                                                                    ->  Index Scan using pipimanrelation_12 on pimanrelation t_019  (cost=0.57..1.42 rows=1 width=30) (actual time=0.004..0.005 rows=1 loops=4)
-                                                                          Index Cond: (((rprimary_objectu)::text = (t_012.rprimary_objectu)::text) AND ((rsecondary_objectu)::text = (t_012.rsecondary_objectu)::text))
-                                                                          Filter: ((arev_category = ANY ('{48,40}'::bigint[])) AND ((rrelation_typeu)::text = 'RUftCECe47UIUC'::text))
-                                                              ->  Index Only Scan using pipitemrevision_4 on pitemrevision t_018  (cost=0.56..0.65 rows=4 width=30) (actual time=0.007..0.008 rows=6 loops=4)
-                                                                    Index Cond: (ritems_tagu = (t_04.rsecondary_objectu)::text)
-                                                                    Heap Fetches: 0
-                                                        ->  Index Scan using piph6hwpartrevision on ph6hwpartrevision t_017  (cost=0.43..0.47 rows=1 width=15) (actual time=0.005..0.005 rows=1 loops=24)
-                                                              Index Cond: ((puid)::text = (t_018.puid)::text)
-                                                              Filter: (upper((ph6drawingversion)::text) = 'A'::text)
-                                                  ->  Index Scan using pipimanrelation_12 on pimanrelation t_016  (cost=0.57..1.42 rows=1 width=30) (actual time=0.004..0.004 rows=1 loops=24)
-                                                        Index Cond: (((rprimary_objectu)::text = (t_04.rprimary_objectu)::text) AND ((rsecondary_objectu)::text = (t_04.rsecondary_objectu)::text))
-                                                        Filter: ((arev_category = ANY ('{48,40}'::bigint[])) AND ((rrelation_typeu)::text = 'RUftCECe47UIUC'::text))
-                                            ->  Index Scan using pipworkspaceobject on pworkspaceobject t_07  (cost=0.57..1.56 rows=1 width=15) (actual time=0.004..0.004 rows=1 loops=24)
-                                                  Index Cond: ((puid)::text = (t_04.rprimary_objectu)::text)
-                                                  Filter: ((pobject_type)::text = 'MEProductContext'::text)
-                                      ->  Index Only Scan using pipstructurecontext on pstructurecontext t_08  (cost=0.43..0.45 rows=1 width=15) (actual time=0.003..0.003 rows=1 loops=24)
-                                            Index Cond: (puid = (t_04.rprimary_objectu)::text)
-                                            Heap Fetches: 24
-                                ->  Index Only Scan using pipstructurecontext on pstructurecontext t_011  (cost=0.43..0.45 rows=1 width=15) (actual time=0.003..0.003 rows=1 loops=24)
-                                      Index Cond: (puid = (t_012.rprimary_objectu)::text)
-                                      Heap Fetches: 24
-              ->  Index Scan using pipimanrelation_12 on pimanrelation t_014  (cost=0.57..2.72 rows=1 width=30) (actual time=0.006..0.006 rows=1 loops=6)
-                    Index Cond: (((rprimary_objectu)::text = (t_02.rprimary_objectu)::text) AND ((rsecondary_objectu)::text = (t_02.rsecondary_objectu)::text))
-                    Filter: ((arev_category = ANY ('{48,40}'::bigint[])) AND ((rrelation_typeu)::text = 'B0ftCECe47UIUC'::text))
-        ->  Index Scan using pipworkspaceobject on pworkspaceobject t_010  (cost=0.57..1.56 rows=1 width=15) (actual time=0.005..0.005 rows=1 loops=6)
-              Index Cond: ((puid)::text = (t_012.rprimary_objectu)::text)
-              Filter: ((pobject_type)::text = 'MEProcessContext'::text)
-Planning Time: 263.858 ms
-Execution Time: 100094.613 ms
+
+序号26
+ /*+ 
+Set(enable_hashjoin off)
+Set(max_parallel_workers_per_gather 0)
+Leading(t_01 t_04 t_02 t_03)
+*/
+SELECT t_01.puid, t_01.rparentu,t_01.rparentc FROM PMEAPPEARANCEPATHNODE t_01 , PPSOCCURRENCE t_02 , POMQUERY_U t_03 , PABSOCCURRENCE t_04 WHERE ( ( ( ( ( t_01.rparentu = 'AAAAAAAAAAAAAA'  AND ( t_01.rocc_threadu = t_02.rocc_threadu ) ) AND ( t_02.rocc_typeu = t_03.col0 ) ) AND ( t_01.rabs_occu = t_04.puid ) ) AND t_04.pabs_occ_id IS NOT NULL  ) AND (  LENGTH ( t_04.pabs_occ_id ) > 0 ) );
