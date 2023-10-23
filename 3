@@ -1,1 +1,5 @@
-pg_basebackup -F p -X stream -v -P -h 10.1.92.32 -p 5432 -U replica -D $PGDATA -R -C --slot pg33
+pg_basebackup -F p -X stream -v -P -h 10.1.92.32 -p 5432 -U replica -D $PGDATA -R -C --slot pg33  \
+-T /pgdata/pgsql/tc/infodba_idata=/pgdata/pgsql/tc/infodba_idata\
+-T /pgdata/pgsql/tc/infodba_ilog=/pgdata/pgsql/tc/infodba_ilog\
+-T /pgdata/pgsql/tc/infdoba_index=/pgdata/pgsql/tc/infdoba_index\
+-T /pgdata/pgsql/tc/tcclusterdb_idata=/pgdata/pgsql/tc/tcclusterdb_idata
