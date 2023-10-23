@@ -1,1 +1,1 @@
-pg_rewind --target-pgdata=$PGDATA --source-server='host=$IP_ADDR2 user=$USER password=$PASSWORD dbname=$DBNAME' -P
+pg_basebackup -F p -X stream -v -P -h 10.1.92.32 -p 5432 -U replica -D $PGDATA -R -C --slot pg33
