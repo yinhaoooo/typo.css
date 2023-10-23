@@ -6,11 +6,11 @@ echo "为原主库准备复制槽："$PG_SLOT1"，请将desc脚本中PG_SLOT1设
 echo "备库提升为主库"
 su - postgres -c "pg_ctl promote"
 echo "新主库创建复制槽"
-su - postgres -c "psql -c \"SELECT pg_create_physical_replication_slot('$PG_SLOT1');\" " >> replication.log
+su - postgres -c "psql -c \"SELECT pg_create_physical_replication_slot('$PG_SLOT1');\" " > replication.log
 
 echo "请到原主库执行脚本做降级为备库"
 
-# sleep 100s;
+ sleep 100s;
 
 echo "主库查看"
 su - postgres -c "psql -c 'SELECT * FROM pg_stat_replication;' " >> replication.log
