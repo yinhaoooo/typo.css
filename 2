@@ -1,23 +1,63 @@
-explain analyze /*+ 
-Set(enable_hashjoin off)
-Set(enable_mergejoin off)
-Set(max_parallel_workers_per_gather 0)
-IndexScan(t_08 pipitem_0)
-IndexScan(t_09 pipmeop)
-IndexScan(t_07 pippsoccurrence_0 pippsoccurrence_1)
-IndexScan(t_06 pippsbomviewrevision)
-IndexScan(t_011 pipstructure_revisions_0)
-IndexScan(t_010 pipmfg0meprocstatnrevision)
-IndexScan(t_012 pipitemrevision_3)
-IndexScan(t_013 pipmfg0meprocstatn)
-IndexScan(t_05 pippsoccurrence_0 pippsoccurrence_1)
-IndexScan(t_04 pippsbomviewrevision)
-IndexScan(t_015 pipstructure_revisions pipstructure_revisions_0)
-IndexScan(t_016 pipitemrevision_3)
-IndexScan(t_017 pipmfg0meprocline)
-IndexScan(t_018 pippsoccurrence_0 pippsoccurrence_1)
-IndexScan(t_019 pippsbomviewrevision)
-IndexScan(t_03 pipstructure_revisions_0)
-IndexScan(t_02 pipmfg0meplantboprevision)
-IndexScan(t_01 pipworkspaceobject)
- */
+#!/bin/bash
+
+# 数据文件目录
+PGDATA='/data01/pgsql'
+# 本机IP
+IP_ADDR1='192.168.40.151'
+# 关联机IP
+IP_ADDR2='192.168.40.150'
+# 对应复制槽 IP_ADDR1 与备升主复制槽名一致
+PG_SLOT1='pg151'
+# 对应复制槽 IP_ADDR2
+PG_SLOT2='pg150'
+# rewind用户密码
+USER='pgrewind'
+#PASSWORD='123456'
+# 数据库名称
+DBNAME='postgres'
+# PG进程名称
+PGBIN='/app/postgresql/bin/postgres'
+IP_ADDR=`grep 'host=' $PGDATA/postgresql.auto.conf | awk '{print $6}'`
+PG_SLOT=`grep 'primary_slot_name = ' $PGDATA/postgresql.auto.conf | awk '{print $3}'`
+
+
+echo "旧主库同步新主库数据"
+
+postgres=`ps -ef | grep $PGBIN | grep -v grep | awk '{print $2}'`
+echo "-------------"
+echo $postgres
+
+if [ ! $postgres ]; then
+	su - postgres -c "pg_ctl start"
+	su - postgres -c "pg_ctl stop"
+	su - postgres -c "pg_rewind -D $PGDATA --source-server='host=$IP_ADDR2 user=$USER  dbname=$DBNAME' -P"
+else
+	# echo "遇到pg_rewind: fatal: target server must be shut down cleanly"
+	su - postgres -c "pg_ctl stop"
+	su - postgres -c "pg_ctl start"
+	su - postgres -c "pg_ctl stop"
+	su - postgres -c "pg_rewind -D $PGDATA --source-server='host=$IP_ADDR2 user=$USER  dbname=$DBNAME' -P"
+fi
+
+echo "创建文件standby.signal"
+su - postgres -c "touch $PGDATA/standby.signal"
+
+echo "更新postgresql.auto.conf"
+
+
+sed -i "s/rewind/replica/" $PGDATA/postgresql.auto.conf
+sed -i "s/$IP_ADDR1/$IP_ADDR2/" $PGDATA/postgresql.auto.conf
+sed -i "s/$PG_SLOT2/$PG_SLOT1/" $PGDATA/postgresql.auto.conf
+ 
+
+
+
+echo "启动数据库"
+su - postgres -c "pg_ctl start"
+
+
+
+echo "备库查看"
+su - postgres -c "psql -c 'SELECT * FROM pg_stat_replication;' " >> replication.log
+
+cat replication.log
