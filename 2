@@ -1,30 +1,27 @@
 #!/bin/bash
 
 # 数据文件目录
-PGDATA='/data01/pgsql'
+PGDATA='/pgdata/pgsql'
 # 本机IP
-IP_ADDR1='192.168.40.151'
-# 关联机IP
-IP_ADDR2='192.168.40.150'
-# 对应复制槽 IP_ADDR1 与备升主复制槽名一致
-PG_SLOT1='pg151'
-# 对应复制槽 IP_ADDR2
-PG_SLOT2='pg150'
-# rewind用户密码
+IP_ADDR1='10.1.92.32'
+# 目标库IP
+IP_ADDR2='10.1.92.33'
+# 本机IP对应复制槽 IP_ADDR1,与备升主复制槽名一致
+PG_SLOT1='pg32'
+# 目标库IP对应复制槽 IP_ADDR2,流复制的复制槽名称
+PG_SLOT2='pg33'
+# rewind用户
 USER='pgrewind'
-#PASSWORD='123456'
 # 数据库名称
 DBNAME='postgres'
 # PG进程名称
-PGBIN='/app/postgresql/bin/postgres'
-IP_ADDR=`grep 'host=' $PGDATA/postgresql.auto.conf | awk '{print $6}'`
-PG_SLOT=`grep 'primary_slot_name = ' $PGDATA/postgresql.auto.conf | awk '{print $3}'`
-
+PGBIN='/data01/app/postgresql/bin/postgres'
+IP_ADDR=`grep 'host=' $PGDATA/postgresql.auto.conf | awk -F \' '{print $6}'`
+PG_SLOT=`grep 'primary_slot_name = ' $PGDATA/postgresql.auto.conf | awk -F \' '{print $2}'`
+echo $PG_SLOT
 
 echo "旧主库同步新主库数据"
-
 postgres=`ps -ef | grep $PGBIN | grep -v grep | awk '{print $2}'`
-echo "-------------"
 echo $postgres
 
 if [ ! $postgres ]; then
@@ -43,21 +40,14 @@ echo "创建文件standby.signal"
 su - postgres -c "touch $PGDATA/standby.signal"
 
 echo "更新postgresql.auto.conf"
-
-
 sed -i "s/rewind/replica/" $PGDATA/postgresql.auto.conf
 sed -i "s/$IP_ADDR1/$IP_ADDR2/" $PGDATA/postgresql.auto.conf
-sed -i "s/$PG_SLOT2/$PG_SLOT1/" $PGDATA/postgresql.auto.conf
+sed -i "s/$PG_SLOT/$PG_SLOT1/" $PGDATA/postgresql.auto.conf
  
-
-
-
 echo "启动数据库"
 su - postgres -c "pg_ctl start"
 
-
-
 echo "备库查看"
-su - postgres -c "psql -c 'SELECT * FROM pg_stat_replication;' " >> replication.log
+su - postgres -c "psql -c 'SELECT * FROM pg_stat_wal_receiver;' " > replication.log
 
 cat replication.log
