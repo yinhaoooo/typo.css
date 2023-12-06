@@ -1,45 +1,4 @@
-Global temporary table全局临时表解决方案
-1. 下载 pgtt 并安装
-https://github.com/darold/pgtt/releases
+^(0|[1-9]\d*)\.(1\d{2}|200|210|220|230|240|250|([3-9])\d{2}) secs$
 
-su - halo
-unzip pgtt-2.9.zip
-cd pgtt-2.9
-make && make install
-
-export libdir=$(pg_config --pkglibdir)
-mkdir $libdir/plugins/
-cd $libdir/plugins/
-sudo ln -s ../pgtt.so
-2. 下载 login_hook 并安装
-https://github.com/splendiddata/login_hook/tags
-
-su - halo
-unzip login_hook-version_1.4.zip
-cd login_hook-version_1.4/
-make && make install
-3. 添加 login_hook 到 session_preload_libraries 参数中
-
-vi postgresql.conf
-session_preload_libraries = 'login_hook'
-4. 重启数据库
-
-pg_ctl restart
-5. 在相应的数据库创建extension
-
-create extension login_hook;
-CREATE EXTENSION pgtt;
-6. 创建logon trigger
-
-CREATE OR REPLACE FUNCTION login_hook.login() RETURNS VOID LANGUAGE PLPGSQL AS $$
-DECLARE
-ex_state TEXT;
-ex_message TEXT;
-ex_detail TEXT;
-ex_hint TEXT;
-ex_context TEXT;
-BEGIN
-LOAD '$libdir/plugins/pgtt';
-END
-$$;
-GRANT EXECUTE ON FUNCTION login_hook.login() TO PUBLIC;
+匹配大于
+0.100 secs 的正则表达式
