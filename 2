@@ -1,53 +1,11 @@
-#!/bin/bash
-
-# 数据文件目录
-PGDATA='/pgdata/pgsql'
-# 本机IP
-IP_ADDR1='10.1.92.32'
-# 目标库IP
-IP_ADDR2='10.1.92.33'
-# 本机IP对应复制槽 IP_ADDR1,与备升主复制槽名一致
-PG_SLOT1='pg32'
-# 目标库IP对应复制槽 IP_ADDR2,流复制的复制槽名称
-PG_SLOT2='pg33'
-# rewind用户
-USER='pgrewind'
-# 数据库名称
-DBNAME='postgres'
-# PG进程名称
-PGBIN='/data01/app/postgresql/bin/postgres'
-IP_ADDR=`grep 'host=' $PGDATA/postgresql.auto.conf | awk -F \' '{print $6}'`
-PG_SLOT=`grep 'primary_slot_name = ' $PGDATA/postgresql.auto.conf | awk -F \' '{print $2}'`
-echo $PG_SLOT
-
-echo "旧主库同步新主库数据"
-postgres=`ps -ef | grep $PGBIN | grep -v grep | awk '{print $2}'`
-echo $postgres
-
-if [ ! $postgres ]; then
-	su - postgres -c "pg_ctl start"
-	su - postgres -c "pg_ctl stop"
-	su - postgres -c "pg_rewind -D $PGDATA --source-server='host=$IP_ADDR2 user=$USER  dbname=$DBNAME' -P"
-else
-	# echo "遇到pg_rewind: fatal: target server must be shut down cleanly"
-	su - postgres -c "pg_ctl stop"
-	su - postgres -c "pg_ctl start"
-	su - postgres -c "pg_ctl stop"
-	su - postgres -c "pg_rewind -D $PGDATA --source-server='host=$IP_ADDR2 user=$USER  dbname=$DBNAME' -P"
-fi
-
-echo "创建文件standby.signal"
-su - postgres -c "touch $PGDATA/standby.signal"
-
-echo "更新postgresql.auto.conf"
-sed -i "s/rewind/replica/" $PGDATA/postgresql.auto.conf
-sed -i "s/$IP_ADDR1/$IP_ADDR2/" $PGDATA/postgresql.auto.conf
-sed -i "s/$PG_SLOT/$PG_SLOT1/" $PGDATA/postgresql.auto.conf
- 
-echo "启动数据库"
-su - postgres -c "pg_ctl start"
-
-echo "备库查看"
-su - postgres -c "psql -c 'SELECT * FROM pg_stat_wal_receiver;' " > replication.log
-
-cat replication.log
+2023-12-21 15:15:14.906 CST,"infodba","tc",57963,"10.243.247.73:11206",6583c5f0.e26b,2,"SELECT",2023-12-21 12:58:24 CST,73/5138,309518926,LOG,00000,"duration: 38956.025 ms  statement: SELECT t_01.puid, t_01.rowning_useru, t_01.rowning_userc, t_01.rowning_groupu, t_01.rowning_groupc, t_01.pacl_bits, t_01.parchive_date, t_02.puid, t_02.pobject_name, t_02.pobject_type, t_02.pobject_desc, t_02.VLA_691_18, t_02.VLA_691_7, t_02.VLA_691_20, t_02.VLA_691_10, t_02.pip_classification, t_02.pgov_classification, t_02.rowning_projectu, t_02.rowning_organizationu FROM PPOM_APPLICATION_OBJECT t_01 LEFT OUTER JOIN PWORKSPACEOBJECT t_02 ON t_01.puid = t_02.puid JOIN PRef1TT ON t_01.puid = PRef1TT.puid  WHERE t_01.puid = PRef1TT.puid  ",,,,,,,,,"","client backend",,4974079651621557349
+2023-12-21 15:15:22.923 CST,"infodba","tc",57963,"10.243.247.73:11206",6583c5f0.e26b,3,"SELECT",2023-12-21 12:58:24 CST,73/5142,309520250,LOG,00000,"duration: 6702.377 ms  plan:
+Query Text: SELECT t_01.puid, t_02.pname FROM PRELEASE_STATUS_LIST t_01 , PRELEASESTATUS t_02,PRef1TT WHERE ( t_01.puid = PRef1TT.puid  AND ( t_02.puid = t_01.pvalu_0 ) )
+Nested Loop  (cost=0.99..34233.28 rows=11040 width=26) (actual time=0.030..6683.525 rows=25493 loops=1)
+  ->  Nested Loop  (cost=0.56..29262.40 rows=11040 width=30) (actual time=0.021..5733.274 rows=25493 loops=1)
+        ->  Seq Scan on pref1tt  (cost=0.00..248.40 rows=11040 width=74) (actual time=0.005..6.171 rows=25492 loops=1)
+        ->  Index Scan using piprelease_status_list on prelease_status_list t_01  (cost=0.56..2.62 rows=1 width=30) (actual time=0.223..0.224 rows=1 loops=25492)
+              Index Cond: ((puid)::text = (pref1tt.puid)::text)
+  ->  Index Only Scan using pipreleasestatus_0 on preleasestatus t_02  (cost=0.43..0.45 rows=1 width=26) (actual time=0.036..0.036 rows=1 loops=25493)
+        Index Cond: (puid = (t_01.pvalu_0)::text)
+        Heap Fetches: 28",,,,,,,,,"","client backend",,4974079651621557349
